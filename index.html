@@ -1,28 +1,620 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0d0e">
-<meta name="description" content="Tanem — цифровой офис частного мастера: персональный сайт, запись, портфолио и контакты в одном месте.">
-<title>Tanem — цифровой офис мастера</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--dark:#0b0d0e;--dark2:#121517;--paper:#f5f1e9;--white:#fff;--text:#171819;--muted:#74716b;--gold:#c99a52;--gold2:#e2bb79;--line:rgba(15,16,17,.12);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Manrope',system-ui,sans-serif}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:var(--sans);color:var(--text);background:#fff;-webkit-font-smoothing:antialiased}a{color:inherit}.wrap{width:min(1180px,calc(100% - 48px));margin:auto}.hero-shell{color:#fff;background:radial-gradient(circle at 82% 12%,rgba(201,154,82,.16),transparent 28%),linear-gradient(145deg,#080a0b,#121517 58%,#090b0c);overflow:hidden}.top{height:86px;display:flex;align-items:center;gap:28px;border-bottom:1px solid rgba(255,255,255,.1)}.brand{display:flex;align-items:center;gap:12px;text-decoration:none}.brand svg{width:38px;height:38px;color:var(--gold2)}.brand span{font:600 34px/1 var(--serif);letter-spacing:-.6px}.nav{margin-left:auto;display:flex;gap:28px}.nav a{text-decoration:none;color:rgba(255,255,255,.72);font-size:14px}.nav a:hover{color:#fff}.smallbtn,.primary,.ghost,.lightbtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:12px;font-weight:600;transition:.18s}.smallbtn{padding:13px 18px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#17130e;font-size:14px}.hero{min-height:650px;display:grid;grid-template-columns:.94fr 1.06fr;gap:60px;align-items:center;padding:68px 0 76px}.eyebrow{display:flex;align-items:center;gap:9px;color:var(--gold2);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px}.eyebrow:before{content:'';width:32px;height:1px;background:currentColor}.hero h1,.section-title,.cta h2{margin:0;font-family:var(--serif);font-weight:500;letter-spacing:-.035em}.hero h1{font-size:clamp(58px,6.2vw,88px);line-height:.92}.hero h1 b{font-weight:500;color:var(--gold2)}.lead{max-width:560px;color:rgba(255,255,255,.62);font-size:18px;line-height:1.65;margin:28px 0 0}.actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:34px}.primary,.ghost{min-height:52px;padding:0 23px}.primary{color:#17130e;background:linear-gradient(135deg,#e8c281,#bd8a43);box-shadow:0 10px 30px rgba(190,139,67,.16)}.ghost{color:#fff;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.035)}.primary:hover,.ghost:hover,.smallbtn:hover,.lightbtn:hover{transform:translateY(-1px)}.facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.11);max-width:610px}.fact{padding-right:18px}.fact+ .fact{padding-left:18px;border-left:1px solid rgba(255,255,255,.11)}.fact b{display:block;color:var(--gold2);font-size:13px;margin-bottom:5px}.fact span{font-size:12px;line-height:1.45;color:rgba(255,255,255,.58)}.visual{position:relative;height:510px;border-radius:34px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 28px 80px rgba(0,0,0,.22);background:#222}.visual img{width:100%;height:100%;object-fit:cover;filter:saturate(.7) contrast(1.02) brightness(.83)}.visual:after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(5,6,7,.42),transparent 48%)}.caption{position:absolute;left:22px;bottom:20px;z-index:2;padding:11px 14px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(8,10,11,.67);backdrop-filter:blur(12px);font-size:12px;color:rgba(255,255,255,.68)}.caption b{color:#fff}.section{padding:104px 0}.head{display:grid;grid-template-columns:.68fr 1.32fr;gap:84px;align-items:end;margin-bottom:48px}.kicker{font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#8b6735}.section-title{font-size:clamp(44px,5vw,66px);line-height:1}.desc{max-width:620px;color:var(--muted);font-size:16px;line-height:1.7;margin:18px 0 0}.features{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.grid4{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--line)}.card{min-height:322px;padding:32px 29px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between}.card:hover{background:#faf7f1}.icon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;border:1px solid rgba(201,154,82,.3);background:#fbf5ea;color:#8b6735;font-size:21px}.card h3{font:600 28px/1 var(--serif);margin:18px 0 10px}.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.65}.num{font:500 20px/1 var(--serif);color:#bea77f}.audience{background:var(--paper)}.aud-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:72px;align-items:center}.panel{padding:46px;border-radius:30px;background:var(--dark2);color:#fff;box-shadow:0 18px 60px rgba(12,13,14,.12)}.panel .kicker{color:var(--gold2)}.panel h2{font:500 48px/.98 var(--serif);margin:16px 0 14px;letter-spacing:-.03em}.panel p{color:rgba(255,255,255,.6);font-size:15px;line-height:1.7;margin:0}.tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}.tag{padding:9px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.035);font-size:12px;color:rgba(255,255,255,.76)}.list{border-top:1px solid var(--line)}.item{display:grid;grid-template-columns:48px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid var(--line)}.circle{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(201,154,82,.36);color:#8b6735;font:500 18px var(--serif)}.item h3{margin:0 0 6px;font-size:15px}.item p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}.process{background:#fff}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}.step{min-height:235px;padding:29px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(#fff,#fbfaf7)}.step b{font:500 42px/1 var(--serif);color:var(--gold)}.step h3{font:600 28px/1 var(--serif);margin:29px 0 10px}.step p{margin:0;color:var(--muted);font-size:14px;line-height:1.65}.cta{padding:92px 0;color:#fff;background:radial-gradient(circle at 85% 0,rgba(201,154,82,.18),transparent 30%),var(--dark)}.cta-in{display:grid;grid-template-columns:1.28fr .72fr;gap:50px;align-items:center}.cta h2{font-size:clamp(48px,5.2vw,70px);line-height:.98}.cta h2 span{color:var(--gold2)}.cta p{max-width:650px;color:rgba(255,255,255,.6);font-size:15px;line-height:1.7}.cta-act{display:flex;justify-content:flex-end}.lightbtn{min-height:56px;padding:0 24px;background:#f7f2e8;color:#171514;white-space:nowrap}footer{padding:31px 0 35px;background:#090b0c;border-top:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.58)}.foot{display:flex;align-items:center;justify-content:space-between;gap:24px;font-size:12px}.footbrand{display:flex;align-items:center;gap:9px;color:#fff;text-decoration:none}.footbrand svg{width:27px;height:27px;color:var(--gold2)}.footbrand span{font:500 24px var(--serif)}.flinks{display:flex;gap:20px}.flinks a{text-decoration:none;color:rgba(255,255,255,.65)}
-@media(max-width:1000px){.nav{display:none}.hero{grid-template-columns:1fr;min-height:auto}.visual{height:440px}.head{grid-template-columns:1fr;gap:17px}.grid4{grid-template-columns:repeat(2,1fr)}.aud-grid,.cta-in{grid-template-columns:1fr}.cta-act{justify-content:flex-start}}
-@media(max-width:680px){.wrap{width:min(100% - 30px,1180px)}.top{height:72px}.brand svg{width:32px;height:32px}.brand span{font-size:29px}.smallbtn{padding:11px 13px;font-size:12px}.hero{padding:48px 0 52px;gap:38px}.hero h1{font-size:clamp(50px,15vw,66px)}.lead{font-size:16px}.actions{display:grid}.primary,.ghost{width:100%}.facts{grid-template-columns:1fr;gap:14px}.fact{padding:0 0 14px}.fact+.fact{padding:14px 0 0;border-left:0;border-top:1px solid rgba(255,255,255,.11)}.visual{height:355px;border-radius:24px}.visual img{object-position:center}.section{padding:76px 0}.section-title{font-size:44px}.grid4{grid-template-columns:1fr;border-top:1px solid var(--line)}.card{min-height:245px;border-left:1px solid var(--line)}.panel{padding:31px 24px;border-radius:24px}.panel h2{font-size:41px}.steps{grid-template-columns:1fr}.cta{padding:72px 0}.cta h2{font-size:48px}.lightbtn{width:100%}.foot{align-items:flex-start;flex-direction:column}.flinks{flex-wrap:wrap}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tanem — Цифровой офис мастера</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f2efe9;
+      --card-bg: #e6e2d8;
+      --card-light: #f7f5f0;
+      --text-main: #1c1b18;
+      --text-muted: #6e6a63;
+      --accent-btn: #1a1a1a;
+      --accent-btn-hover: #333333;
+      --border-color: #dcd8cd;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      padding: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-sans);
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+      padding: 40px 0 60px;
+    }
+
+    .hero-content h1 {
+      font-family: var(--font-serif);
+      font-size: 64px;
+      font-weight: 500;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      max-width: 480px;
+    }
+
+    .hero-checklist {
+      list-style: none;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-checklist li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .check-icon {
+      width: 20px;
+      height: 20px;
+      background-color: #bfa181;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-btn);
+      color: #ffffff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-btn-hover);
+    }
+
+    .btn-link {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-link:hover {
+      opacity: 0.8;
+    }
+
+    .mockup-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-frame {
+      width: 290px;
+      background: #ffffff;
+      border-radius: 36px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+      border: 8px solid #1a1a1a;
+      overflow: hidden;
+      font-size: 12px;
+      color: #333;
+      padding: 12px;
+    }
+
+    .phone-top-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px 8px;
+    }
+
+    .phone-url-bar {
+      background: #f0ede6;
+      border-radius: 8px;
+      padding: 5px 8px;
+      text-align: center;
+      font-size: 10px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .phone-content {
+      text-align: center;
+    }
+
+    .phone-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    .phone-subtitle {
+      font-size: 11px;
+      color: #777;
+      margin-bottom: 4px;
+    }
+
+    .phone-rating {
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+
+    .phone-img-placeholder {
+      width: 100%;
+      height: 140px;
+      background: #dfd8cb;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      background-image: linear-gradient(135deg, #e6ded1 0%, #caa990 100%);
+    }
+
+    .phone-btn {
+      background: #b18c74;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+
+    .phone-nav {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      color: #666;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+
+    .audience-section {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .audience-section h2 {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .audience-tags {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      padding: 30px 0 60px;
+    }
+
+    .feature-card {
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.03);
+      border: 1px dashed #c0bba8;
+    }
+
+    .feature-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .free-banner {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 36px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 70px;
+    }
+
+    .free-banner-left {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .gift-icon {
+      width: 54px;
+      height: 54px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .free-banner-title {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .free-banner-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 420px;
+    }
+
+    .free-banner-right {
+      text-align: right;
+    }
+
+    .banner-subtext {
+      display: block;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .subscribe-section {
+      text-align: center;
+      max-width: 520px;
+      margin: 0 auto 80px;
+    }
+
+    .subscribe-section h3 {
+      font-family: var(--font-serif);
+      font-size: 30px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .subscribe-section p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .subscribe-form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .subscribe-input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .subscribe-input:focus {
+      border-color: #999;
+      background: #fff;
+    }
+
+    .form-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 30px 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-email a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .social-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-subtitle, .hero-checklist {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-buttons {
+        justify-content: center;
+      }
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+      .free-banner {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+      }
+      .free-banner-left {
+        flex-direction: column;
+        align-items: center;
+      }
+      .free-banner-right {
+        text-align: center;
+      }
+      .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="hero-shell" id="top"><div class="wrap">
-<header class="top"><a class="brand" href="#top" aria-label="Tanem"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20.5" stroke="currentColor" stroke-width="1.5" opacity=".55"/><path d="M13 15.5H35M24 15.5V36M17.5 21H30.5M17.5 21V36M30.5 21V36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Tanem</span></a><nav class="nav"><a href="#product">Что входит</a><a href="#audience">Для кого</a><a href="#process">Как это работает</a></nav><a class="smallbtn" href="https://t.me/made_gri" target="_blank" rel="noopener">Связаться</a></header>
-<main class="hero"><div><div class="eyebrow">Цифровой офис мастера</div><h1><b>Tanem.</b><br>Ваш бизнес<br>в одном месте.</h1><p class="lead">Персональный сайт мастера, запись, портфолио и контакты — собраны в одном аккуратном цифровом пространстве.</p><div class="actions"><a class="primary" href="https://t.me/made_gri" target="_blank" rel="noopener">Получить свой сайт →</a><a class="ghost" href="#product">Посмотреть возможности</a></div><div class="facts"><div class="fact"><b>01</b><span>Сайт под конкретного мастера, а не безликий шаблон.</span></div><div class="fact"><b>02</b><span>Запись и контакты доступны клиенту сразу.</span></div><div class="fact"><b>03</b><span>Простой старт без перегруженного интерфейса.</span></div></div></div><div class="visual"><img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85" alt="Спокойное рабочее место с ноутбуком"><div class="caption"><b>Tanem</b> · спокойный цифровой порядок</div></div></main>
-</div></div>
-<section class="section features" id="product"><div class="wrap"><div class="head"><div class="kicker">Что входит</div><div><h2 class="section-title">Не «ещё один сайт».<br>Рабочая точка мастера.</h2><p class="desc">Tanem собирает главное, что клиенту нужно увидеть перед записью: кто вы, что делаете, сколько это стоит, примеры работ и как с вами связаться.</p></div></div><div class="grid4"><article class="card"><div><div class="icon">▤</div><h3>Персональный сайт</h3><p>Услуги, стиль, адрес, преимущества и понятный путь к записи — в одной странице.</p></div><span class="num">01</span></article><article class="card"><div><div class="icon">◫</div><h3>Запись без лишних шагов</h3><p>Клиент сразу понимает, куда нажать: записаться онлайн, позвонить или написать.</p></div><span class="num">02</span></article><article class="card"><div><div class="icon">◇</div><h3>Портфолио</h3><p>Лучшие работы не теряются в ленте и помогают клиенту быстрее принять решение.</p></div><span class="num">03</span></article><article class="card"><div><div class="icon">↗</div><h3>Основа для роста</h3><p>Позже можно добавлять аналитику, новые блоки и инструменты — только когда они реально нужны.</p></div><span class="num">04</span></article></div></div></section>
-<section class="section audience" id="audience"><div class="wrap aud-grid"><div class="panel"><div class="kicker">Для кого</div><h2>Для мастеров, которые работают на своё имя.</h2><p>Tanem не пытается выглядеть как огромная CRM. Это аккуратная цифровая база для частного специалиста, которому важно хорошо представить себя и упростить клиенту запись.</p><div class="tags"><span class="tag">Маникюр</span><span class="tag">Брови и ресницы</span><span class="tag">Косметология</span><span class="tag">Барберы</span><span class="tag">Массаж</span><span class="tag">Другие мастера</span></div></div><div class="list"><article class="item"><span class="circle">1</span><div><h3>Понятно клиенту</h3><p>Без десятков экранов: услуги, работы, адрес и запись находятся быстро.</p></div></article><article class="item"><span class="circle">2</span><div><h3>Выглядит как ваш бренд</h3><p>Дизайн подстраивается под фотографии, характер и услуги конкретного мастера.</p></div></article><article class="item"><span class="circle">3</span><div><h3>Развивается постепенно</h3><p>Сначала рабочая база. Затем — только действительно нужные функции.</p></div></article></div></div></section>
-<section class="section process" id="process"><div class="wrap"><div class="head"><div class="kicker">Как это работает</div><div><h2 class="section-title">Три простых шага.</h2><p class="desc">Собираем информацию о мастере, оформляем её в понятный сайт и доводим до версии, которую уже можно показывать клиентам.</p></div></div><div class="steps"><article class="step"><b>01</b><h3>Собираем основу</h3><p>Услуги, цены, фотографии, контакты, адрес, запись и то, чем мастер отличается.</p></article><article class="step"><b>02</b><h3>Собираем сайт</h3><p>Выстраиваем структуру и дизайн так, чтобы всё выглядело цельно и понятно.</p></article><article class="step"><b>03</b><h3>Запускаем</h3><p>Проверяем мобильную и компьютерную версии, ссылки и запись — затем сайт можно использовать.</p></article></div></div></section>
-<section class="cta"><div class="wrap cta-in"><div><h2>Ваше имя — уже бренд.<br><span>Tanem помогает его оформить.</span></h2><p>Хотите посмотреть, как может выглядеть цифровой офис именно под вашу работу? Напишите нам. Начнём с простого и полезного.</p></div><div class="cta-act"><a class="lightbtn" href="https://t.me/made_gri" target="_blank" rel="noopener">Написать в Telegram →</a></div></div></section>
-<footer><div class="wrap foot"><a class="footbrand" href="#top"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20.5" stroke="currentColor" stroke-width="1.5" opacity=".55"/><path d="M13 15.5H35M24 15.5V36M17.5 21H30.5M17.5 21V36M30.5 21V36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Tanem</span></a><div>Цифровой офис частного мастера</div><div class="flinks"><a href="#product">Что входит</a><a href="#audience">Для кого</a><a href="https://t.me/made_gri" target="_blank" rel="noopener">Контакты</a></div></div></footer>
-</body></html>
+
+  <div class="container">
+    <header>
+      <a href="#" class="logo">✦ tanem</a>
+      <div class="status-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Сервис в разработке
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Цифровой офис<br>мастера</h1>
+        <p class="hero-subtitle">Ваш персональный сайт, онлайн-запись, портфолио и клиенты — в одном месте.</p>
+        
+        <ul class="hero-checklist">
+          <li><span class="check-icon">✓</span> Бесплатный сайт за 5 минут</li>
+          <li><span class="check-icon">✓</span> Онлайн-запись и контакты</li>
+          <li><span class="check-icon">✓</span> Без комиссий и скрытых платежей</li>
+        </ul>
+
+        <div class="hero-buttons">
+          <a href="https://t.me/made_gri" target="_blank" class="btn-primary">Получить свой сайт бесплатно</a>
+          <a href="#how" class="btn-link">Как это работает →</a>
+        </div>
+      </div>
+
+      <div class="mockup-wrapper">
+        <div class="phone-frame">
+          <div class="phone-top-bar">
+            <span>9:41</span>
+            <span>📶 🔋</span>
+          </div>
+          <div class="phone-url-bar">
+            🔒 nonna.tanem.ru
+          </div>
+          <div class="phone-content">
+            <div class="phone-title">Нонна</div>
+            <div class="phone-subtitle">Маникюр · Москва</div>
+            <div class="phone-rating">★ 5,0 (95 отзывов)</div>
+            <div class="phone-img-placeholder"></div>
+            <button class="phone-btn">Записаться онлайн</button>
+            <div class="phone-nav">
+              <span>Работы</span>
+              <span>Услуги</span>
+              <span>Отзывы</span>
+              <span>Контакты</span>
+              <span>Обо мне</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="audience-section">
+      <h2>Для мастеров бьюти-сферы</h2>
+      <p class="audience-tags">Маникюр · Педикюр · Брови · Ресницы · Парикмахеры · Визажисты · Косметологи и другие</p>
+    </section>
+
+    <section class="features-grid" id="how">
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <div class="feature-title">Ваш сайт</div>
+        <div class="feature-desc">Красивый и современный сайт с вашим именем и работами.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <div class="feature-title">Онлайн-запись</div>
+        <div class="feature-desc">Клиенты записываются удобно через форму или ваш календарь.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🖼</div>
+        <div class="feature-title">Портфолио</div>
+        <div class="feature-desc">Покажите свои работы и привлекайте новых клиентов.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <div class="feature-title">Отзывы</div>
+        <div class="feature-desc">Реальные отзывы и рейтинг повышают доверие к вам.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📞</div>
+        <div class="feature-title">Контакты</div>
+        <div class="feature-desc">Телефон, мессенджеры, карта и удобная связь с вами.</div>
+      </div>
+    </section>
+
+    <section class="free-banner">
+      <div class="free-banner-left">
+        <div class="gift-icon">🎁</div>
+        <div>
+          <div class="free-banner-title">Сайт мастера — бесплатно</div>
+          <div class="free-banner-desc">Мы дарим вам сайт навсегда. Платите только за дополнительные возможности, если они вам нужны.</div>
+        </div>
+      </div>
+      <div class="free-banner-right">
+        <a href="https://t.me/made_gri" target="_blank" class="btn-primary">Получить свой сайт бесплатно</a>
+        <span class="banner-subtext">Запуск сервиса — скоро!</span>
+      </div>
+    </section>
+
+    <section class="subscribe-section">
+      <h3>Хочу первым узнать о запуске</h3>
+      <p>Оставьте email — мы сообщим, когда сервис станет доступен.</p>
+      
+      <form class="subscribe-form" onsubmit="event.preventDefault(); alert('Спасибо за подписку!');">
+        <input type="email" placeholder="Ваш email" class="subscribe-input" required>
+        <button type="submit" class="btn-primary">Узнать первым</button>
+      </form>
+      
+      <div class="form-note">
+        🔒 Мы не рассылаем спам. Только важные новости.
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-content">
+        <div>
+          <a href="#" class="logo">✦ tanem</a>
+        </div>
+        
+        <div class="footer-email">
+          <span>Пишите нам</span><br>
+          <a href="mailto:helio@tanem.ru">helio@tanem.ru</a>
+        </div>
+
+        <div>
+          <span>Мы в соцсетях</span>
+          <div class="social-links">
+            <a href="https://t.me/made_gri" target="_blank" class="social-icon">✈</a>
+            <a href="#" class="social-icon">📷</a>
+            <a href="#" class="social-icon">VK</a>
+          </div>
+        </div>
+
+        <div>
+          © 2026 tanem.ru<br>
+          Все права защищены
+        </div>
+      </div>
+    </footer>
+  </div>
+
+</body>
+</html>

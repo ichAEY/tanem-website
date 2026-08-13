@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tanem — Цифровой офис мастера</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f2efe9;
+      --card-bg: #e6e2d8;
+      --card-light: #f7f5f0;
+      --text-main: #1c1b18;
+      --text-muted: #6e6a63;
+      --accent-btn: #1a1a1a;
+      --accent-btn-hover: #333333;
+      --border-color: #dcd8cd;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* HEADER */
+    header {
+      padding: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-sans);
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+      padding: 40px 0 60px;
+    }
+
+    .hero-content h1 {
+      font-family: var(--font-serif);
+      font-size: 64px;
+      font-weight: 500;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      max-width: 480px;
+    }
+
+    .hero-checklist {
+      list-style: none;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-checklist li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .check-icon {
+      width: 20px;
+      height: 20px;
+      background-color: #bfa181;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-btn);
+      color: #ffffff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-btn-hover);
+    }
+
+    .btn-link {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-link:hover {
+      opacity: 0.8;
+    }
+
+    /* MOCKUP PHONE */
+    .mockup-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-frame {
+      width: 290px;
+      background: #ffffff;
+      border-radius: 36px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+      border: 8px solid #1a1a1a;
+      overflow: hidden;
+      font-size: 12px;
+      color: #333;
+      padding: 12px;
+    }
+
+    .phone-top-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px 8px;
+    }
+
+    .phone-url-bar {
+      background: #f0ede6;
+      border-radius: 8px;
+      padding: 5px 8px;
+      text-align: center;
+      font-size: 10px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .phone-content {
+      text-align: center;
+    }
+
+    .phone-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    .phone-subtitle {
+      font-size: 11px;
+      color: #777;
+      margin-bottom: 4px;
+    }
+
+    .phone-rating {
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+
+    .phone-img-placeholder {
+      width: 100%;
+      height: 140px;
+      background: #dfd8cb;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      background-image: linear-gradient(135deg, #e6ded1 0%, #caa990 100%);
+    }
+
+    .phone-btn {
+      background: #b18c74;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+
+    .phone-nav {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      color: #666;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+
+    /* AUDIENCE SECTION */
+    .audience-section {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .audience-section h2 {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .audience-tags {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* FEATURES GRID */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      padding: 30px 0 60px;
+    }
+
+    .feature-card {
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.03);
+      border: 1px dashed #c0bba8;
+    }
+
+    .feature-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* FREE BANNER CARD */
+    .free-banner {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 36px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 70px;
+    }
+
+    .free-banner-left {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .gift-icon {
+      width: 54px;
+      height: 54px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .free-banner-title {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .free-banner-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 420px;
+    }
+
+    .free-banner-right {
+      text-align: right;
+    }
+
+    .banner-subtext {
+      display: block;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* WAITLIST / SUBSCRIBE SECTION */
+    .subscribe-section {
+      text-align: center;
+      max-width: 520px;
+      margin: 0 auto 80px;
+    }
+
+    .subscribe-section h3 {
+      font-family: var(--font-serif);
+      font-size: 30px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .subscribe-section p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .subscribe-form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .subscribe-input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .subscribe-input:focus {
+      border-color: #999;
+      background: #fff;
+    }
+
+    .form-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 30px 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-email a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .social-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-subtitle, .hero-checklist {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-buttons {
+        justify-content: center;
+      }
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+      .free-banner {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+      }
+      .free-banner-left {
+        flex-direction: column;
+        align-items: center;
+      }
+      .free-banner-right {
+        text-align: center;
+      }
+      .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <a href="#" class="logo">✦ tanem</a>
+      <div class="status-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Сервис в разработке
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Цифровой офис<br>мастера</h1>
+        <p class="hero-subtitle">Ваш персональный сайт, онлайн-запись, портфолио и клиенты — в одном месте.</p>
+        
+        <ul class="hero-checklist">
+          <li><span class="check-icon">✓</span> Бесплатный сайт за 5 минут</li>
+          <li><span class="check-icon">✓</span> Онлайн-запись и контакты</li>
+          <li><span class="check-icon">✓</span> Без комиссий и скрытых платежей</li>
+        </ul>
+
+        <div class="hero-buttons">
+          <a href="https://t.me/made_gri" target="_blank" class="btn-primary">Получить свой сайт бесплатно</a>
+          <a href="#how" class="btn-link">Как это работает →</a>
+        </div>
+      </div>
+
+      <!-- MOCKUP PHONE -->
+      <div class="mockup-wrapper">
+        <div class="phone-frame">
+          <div class="phone-top-bar">
+            <span>9:41</span>
+            <span>📶 🔋</span>
+          </div>
+          <div class="phone-url-bar">
+            🔒 nonna.tanem.ru
+          </div>
+          <div class="phone-content">
+            <div class="phone-title">Нонна</div>
+            <div class="phone-subtitle">Маникюр · Москва</div>
+            <div class="phone-rating">★ 5,0 (95 отзывов)</div>
+            <div class="phone-img-placeholder"></div>
+            <button class="phone-btn">Записаться онлайн</button>
+            <div class="phone-nav">
+              <span>Работы</span>
+              <span>Услуги</span>
+              <span>Отзывы</span>
+              <span>Контакты</span>
+              <span>Обо мне</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUDIENCE SECTION -->
+    <section class="audience-section">
+      <h2>Для мастеров бьюти-сферы</h2>
+      <p class="audience-tags">Маникюр · Педикюр · Брови · Ресницы · Парикмахеры · Визажисты · Косметологи и другие</p>
+    </section>
+
+    <!-- FEATURES GRID -->
+    <section class="features-grid" id="how">
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <div class="feature-title">Ваш сайт</div>
+        <div class="feature-desc">Красивый и современный сайт с вашим именем и работами.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <div class="feature-title">Онлайн-запись</div>
+        <div class="feature-desc">Клиенты записываются удобно через форму или ваш календарь.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🖼</div>
+        <div class="feature-title">Портфолио</div>
+        <div class="feature-desc">Покажите свои работы и привлекайте новых клиентов.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <div class="feature-title">Отзывы</div>
+        <div class="feature-desc">Реальные отзывы и рейтинг повышают доверие к вам.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📞</div>
+        <div class="feature-title">Контакты</div>
+        <div class="feature-desc">Телефон, мессенджеры, карта и удобная связь с вами.</div>
+      </div>
+    </section>
+
+    <!-- FREE OFFER BANNER -->
+    <section class="free-banner">
+      <div class="free-banner-left">
+        <div class="gift-icon">🎁</div>
+        <div>
+          <div class="free-banner-title">Сайт мастера — бесплатно</div>
+          <div class="free-banner-desc">Мы дарим вам сайт навсегда. Платите только за дополнительные возможности, если они вам нужны.</div>
+        </div>
+      </div>
+      <div class="free-banner-right">
+        <a href="https://t.me/made_gri" target="_blank" class="btn-primary">Получить свой сайт бесплатно</a>
+        <span class="banner-subtext">Запуск сервиса — скоро!</span>
+      </div>
+    </section>
+
+    <!-- SUBSCRIBE FORM -->
+    <section class="subscribe-section">
+      <h3>Хочу первым узнать о запуске</h3>
+      <p>Оставьте email — мы сообщим, когда сервис станет доступен.</p>
+      
+      <form class="subscribe-form" onsubmit="event.preventDefault(); alert('Спасибо за подписку!');">
+        <input type="email" placeholder="Ваш email" class="subscribe-input" required>
+        <button type="submit" class="btn-primary">Узнать первым</button>
+      </form>
+      
+      <div class="form-note">
+        🔒 Мы не рассылаем спам. Только важные новости.
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-content">
+        <div>
+          <a href="#" class="logo">✦ tanem</a>
+        </div>
+        
+        <div class="footer-email">
+          <span>Пишите нам</span><br>
+          <a href="mailto:helio@tanem.ru">helio@tanem.ru</a>
+        </div>
+
+        <div>
+          <span>Мы в соцсетях</span>
+          <div class="social-links">
+            <a href="https://t.me/made_gri" target="_blank" class="social-icon">✈</a>
+            <a href="#" class="social-icon">📷</a>
+            <a href="#" class="social-icon">VK</a>
+          </div>
+        </div>
+
+        <div>
+          © 2026 tanem.ru<br>
+          Все права защищены
+        </div>
+      </div>
+    </footer>
+  </div>
+
+</body>
+</html>

@@ -147,6 +147,24 @@
       background-color: var(--accent-btn-hover);
     }
 
+    .btn-demo {
+      color: var(--text-main);
+      padding: 13px 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.35);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      display: inline-block;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-demo:hover {
+      background: rgba(255, 255, 255, 0.7);
+      border-color: #bdb7aa;
+    }
+
     .btn-link {
       color: var(--text-main);
       text-decoration: none;
@@ -219,15 +237,21 @@
     }
 
     .phone-img-placeholder {
+      display: block;
       width: 100%;
       height: 140px;
-      background: #dfd8cb;
+      background-color: #dfd8cb;
       border-radius: 12px;
       margin-bottom: 12px;
-      background-image: linear-gradient(135deg, #e6ded1 0%, #caa990 100%);
+      background-image: url('assets/claytone-mobile.jpg');
+      background-size: cover;
+      background-position: top center;
+      background-repeat: no-repeat;
+      cursor: pointer;
     }
 
     .phone-btn {
+      display: block;
       background: #b18c74;
       color: white;
       border: none;
@@ -236,6 +260,9 @@
       border-radius: 8px;
       font-size: 11px;
       margin-bottom: 12px;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
     }
 
     .phone-nav {
@@ -496,6 +523,7 @@
 
         <div class="hero-buttons">
           <a href="https://t.me/made_gri" target="_blank" class="btn-primary">Получить свой сайт бесплатно</a>
+          <a href="https://ichaey.github.io/claytone-current/" target="_blank" rel="noopener noreferrer" class="btn-demo">Посмотреть готовый сайт</a>
           <a href="#how" class="btn-link">Как это работает →</a>
         </div>
       </div>
@@ -513,8 +541,8 @@
             <div class="phone-title">Нонна</div>
             <div class="phone-subtitle">Маникюр · Москва</div>
             <div class="phone-rating">★ 5,0 (95 отзывов)</div>
-            <div class="phone-img-placeholder"></div>
-            <button class="phone-btn">Записаться онлайн</button>
+            <a href="https://ichaey.github.io/claytone-current/" target="_blank" rel="noopener noreferrer" class="phone-img-placeholder" aria-label="Открыть сайт ClayTone"></a>
+            <a href="https://ichaey.github.io/claytone-current/" target="_blank" rel="noopener noreferrer" class="phone-btn">Открыть сайт ClayTone</a>
             <div class="phone-nav">
               <span>Работы</span>
               <span>Услуги</span>

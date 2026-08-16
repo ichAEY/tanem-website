@@ -11,7 +11,6 @@
     :root {
       --bg-color: #f2efe9;
       --card-bg: #e6e2d8;
-      --card-light: #f7f5f0;
       --text-main: #1c1b18;
       --text-muted: #6e6a63;
       --accent-btn: #1a1a1a;
@@ -21,11 +20,7 @@
       --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-color);
@@ -35,11 +30,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .container {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
 
     header {
       padding: 24px 0;
@@ -49,7 +40,6 @@
     }
 
     .logo {
-      font-family: var(--font-sans);
       font-size: 24px;
       font-weight: 600;
       letter-spacing: -0.5px;
@@ -64,8 +54,8 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(0, 0, 0, 0.04);
-      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: rgba(0,0,0,.04);
+      border: 1px solid rgba(0,0,0,.08);
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 13px;
@@ -74,7 +64,7 @@
 
     .hero {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.1fr .9fr;
       gap: 40px;
       align-items: center;
       padding: 40px 0 60px;
@@ -98,7 +88,7 @@
 
     .hero-checklist {
       list-style: none;
-      margin-bottom: 36px;
+      margin-bottom: 30px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -122,47 +112,61 @@
       align-items: center;
       justify-content: center;
       font-size: 12px;
+      flex: 0 0 auto;
     }
 
     .hero-buttons {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 12px;
       flex-wrap: wrap;
+    }
+
+    .btn-primary, .btn-demo {
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      transition: .2s ease;
     }
 
     .btn-primary {
       background-color: var(--accent-btn);
-      color: #ffffff;
+      color: #fff;
       padding: 14px 28px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      transition: background-color 0.2s ease;
-      display: inline-block;
     }
 
-    .btn-primary:hover {
-      background-color: var(--accent-btn-hover);
-    }
+    .btn-primary:hover { background-color: var(--accent-btn-hover); }
 
     .btn-demo {
       color: var(--text-main);
-      padding: 13px 20px;
+      padding: 13px 18px;
       border: 1px solid var(--border-color);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.35);
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      display: inline-block;
-      transition: background-color 0.2s ease, border-color 0.2s ease;
+      background: rgba(255,255,255,.38);
+      gap: 8px;
     }
 
     .btn-demo:hover {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255,255,255,.8);
       border-color: #bdb7aa;
+      transform: translateY(-1px);
+    }
+
+    .btn-demo::before {
+      content: '↗';
+      font-size: 14px;
+      opacity: .65;
+    }
+
+    .examples-label {
+      width: 100%;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-muted);
     }
 
     .btn-link {
@@ -173,23 +177,16 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      margin-left: 4px;
     }
 
-    .btn-link:hover {
-      opacity: 0.8;
-    }
-
-    .mockup-wrapper {
-      position: relative;
-      display: flex;
-      justify-content: center;
-    }
+    .mockup-wrapper { position: relative; display: flex; justify-content: center; }
 
     .phone-frame {
       width: 290px;
-      background: #ffffff;
+      background: #fff;
       border-radius: 36px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 20px 50px rgba(0,0,0,.1);
       border: 8px solid #1a1a1a;
       overflow: hidden;
       font-size: 12px;
@@ -197,44 +194,12 @@
       padding: 12px;
     }
 
-    .phone-top-bar {
-      display: flex;
-      justify-content: space-between;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 2px 8px 8px;
-    }
-
-    .phone-url-bar {
-      background: #f0ede6;
-      border-radius: 8px;
-      padding: 5px 8px;
-      text-align: center;
-      font-size: 10px;
-      color: #666;
-      margin-bottom: 12px;
-    }
-
-    .phone-content {
-      text-align: center;
-    }
-
-    .phone-title {
-      font-family: var(--font-serif);
-      font-size: 22px;
-      font-weight: 500;
-    }
-
-    .phone-subtitle {
-      font-size: 11px;
-      color: #777;
-      margin-bottom: 4px;
-    }
-
-    .phone-rating {
-      font-size: 11px;
-      margin-bottom: 12px;
-    }
+    .phone-top-bar { display: flex; justify-content: space-between; font-size: 10px; font-weight: 600; padding: 2px 8px 8px; }
+    .phone-url-bar { background: #f0ede6; border-radius: 8px; padding: 5px 8px; text-align: center; font-size: 10px; color: #666; margin-bottom: 12px; }
+    .phone-content { text-align: center; }
+    .phone-title { font-family: var(--font-serif); font-size: 22px; font-weight: 500; }
+    .phone-subtitle { font-size: 11px; color: #777; margin-bottom: 4px; }
+    .phone-rating { font-size: 11px; margin-bottom: 12px; }
 
     .phone-img-placeholder {
       display: block;
@@ -254,7 +219,6 @@
       display: block;
       background: #b18c74;
       color: white;
-      border: none;
       width: 100%;
       padding: 8px;
       border-radius: 8px;
@@ -262,69 +226,19 @@
       margin-bottom: 12px;
       text-decoration: none;
       text-align: center;
-      cursor: pointer;
     }
 
-    .phone-nav {
-      display: flex;
-      justify-content: space-between;
-      font-size: 9px;
-      color: #666;
-      border-top: 1px solid #eee;
-      padding-top: 8px;
-    }
+    .phone-nav { display: flex; justify-content: space-between; font-size: 9px; color: #666; border-top: 1px solid #eee; padding-top: 8px; }
 
-    .audience-section {
-      text-align: center;
-      padding: 40px 0;
-    }
+    .audience-section { text-align: center; padding: 40px 0; }
+    .audience-section h2 { font-family: var(--font-serif); font-size: 32px; font-weight: 500; margin-bottom: 8px; }
+    .audience-tags { font-size: 14px; color: var(--text-muted); }
 
-    .audience-section h2 {
-      font-family: var(--font-serif);
-      font-size: 32px;
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-
-    .audience-tags {
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 20px;
-      padding: 30px 0 60px;
-    }
-
-    .feature-card {
-      text-align: center;
-    }
-
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.03);
-      border: 1px dashed #c0bba8;
-    }
-
-    .feature-title {
-      font-weight: 600;
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .feature-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
+    .features-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 20px; padding: 30px 0 60px; }
+    .feature-card { text-align: center; }
+    .feature-icon { width: 48px; height: 48px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(0,0,0,.03); border: 1px dashed #c0bba8; }
+    .feature-title { font-weight: 600; font-size: 16px; margin-bottom: 8px; }
+    .feature-desc { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
 
     .free-banner {
       background: var(--card-bg);
@@ -336,171 +250,58 @@
       margin-bottom: 70px;
     }
 
-    .free-banner-left {
-      display: flex;
-      gap: 24px;
-      align-items: flex-start;
-    }
+    .free-banner-left { display: flex; gap: 24px; align-items: flex-start; }
+    .gift-icon { width: 54px; height: 54px; background: rgba(255,255,255,.5); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .free-banner-title { font-family: var(--font-serif); font-size: 28px; font-weight: 500; margin-bottom: 6px; }
+    .free-banner-desc { font-size: 14px; color: var(--text-muted); max-width: 420px; }
+    .free-banner-right { text-align: right; }
+    .banner-subtext { display: block; margin-top: 8px; font-size: 12px; color: var(--text-muted); }
 
-    .gift-icon {
-      width: 54px;
-      height: 54px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+    .subscribe-section { text-align: center; max-width: 520px; margin: 0 auto 80px; }
+    .subscribe-section h3 { font-family: var(--font-serif); font-size: 30px; font-weight: 500; margin-bottom: 8px; }
+    .subscribe-section p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+    .subscribe-form { display: flex; gap: 10px; margin-bottom: 14px; }
+    .subscribe-input { flex: 1; padding: 14px 18px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(255,255,255,.6); font-size: 14px; outline: none; }
+    .form-note { font-size: 12px; color: var(--text-muted); }
 
-    .free-banner-title {
-      font-family: var(--font-serif);
-      font-size: 28px;
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-
-    .free-banner-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      max-width: 420px;
-    }
-
-    .free-banner-right {
-      text-align: right;
-    }
-
-    .banner-subtext {
-      display: block;
-      margin-top: 8px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .subscribe-section {
-      text-align: center;
-      max-width: 520px;
-      margin: 0 auto 80px;
-    }
-
-    .subscribe-section h3 {
-      font-family: var(--font-serif);
-      font-size: 30px;
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-
-    .subscribe-section p {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-    }
-
-    .subscribe-form {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .subscribe-input {
-      flex: 1;
-      padding: 14px 18px;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: rgba(255, 255, 255, 0.6);
-      font-size: 14px;
-      outline: none;
-    }
-
-    .subscribe-input:focus {
-      border-color: #999;
-      background: #fff;
-    }
-
-    .form-note {
-      font-size: 12px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-    }
-
-    footer {
-      border-top: 1px solid var(--border-color);
-      padding: 30px 0;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-email a {
-      color: var(--text-main);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 12px;
-      margin-top: 4px;
-    }
-
-    .social-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-main);
-      text-decoration: none;
-    }
+    footer { border-top: 1px solid var(--border-color); padding: 30px 0; font-size: 13px; color: var(--text-muted); }
+    .footer-content { display: flex; justify-content: space-between; align-items: center; }
+    .footer-email a { color: var(--text-main); text-decoration: none; font-weight: 500; }
+    .social-links { display: flex; gap: 12px; margin-top: 4px; }
+    .social-icon { width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,.05); display: flex; align-items: center; justify-content: center; color: var(--text-main); text-decoration: none; }
 
     @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .hero-subtitle, .hero-checklist {
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .hero-buttons {
-        justify-content: center;
-      }
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
-      }
-      .free-banner {
-        flex-direction: column;
-        gap: 24px;
-        text-align: center;
-      }
-      .free-banner-left {
-        flex-direction: column;
-        align-items: center;
-      }
-      .free-banner-right {
-        text-align: center;
-      }
-      .footer-content {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
-      }
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-subtitle, .hero-checklist { margin-left: auto; margin-right: auto; }
+      .hero-checklist { align-items: flex-start; max-width: 330px; text-align: left; }
+      .hero-buttons { justify-content: center; }
+      .examples-label { text-align: center; }
+      .features-grid { grid-template-columns: repeat(2,1fr); gap: 30px; }
+      .free-banner { flex-direction: column; gap: 24px; text-align: center; }
+      .free-banner-left { flex-direction: column; align-items: center; }
+      .free-banner-right { text-align: center; }
+      .footer-content { flex-direction: column; gap: 20px; text-align: center; }
+    }
+
+    @media (max-width: 560px) {
+      .container { padding: 0 18px; }
+      .status-badge { font-size: 11px; padding: 6px 10px; }
+      .hero { padding-top: 20px; }
+      .hero-content h1 { font-size: 47px; }
+      .hero-subtitle { font-size: 16px; }
+      .hero-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+      .hero-buttons .btn-primary { grid-column: 1 / -1; }
+      .hero-buttons .btn-demo { width: 100%; padding-left: 12px; padding-right: 12px; font-size: 13px; }
+      .hero-buttons .btn-link { grid-column: 1 / -1; justify-content: center; margin: 2px 0 0; }
+      .examples-label { grid-column: 1 / -1; margin-top: -2px; }
+      .phone-frame { width: min(290px, 86vw); }
+      .features-grid { grid-template-columns: 1fr; }
+      .free-banner { padding: 28px 22px; }
+      .subscribe-form { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
       (function(m,e,t,r,i,k,a){
@@ -509,11 +310,9 @@
           for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
           k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
       })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111617452', 'ym');
-
       ym(111617452, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
   </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/111617452" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-  <!-- /Yandex.Metrika counter -->
+  <noscript><div><img src="https://mc.yandex.ru/watch/111617452" style="position:absolute; left:-9999px;" alt=""></div></noscript>
 
   <div class="container">
     <header>
@@ -528,7 +327,7 @@
       <div class="hero-content">
         <h1>Цифровой офис<br>мастера</h1>
         <p class="hero-subtitle">Ваш персональный сайт, онлайн-запись, портфолио и клиенты — в одном месте.</p>
-        
+
         <ul class="hero-checklist">
           <li><span class="check-icon">✓</span> Бесплатный сайт за 5 минут</li>
           <li><span class="check-icon">✓</span> Онлайн-запись и контакты</li>
@@ -536,34 +335,25 @@
         </ul>
 
         <div class="hero-buttons">
-          <a href="https://t.me/made_gri" target="_blank" class="btn-primary">Получить свой сайт бесплатно</a>
-          <a href="https://ichaey.github.io/claytone-current/" target="_blank" rel="noopener noreferrer" class="btn-demo">Посмотреть готовый сайт</a>
+          <a href="https://t.me/made_gri" target="_blank" rel="noopener noreferrer" class="btn-primary">Получить свой сайт бесплатно</a>
+          <a href="https://nonna.tanem.ru/" target="_blank" rel="noopener noreferrer" class="btn-demo">Готовый сайт №1</a>
+          <a href="https://anastasia.tanem.ru/" target="_blank" rel="noopener noreferrer" class="btn-demo">Готовый сайт №2</a>
+          <div class="examples-label">Два уже готовых примера сайтов мастеров</div>
           <a href="#how" class="btn-link">Как это работает →</a>
         </div>
       </div>
 
       <div class="mockup-wrapper">
         <div class="phone-frame">
-          <div class="phone-top-bar">
-            <span>9:41</span>
-            <span>📶 🔋</span>
-          </div>
-          <div class="phone-url-bar">
-            🔒 nonna.tanem.ru
-          </div>
+          <div class="phone-top-bar"><span>9:41</span><span>📶 🔋</span></div>
+          <div class="phone-url-bar">🔒 tanem.ru</div>
           <div class="phone-content">
-            <div class="phone-title">Нонна</div>
+            <div class="phone-title">Сайт мастера</div>
             <div class="phone-subtitle">Маникюр · Москва</div>
-            <div class="phone-rating">★ 5,0 (95 отзывов)</div>
-            <a href="https://ichaey.github.io/claytone-current/" target="_blank" rel="noopener noreferrer" class="phone-img-placeholder" aria-label="Открыть сайт ClayTone"></a>
-            <a href="https://ichaey.github.io/claytone-current/" target="_blank" rel="noopener noreferrer" class="phone-btn">Открыть сайт ClayTone</a>
-            <div class="phone-nav">
-              <span>Работы</span>
-              <span>Услуги</span>
-              <span>Отзывы</span>
-              <span>Контакты</span>
-              <span>Обо мне</span>
-            </div>
+            <div class="phone-rating">★ 5,0 · реальные отзывы</div>
+            <a href="https://nonna.tanem.ru/" target="_blank" rel="noopener noreferrer" class="phone-img-placeholder" aria-label="Открыть готовый сайт"></a>
+            <a href="https://nonna.tanem.ru/" target="_blank" rel="noopener noreferrer" class="phone-btn">Открыть готовый сайт</a>
+            <div class="phone-nav"><span>Работы</span><span>Услуги</span><span>Отзывы</span><span>Контакты</span><span>Обо мне</span></div>
           </div>
         </div>
       </div>
@@ -575,31 +365,11 @@
     </section>
 
     <section class="features-grid" id="how">
-      <div class="feature-card">
-        <div class="feature-icon">🌐</div>
-        <div class="feature-title">Ваш сайт</div>
-        <div class="feature-desc">Красивый и современный сайт с вашим именем и работами.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📅</div>
-        <div class="feature-title">Онлайн-запись</div>
-        <div class="feature-desc">Клиенты записываются удобно через форму или ваш календарь.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🖼</div>
-        <div class="feature-title">Портфолио</div>
-        <div class="feature-desc">Покажите свои работы и привлекайте новых клиентов.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⭐</div>
-        <div class="feature-title">Отзывы</div>
-        <div class="feature-desc">Реальные отзывы и рейтинг повышают доверие к вам.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📞</div>
-        <div class="feature-title">Контакты</div>
-        <div class="feature-desc">Телефон, мессенджеры, карта и удобная связь с вами.</div>
-      </div>
+      <div class="feature-card"><div class="feature-icon">🌐</div><div class="feature-title">Ваш сайт</div><div class="feature-desc">Красивый и современный сайт с вашим именем и работами.</div></div>
+      <div class="feature-card"><div class="feature-icon">📅</div><div class="feature-title">Онлайн-запись</div><div class="feature-desc">Клиенты записываются удобно через форму или ваш календарь.</div></div>
+      <div class="feature-card"><div class="feature-icon">🖼</div><div class="feature-title">Портфолио</div><div class="feature-desc">Покажите свои работы и привлекайте новых клиентов.</div></div>
+      <div class="feature-card"><div class="feature-icon">⭐</div><div class="feature-title">Отзывы</div><div class="feature-desc">Реальные отзывы и рейтинг повышают доверие к вам.</div></div>
+      <div class="feature-card"><div class="feature-icon">📞</div><div class="feature-title">Контакты</div><div class="feature-desc">Телефон, мессенджеры, карта и удобная связь с вами.</div></div>
     </section>
 
     <section class="free-banner">
@@ -611,7 +381,7 @@
         </div>
       </div>
       <div class="free-banner-right">
-        <a href="https://t.me/made_gri" target="_blank" class="btn-primary">Получить свой сайт бесплатно</a>
+        <a href="https://t.me/made_gri" target="_blank" rel="noopener noreferrer" class="btn-primary">Получить свой сайт бесплатно</a>
         <span class="banner-subtext">Запуск сервиса — скоро!</span>
       </div>
     </section>
@@ -619,44 +389,21 @@
     <section class="subscribe-section">
       <h3>Хочу первым узнать о запуске</h3>
       <p>Оставьте email — мы сообщим, когда сервис станет доступен.</p>
-      
       <form class="subscribe-form" onsubmit="event.preventDefault(); alert('Спасибо за подписку!');">
         <input type="email" placeholder="Ваш email" class="subscribe-input" required>
         <button type="submit" class="btn-primary">Узнать первым</button>
       </form>
-      
-      <div class="form-note">
-        🔒 Мы не рассылаем спам. Только важные новости.
-      </div>
+      <div class="form-note">🔒 Мы не рассылаем спам. Только важные новости.</div>
     </section>
 
     <footer>
       <div class="footer-content">
-        <div>
-          <a href="#" class="logo">✦ tanem</a>
-        </div>
-        
-        <div class="footer-email">
-          <span>Пишите нам</span><br>
-          <a href="mailto:helio@tanem.ru">helio@tanem.ru</a>
-        </div>
-
-        <div>
-          <span>Мы в соцсетях</span>
-          <div class="social-links">
-            <a href="https://t.me/made_gri" target="_blank" class="social-icon">✈</a>
-            <a href="#" class="social-icon">📷</a>
-            <a href="#" class="social-icon">VK</a>
-          </div>
-        </div>
-
-        <div>
-          © 2026 tanem.ru<br>
-          Все права защищены
-        </div>
+        <div><a href="#" class="logo">✦ tanem</a></div>
+        <div class="footer-email"><span>Пишите нам</span><br><a href="mailto:helio@tanem.ru">helio@tanem.ru</a></div>
+        <div><span>Мы в соцсетях</span><div class="social-links"><a href="https://t.me/made_gri" target="_blank" class="social-icon">✈</a><a href="#" class="social-icon">📷</a><a href="#" class="social-icon">VK</a></div></div>
+        <div>© 2026 tanem.ru<br>Все права защищены</div>
       </div>
     </footer>
   </div>
-
 </body>
 </html>

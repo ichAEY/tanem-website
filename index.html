@@ -77,6 +77,7 @@
 
     .kicker{
       margin:.7svh 0 0;
+      transform:translateX(-.2cm);
       color:var(--accent);
       font-size:clamp(10px,2.85vw,16px);
       line-height:1.15;
@@ -87,7 +88,8 @@
     }
 
     h1{
-      margin:calc(1.7svh + .3cm) 0 0;
+      margin:1.7svh 0 0;
+      transform:translateX(-.2cm);
       font-size:clamp(40px,11.2vw,68px);
       line-height:.98;
       letter-spacing:-.055em;
@@ -109,6 +111,7 @@
 
     .intro{
       margin:calc(2.5svh - .2cm) 0 0;
+      transform:translateX(-.2cm);
       max-width:92%;
       color:var(--text);
       font-size:clamp(14px,3.75vw,21px);
@@ -147,6 +150,9 @@
       display:grid;
       gap:10px;
       margin-top:calc(var(--device-gap) - .3cm);
+      margin-left:-.3cm;
+      margin-right:-.3cm;
+      transform:translateY(-.2cm);
     }
 
     .cta{
@@ -181,15 +187,15 @@
       bottom:-35%;
       left:-35%;
       width:22%;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);
       transform:skewX(-18deg) translateX(-220%);
-      animation:secondaryShimmer 5s ease-in-out infinite;
+      animation:secondaryShimmer 8s ease-in-out infinite;
       pointer-events:none;
     }
 
     @keyframes secondaryShimmer{
-      0%,72%,100%{transform:skewX(-18deg) translateX(-220%)}
-      82%{transform:skewX(-18deg) translateX(700%)}
+      0%,62%{transform:skewX(-18deg) translateX(-220%)}
+      90%,100%{transform:skewX(-18deg) translateX(700%)}
     }
 
     .cta-label{
@@ -245,7 +251,6 @@
       letter-spacing:-.035em;
       font-weight:650;
     }
-    }
   </style>
 </head>
 <body>
@@ -271,8 +276,8 @@
       <p class="kicker">Цифровой офис для мастеров и салонов</p>
 
       <h1>
-        Ваш бизнес<span class="period">.</span><br>
-        В одном месте<span class="period period-accent">.</span>
+        Ваш бизнес<span class="period" aria-hidden="true"></span><br>
+        В одном месте<span class="period period-accent" aria-hidden="true"></span>
       </h1>
 
       <p class="intro">

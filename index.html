@@ -8,6 +8,8 @@
   <meta name="description" content="Tanem создаёт цифровой офис для мастеров и салонов, помогая клиентам лучше понять ваш бизнес и быстрее выйти на запись.">
   <link rel="preload" as="image" href="./0C214676-D206-438C-A64E-666F74D81810.png">
   <link rel="preload" as="image" href="./15A6E60F-CB7F-4E92-995F-BB39F5BA7A0A.png">
+  <link rel="preload" as="image" href="./111.webp">
+  <link rel="preload" as="image" href="./112.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -139,9 +141,8 @@
       isolation:isolate;
       top:-.18cm;
       width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:grid;
+      place-items:center;
       overflow:visible;
       pointer-events:none;
     }
@@ -177,6 +178,7 @@
     }
 
     .device-wrap img{
+      grid-area:1 / 1;
       position:relative;
       z-index:1;
       display:block;
@@ -187,6 +189,20 @@
       filter:none;
       backface-visibility:hidden;
       transform:translateZ(0);
+    }
+
+    .device-slide{
+      opacity:0;
+      transition:opacity .65s ease;
+      will-change:opacity;
+    }
+
+    .device-slide.is-active{
+      opacity:1;
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .device-slide{transition:none}
     }
 
     .actions{
@@ -368,7 +384,9 @@
 
       <div class="device-space">
         <div class="device-wrap">
-          <img src="./0C214676-D206-438C-A64E-666F74D81810.png" alt="Пример цифрового офиса Tanem на ноутбуке и телефоне" loading="eager" decoding="sync" fetchpriority="high">
+          <img class="device-slide is-active" src="./0C214676-D206-438C-A64E-666F74D81810.png" alt="Пример цифрового офиса Tanem на ноутбуке и телефоне" loading="eager" decoding="sync" fetchpriority="high">
+          <img class="device-slide" src="./111.webp" alt="" loading="eager" decoding="async">
+          <img class="device-slide" src="./112.webp" alt="" loading="eager" decoding="async">
         </div>
       </div>
       <div class="features" aria-label="Преимущества Tanem">
@@ -425,10 +443,14 @@
       const movingLogo = document.getElementById('introLogo');
       const targetLogo = document.querySelector('.brand img');
 
+      let finished = false;
       function finish(){
+        if (finished) return;
+        finished = true;
         document.body.classList.remove('intro-running');
         if (targetLogo) targetLogo.style.opacity = '1';
         if (loader) loader.remove();
+        window.dispatchEvent(new Event('tanem:intro-finished'));
       }
 
       if (!loader || !movingLogo || !targetLogo) {
@@ -489,6 +511,35 @@
       }
 
       setTimeout(finish, 3200);
+    })();
+  </script>
+  <script>
+    (function runDeviceCarousel(){
+      const slides = Array.from(document.querySelectorAll('.device-slide'));
+      if (slides.length < 2) return;
+
+      let index = 0;
+      let timer = null;
+
+      function nextSlide(){
+        slides[index].classList.remove('is-active');
+        index = (index + 1) % slides.length;
+        slides[index].classList.add('is-active');
+      }
+
+      function startCarousel(){
+        if (timer) return;
+        timer = window.setInterval(nextSlide, 3000);
+      }
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      window.addEventListener('tanem:intro-finished', startCarousel, { once:true });
+
+      // Fallback if the intro has already finished for any reason.
+      window.setTimeout(() => {
+        if (!document.body.classList.contains('intro-running')) startCarousel();
+      }, 3500);
     })();
   </script>
 </body>

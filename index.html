@@ -78,9 +78,7 @@
     }
 
     .kicker{
-      position:relative;
-      top:-1.5cm;
-      margin:.7svh 0 0;
+      margin:.9svh 0 0;
       color:var(--accent);
       font-size:clamp(10px,2.74vw,15.36px);
       line-height:1.15;
@@ -144,20 +142,36 @@
       display:flex;
       align-items:center;
       justify-content:center;
+      overflow:visible;
       pointer-events:none;
     }
 
+    .device-wrap::before,
     .device-wrap::after{
       content:"";
       position:absolute;
       z-index:0;
-      left:11%;
-      right:11%;
-      bottom:-4px;
-      height:22px;
-      border-radius:50%;
-      background:radial-gradient(ellipse at center,rgba(0,0,0,.22) 0%,rgba(0,0,0,.10) 45%,rgba(0,0,0,0) 75%);
       pointer-events:none;
+      border-radius:50%;
+      filter:blur(7px);
+    }
+
+    .device-wrap::before{
+      left:18%;
+      right:3%;
+      bottom:2.3%;
+      height:12px;
+      background:rgba(0,0,0,.20);
+      transform:scaleY(.62);
+    }
+
+    .device-wrap::after{
+      left:1%;
+      width:26%;
+      bottom:1.8%;
+      height:10px;
+      background:rgba(0,0,0,.18);
+      transform:scaleY(.68);
     }
 
     .device-wrap img{
@@ -285,9 +299,37 @@
       letter-spacing:-.035em;
       font-weight:650;
     }
+
+    .intro-loader{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:grid;
+      place-items:center;
+      background:#fff;
+      overflow:hidden;
+      pointer-events:none;
+    }
+
+    .intro-logo{
+      display:block;
+      width:min(64vw,330px);
+      height:auto;
+      transform-origin:center center;
+      will-change:transform;
+    }
+
+    .intro-running .brand img{
+      opacity:0;
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .intro-loader{display:none}
+      .intro-running .brand img{opacity:1}
+    }
   </style>
 </head>
-<body>
+<body class="intro-running">
   <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
       m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -298,6 +340,10 @@
     ym(111617452,'init',{ssr:true,webvisor:true,clickmap:true,ecommerce:"dataLayer",referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/111617452" style="position:absolute;left:-9999px" alt=""></div></noscript>
+
+  <div class="intro-loader" id="introLoader" aria-hidden="true">
+    <img class="intro-logo" id="introLogo" src="./15A6E60F-CB7F-4E92-995F-BB39F5BA7A0A.png" alt="">
+  </div>
 
   <main class="hero" id="top">
     <div class="hero-inner">
@@ -371,5 +417,74 @@
 
     </div>
   </main>
+  <script>
+    (function runTanemIntro(){
+      const loader = document.getElementById('introLoader');
+      const movingLogo = document.getElementById('introLogo');
+      const targetLogo = document.querySelector('.brand img');
+
+      function finish(){
+        document.body.classList.remove('intro-running');
+        if (targetLogo) targetLogo.style.opacity = '1';
+        if (loader) loader.remove();
+      }
+
+      if (!loader || !movingLogo || !targetLogo) {
+        finish();
+        return;
+      }
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        finish();
+        return;
+      }
+
+      function start(){
+        const from = movingLogo.getBoundingClientRect();
+        const to = targetLogo.getBoundingClientRect();
+
+        if (!from.width || !to.width) {
+          finish();
+          return;
+        }
+
+        const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
+        const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
+        const scale = to.width / from.width;
+
+        const logoAnimation = movingLogo.animate([
+          { transform:'translate3d(0,0,0) scale(1)' },
+          { transform:'translate3d(' + dx + 'px,' + dy + 'px,0) scale(' + scale + ')' }
+        ], {
+          duration:1250,
+          easing:'cubic-bezier(.22,.78,.18,1)',
+          fill:'forwards'
+        });
+
+        loader.animate([
+          { backgroundColor:'rgba(255,255,255,1)', offset:0 },
+          { backgroundColor:'rgba(255,255,255,1)', offset:.28 },
+          { backgroundColor:'rgba(255,255,255,.72)', offset:.55 },
+          { backgroundColor:'rgba(255,255,255,0)', offset:1 }
+        ], {
+          duration:1250,
+          easing:'ease-out',
+          fill:'forwards'
+        });
+
+        logoAnimation.finished.then(finish).catch(finish);
+      }
+
+      if (document.readyState === 'complete') {
+        requestAnimationFrame(() => requestAnimationFrame(start));
+      } else {
+        window.addEventListener('load', () => {
+          requestAnimationFrame(() => requestAnimationFrame(start));
+        }, { once:true });
+      }
+
+      setTimeout(finish, 2500);
+    })();
+  </script>
 </body>
 </html>

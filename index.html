@@ -82,7 +82,7 @@
       position:absolute;
       left:7.4%;
       right:7.4%;
-      top:10.4%;
+      top:11.5%;
       margin:0;
       color:var(--accent);
       font-size:3vw;
@@ -90,7 +90,7 @@
       font-weight:700;
       letter-spacing:.18em;
       text-transform:uppercase;
-      text-align:center;
+      text-align:left;
       white-space:nowrap;
     }
 
@@ -98,29 +98,39 @@
       position:absolute;
       left:7.4%;
       right:7.4%;
-      top:14.2%;
+      top:16.1%;
       margin:0;
       font-size:11.15vw;
       line-height:.98;
       letter-spacing:-.055em;
       font-weight:600;
-      text-align:center;
+      text-align:left;
     }
 
-    .title-dot{color:var(--accent)}
+    .round-dot{
+      display:inline-block;
+      width:.16em;
+      height:.16em;
+      margin-left:.035em;
+      border-radius:50%;
+      background:currentColor;
+      vertical-align:.08em;
+    }
+
+    .round-dot.accent{color:var(--accent)}
 
     .intro{
       position:absolute;
       left:8%;
       right:8%;
-      top:25.1%;
+      top:29.4%;
       margin:0;
       color:var(--text);
       font-size:3.8vw;
       line-height:1.38;
       letter-spacing:-.022em;
       font-weight:400;
-      text-align:center;
+      text-align:left;
     }
 
     .device-wrap{
@@ -128,7 +138,7 @@
       z-index:2;
       left:0;
       right:0;
-      top:33.2%;
+      top:40.2%;
       height:30.6%;
       display:flex;
       align-items:center;
@@ -152,7 +162,7 @@
       z-index:5;
       left:7.4%;
       right:7.4%;
-      top:65.1%;
+      top:68.7%;
       display:grid;
       gap:.9svh;
     }
@@ -201,7 +211,7 @@
       z-index:4;
       left:7.4%;
       right:7.4%;
-      top:77.3%;
+      top:81.7%;
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
     }
@@ -222,7 +232,7 @@
       display:grid;
       place-items:center;
       margin:0 auto 1.05svh;
-      border-radius:1.65vw;
+      border-radius:50%;
       background:#f0ece8;
     }
 
@@ -246,7 +256,7 @@
       z-index:6;
       left:0;
       right:0;
-      bottom:max(1.35%, env(safe-area-inset-bottom));
+      bottom:max(1.1%, env(safe-area-inset-bottom));
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -273,14 +283,14 @@
     }
 
     @media (max-height:740px){
-      .topbar{top:2.2%}
-      .kicker{top:9.6%}
-      h1{top:13.1%;font-size:10.5vw}
-      .intro{top:23.4%;font-size:3.55vw}
-      .device-wrap{top:31%;height:30%;transform:scale(.94)}
-      .actions{top:62.5%}
-      .features{top:74.8%}
-      .scroll-cue{bottom:max(1%, env(safe-area-inset-bottom))}
+      .topbar{top:2.1%}
+      .kicker{top:10.5%}
+      h1{top:14.5%;font-size:10.3vw}
+      .intro{top:27.2%;font-size:3.45vw}
+      .device-wrap{top:37.2%;height:25%;transform:scale(.92)}
+      .actions{top:66.2%}
+      .features{top:79.1%}
+      .scroll-cue{bottom:max(.8%, env(safe-area-inset-bottom))}
     }
 
     @media (min-width:601px){
@@ -317,7 +327,7 @@
 
       <p class="kicker">Цифровой офис для мастеров и салонов</p>
 
-      <h1>Ваш бизнес.<br>В одном месте<span class="title-dot">.</span></h1>
+      <h1>Ваш бизнес<span class="round-dot"></span><br>В одном месте<span class="round-dot accent"></span></h1>
 
       <p class="intro">
         Tanem создаёт цифровой офис для мастеров и салонов, помогая клиентам лучше понять ваш бизнес и быстрее выйти на запись.

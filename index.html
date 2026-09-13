@@ -17,10 +17,18 @@
       --line:#ddd8d3;
       --soft:#f0ece8;
       --page:#ffffff;
+      --side:clamp(22px,7.4vw,66px);
+      --device-gap:clamp(18px,2.8svh,28px);
     }
 
     *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:#f5f5f3}
+
+    html,body{
+      margin:0;
+      min-height:100%;
+      background:#f5f5f3;
+    }
+
     body{
       font-family:"Manrope",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--ink);
@@ -28,33 +36,30 @@
       text-rendering:optimizeLegibility;
       overflow-x:hidden;
     }
+
     a{color:inherit;text-decoration:none}
 
     .hero{
       width:min(100%,900px);
-      height:100svh;
       min-height:100svh;
       margin:0 auto;
       background:var(--page);
-      overflow:hidden;
     }
 
     .hero-inner{
-      height:100%;
+      min-height:100svh;
       display:flex;
       flex-direction:column;
       padding:
         max(6px,env(safe-area-inset-top))
-        7.4%
-        max(10px,env(safe-area-inset-bottom));
+        var(--side)
+        max(22px,env(safe-area-inset-bottom));
     }
 
     .topbar{
-      flex:0 0 auto;
       display:flex;
       justify-content:center;
       align-items:center;
-      min-height:5.1svh;
     }
 
     .brand{
@@ -65,29 +70,25 @@
 
     .brand img{
       display:block;
-      width:43vw;
-      max-width:190px;
+      width:clamp(145px,43vw,190px);
       height:auto;
       object-fit:contain;
     }
 
     .kicker{
-      flex:0 0 auto;
-      margin:.9svh 0 0;
+      margin:.7svh 0 0;
       color:var(--accent);
-      font-size:clamp(11px,3vw,17px);
-      line-height:1;
+      font-size:clamp(10px,2.85vw,16px);
+      line-height:1.15;
       font-weight:700;
-      letter-spacing:.17em;
+      letter-spacing:.15em;
       text-transform:uppercase;
       text-align:left;
-      white-space:nowrap;
     }
 
     h1{
-      flex:0 0 auto;
       margin:calc(1.7svh + .3cm) 0 0;
-      font-size:clamp(42px,11.2vw,68px);
+      font-size:clamp(40px,11.2vw,68px);
       line-height:.98;
       letter-spacing:-.055em;
       font-weight:700;
@@ -98,14 +99,14 @@
       font:inherit;
       letter-spacing:0;
     }
+
     .period-accent{color:var(--accent)}
 
     .intro{
-      flex:0 0 auto;
       margin:2.5svh 0 0;
       max-width:92%;
       color:var(--text);
-      font-size:clamp(14px,3.75vw,22px);
+      font-size:clamp(14px,3.75vw,21px);
       line-height:1.4;
       letter-spacing:-.022em;
       font-weight:400;
@@ -113,12 +114,10 @@
     }
 
     .device-space{
-      flex:1 1 auto;
-      min-height:0;
       display:flex;
-      align-items:center;
       justify-content:center;
-      padding:2.1svh 0 .8svh;
+      align-items:center;
+      margin-top:calc(var(--device-gap) - .3cm);
     }
 
     .device-wrap{
@@ -139,21 +138,19 @@
     }
 
     .actions{
-      flex:0 0 auto;
       display:grid;
-      gap:.9svh;
-      margin-top:.4svh;
-      transform:translateY(26px);
+      gap:10px;
+      margin-top:calc(var(--device-gap) - .3cm);
     }
 
     .cta{
-      min-height:4.75svh;
-      padding:0 3.4vw;
+      height:clamp(48px,12.2vw,56px);
+      padding:0 clamp(18px,4vw,28px);
       display:flex;
       align-items:center;
       justify-content:center;
-      border-radius:1.6vw;
-      font-size:clamp(14px,3.85vw,24px);
+      border-radius:clamp(8px,1.8vw,12px);
+      font-size:clamp(15px,3.7vw,19px);
       line-height:1;
       letter-spacing:-.03em;
       font-weight:700;
@@ -165,7 +162,6 @@
     }
 
     .cta-secondary{
-      min-height:4.25svh;
       background:var(--accent);
       color:#111;
     }
@@ -178,22 +174,20 @@
 
     .cta-arrow{
       flex:0 0 auto;
-      font-size:1.4em;
+      font-size:1.35em;
       font-weight:300;
       line-height:1;
     }
 
     .features{
-      flex:0 0 auto;
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
-      margin-top:2.1svh;
-      transform:translateY(26px);
+      margin-top:clamp(24px,3svh,32px);
     }
 
     .feature{
       min-width:0;
-      padding:0 2.3vw;
+      padding:0 clamp(7px,2.3vw,18px);
       text-align:center;
     }
 
@@ -202,11 +196,11 @@
     .feature+.feature{border-left:1px solid var(--line)}
 
     .feature-icon{
-      width:clamp(30px,7.6vw,54px);
-      height:clamp(30px,7.6vw,54px);
+      width:clamp(32px,7.6vw,52px);
+      height:clamp(32px,7.6vw,52px);
       display:grid;
       place-items:center;
-      margin:0 auto .85svh;
+      margin:0 auto 8px;
       border-radius:50%;
       background:var(--soft);
     }
@@ -220,25 +214,23 @@
 
     .feature-title{
       margin:0;
-      font-size:clamp(11px,2.95vw,20px);
+      font-size:clamp(11px,2.95vw,18px);
       line-height:1.18;
       letter-spacing:-.035em;
       font-weight:650;
     }
 
     .scroll-cue{
-      flex:0 0 auto;
       display:flex;
       flex-direction:column;
       align-items:center;
-      justify-content:flex-end;
-      margin-top:1.9svh;
+      margin-top:clamp(28px,4svh,42px);
       color:#484848;
       pointer-events:none;
     }
 
     .scroll-cue span{
-      font-size:clamp(8px,2vw,14px);
+      font-size:clamp(8px,2vw,13px);
       line-height:1;
       letter-spacing:.3em;
       text-indent:.3em;
@@ -246,9 +238,9 @@
     }
 
     .scroll-cue svg{
-      width:clamp(20px,5vw,32px);
+      width:clamp(20px,5vw,30px);
       height:auto;
-      margin-top:.65svh;
+      margin-top:7px;
       fill:none;
       stroke:#111;
       stroke-width:1.5;
@@ -263,32 +255,6 @@
 
     @media (prefers-reduced-motion:reduce){
       .scroll-cue svg{animation:none}
-    }
-
-    @media (max-height:760px){
-      .hero-inner{
-        padding-top:max(12px,env(safe-area-inset-top));
-        padding-bottom:max(6px,env(safe-area-inset-bottom));
-      }
-      .topbar{min-height:4.5svh}
-      .brand img{width:38vw}
-      .kicker{margin-top:.7svh;font-size:clamp(10px,2.8vw,15px)}
-      h1{margin-top:calc(1.2svh + .3cm);font-size:clamp(37px,10.2vw,58px)}
-      .intro{margin-top:1.7svh;font-size:clamp(13px,3.45vw,19px);line-height:1.34}
-      .device-space{padding-top:1svh;padding-bottom:.4svh}
-      .device-wrap img{width:109%}
-      .actions{transform:translateY(22px)}
-      .cta{min-height:4.45svh}
-      .cta-secondary{min-height:4svh}
-      .features{margin-top:1.35svh;transform:translateY(22px)}
-      .feature-icon{width:clamp(27px,7vw,44px);height:clamp(27px,7vw,44px);margin-bottom:.55svh}
-      .feature-title{font-size:clamp(10px,2.72vw,17px)}
-      .scroll-cue{margin-top:1.1svh}
-    }
-
-    @media (min-width:601px){
-      .brand img{width:min(190px,20vw)}
-      .cta{border-radius:12px}
     }
   </style>
 </head>

@@ -64,20 +64,18 @@
     }
 
     .brand{
-      display:inline-flex;
-      align-items:baseline;
-      font-size:12.6vw;
-      line-height:.9;
-      font-weight:800;
-      letter-spacing:-.075em;
-      white-space:nowrap;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       pointer-events:auto;
     }
 
-    .brand-dot{
-      color:var(--accent);
-      font-size:.72em;
-      margin-left:.03em;
+    .brand img{
+      display:block;
+      width:43vw;
+      max-width:190px;
+      height:auto;
+      object-fit:contain;
     }
 
     .kicker{
@@ -141,7 +139,7 @@
 
     .device-wrap img{
       display:block;
-      width:92%;
+      width:75%;
       max-width:none;
       height:auto;
       object-fit:contain;
@@ -286,11 +284,11 @@
     }
 
     @media (min-width:601px){
-      .brand{font-size:min(72px,7.8vw)}
+      .brand img{width:min(190px,20vw)}
       .kicker{font-size:min(17px,1.75vw)}
       h1{font-size:min(68px,7.2vw)}
       .intro{font-size:min(22px,2.25vw)}
-      .device-wrap img{width:88%;max-width:800px}
+      .device-wrap img{width:75%;max-width:760px}
       .cta{font-size:min(25px,2.35vw);border-radius:12px}
       .feature-icon{width:54px;height:54px;border-radius:12px}
       .feature-title{font-size:min(20px,2vw)}
@@ -314,7 +312,7 @@
   <main class="hero" id="top">
     <div class="hero-inner">
       <header class="topbar">
-        <a class="brand" href="#top" aria-label="Tanem">Tanem<span class="brand-dot">.</span></a>
+        <a class="brand" href="#top" aria-label="Tanem"><img src="./15A6E60F-CB7F-4E92-995F-BB39F5BA7A0A.png" alt="Tanem"></a>
       </header>
 
       <p class="kicker">Цифровой офис для мастеров и салонов</p>

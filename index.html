@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#ffffff">
   <title>Tanem — цифровой офис для мастеров и салонов</title>
   <meta name="description" content="Tanem создаёт цифровой офис для мастеров и салонов, помогая клиентам лучше понять ваш бизнес и быстрее выйти на запись.">
+  <link rel="preload" as="image" href="./0C214676-D206-438C-A64E-666F74D81810.png">
+  <link rel="preload" as="image" href="./15A6E60F-CB7F-4E92-995F-BB39F5BA7A0A.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -77,6 +79,7 @@
 
     .kicker{
       margin:.7svh 0 0;
+      transform:translateY(-1.5cm);
       color:var(--accent);
       font-size:clamp(10px,2.74vw,15.36px);
       line-height:1.15;
@@ -88,7 +91,7 @@
 
     h1{
       margin:calc(1.7svh - .2cm) 0 0;
-      transform:translate(-.2cm,.1cm);
+      transform:translate(-.3cm,.2cm);
       font-size:clamp(40px,11.2vw,68px);
       line-height:.98;
       letter-spacing:-.055em;
@@ -111,7 +114,7 @@
 
     .intro{
       margin:calc(2.5svh - .2cm) 0 0;
-      transform:translate(-.2cm,.1cm);
+      transform:translate(-.3cm,.2cm);
       max-width:92%;
       color:var(--text);
       font-size:clamp(14px,3.75vw,21px);
@@ -129,21 +132,38 @@
     }
 
     .device-wrap{
+      position:relative;
+      isolation:isolate;
       width:100%;
       display:flex;
       align-items:center;
       justify-content:center;
       pointer-events:none;
-      transform:translateY(-.2cm);
+      transform:translateY(-.18cm);
+    }
+
+    .device-wrap::after{
+      content:"";
+      position:absolute;
+      z-index:0;
+      left:9%;
+      right:9%;
+      bottom:1.5%;
+      height:10%;
+      background:radial-gradient(ellipse at center,rgba(0,0,0,.24) 0%,rgba(0,0,0,.11) 42%,rgba(0,0,0,0) 74%);
+      transform:translateY(58%);
+      pointer-events:none;
     }
 
     .device-wrap img{
+      position:relative;
+      z-index:1;
       display:block;
       width:103%;
       max-width:981px;
       height:auto;
       object-fit:contain;
-      filter:drop-shadow(0 13px 8px rgba(0,0,0,.16)) drop-shadow(0 28px 18px rgba(0,0,0,.08));
+      filter:none;
     }
 
     .actions{
@@ -152,7 +172,9 @@
       margin-top:clamp(20px,2.7svh,28px);
       margin-left:-.2cm;
       margin-right:-.2cm;
-      transform:translateY(-.5cm);
+      transform:translateY(0);
+      position:relative;
+      z-index:2;
     }
 
     .cta{
@@ -215,7 +237,9 @@
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
       margin-top:clamp(18px,2.4svh,26px);
-      transform:translateY(-.3cm);
+      transform:translateY(-.28cm);
+      position:relative;
+      z-index:2;
     }
 
     .feature{

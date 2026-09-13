@@ -157,21 +157,23 @@
     }
 
     .device-wrap::before{
-      left:18%;
-      right:3%;
-      bottom:2.3%;
-      height:12px;
-      background:rgba(0,0,0,.20);
-      transform:scaleY(.62);
+      left:21%;
+      right:2%;
+      bottom:5.3%;
+      height:11px;
+      background:rgba(0,0,0,.18);
+      filter:blur(6px);
+      transform:scaleY(.56);
     }
 
     .device-wrap::after{
-      left:1%;
-      width:26%;
-      bottom:1.8%;
-      height:10px;
-      background:rgba(0,0,0,.18);
-      transform:scaleY(.68);
+      left:2.5%;
+      width:23%;
+      bottom:4.8%;
+      height:9px;
+      background:rgba(0,0,0,.17);
+      filter:blur(5px);
+      transform:scaleY(.62);
     }
 
     .device-wrap img{
@@ -448,27 +450,30 @@
           return;
         }
 
-        const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
         const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
         const scale = to.width / from.width;
+        const holdMs = 480;
+        const moveMs = 1650;
 
         const logoAnimation = movingLogo.animate([
           { transform:'translate3d(0,0,0) scale(1)' },
-          { transform:'translate3d(' + dx + 'px,' + dy + 'px,0) scale(' + scale + ')' }
+          { transform:'translate3d(0,' + dy + 'px,0) scale(' + scale + ')' }
         ], {
-          duration:1250,
-          easing:'cubic-bezier(.22,.78,.18,1)',
+          delay:holdMs,
+          duration:moveMs,
+          easing:'cubic-bezier(.4,0,.2,1)',
           fill:'forwards'
         });
 
         loader.animate([
           { backgroundColor:'rgba(255,255,255,1)', offset:0 },
-          { backgroundColor:'rgba(255,255,255,1)', offset:.28 },
-          { backgroundColor:'rgba(255,255,255,.72)', offset:.55 },
+          { backgroundColor:'rgba(255,255,255,1)', offset:.20 },
+          { backgroundColor:'rgba(255,255,255,.90)', offset:.48 },
           { backgroundColor:'rgba(255,255,255,0)', offset:1 }
         ], {
-          duration:1250,
-          easing:'ease-out',
+          delay:holdMs,
+          duration:moveMs,
+          easing:'cubic-bezier(.4,0,.2,1)',
           fill:'forwards'
         });
 
@@ -483,7 +488,7 @@
         }, { once:true });
       }
 
-      setTimeout(finish, 2500);
+      setTimeout(finish, 3200);
     })();
   </script>
 </body>

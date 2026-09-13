@@ -2,408 +2,768 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tanem — Цифровой офис мастера</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f3ef">
+  <title>Tanem — цифровой офис для мастеров и салонов</title>
+  <meta name="description" content="Tanem помогает мастерам и салонам собрать услуги, работы и контакты в одном цифровом офисе.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-color: #f2efe9;
-      --card-bg: #e6e2d8;
-      --text-main: #1c1b18;
-      --text-muted: #6e6a63;
-      --accent-btn: #1a1a1a;
-      --accent-btn-hover: #333333;
-      --border-color: #dcd8cd;
-      --font-serif: 'Cormorant Garamond', Georgia, serif;
-      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    :root{
+      --bg:#f5f3ef;
+      --surface:#fbfaf8;
+      --surface-2:#ece8e1;
+      --ink:#11110f;
+      --muted:#65625d;
+      --line:#d9d4cb;
+      --accent:#aa927d;
+      --dark:#151513;
+      --radius:28px;
+      --shadow:0 18px 50px rgba(27,24,20,.08);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:#e9e6e0;
+      color:var(--ink);
+      font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: var(--font-sans);
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
+    .page{
+      width:min(100%,560px);
+      margin:0 auto;
+      background:var(--bg);
+      min-height:100vh;
+      overflow:hidden;
     }
 
-    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .shell{padding:0 22px}
 
-    header {
-      padding: 24px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .site-header{
+      height:88px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 22px;
+      border-bottom:1px solid rgba(17,17,15,.06);
+      background:rgba(245,243,239,.94);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      position:sticky;
+      top:0;
+      z-index:20;
     }
 
-    .logo {
-      font-size: 24px;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-main);
-      text-decoration: none;
+    .brand{
+      font-size:34px;
+      line-height:1;
+      font-weight:700;
+      letter-spacing:-1.8px;
+    }
+    .brand-dot{color:var(--accent)}
+
+    .menu{
+      width:44px;
+      height:44px;
+      border:0;
+      background:transparent;
+      display:grid;
+      place-items:center;
+      padding:0;
+      cursor:pointer;
+    }
+    .menu-lines{width:27px;display:grid;gap:6px}
+    .menu-lines span{height:2px;background:var(--ink);border-radius:2px;display:block}
+
+    section{position:relative}
+
+    .hero{
+      padding:56px 22px 34px;
+    }
+    .eyebrow{
+      margin:0 0 12px;
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#7b756e;
+    }
+    .hero h1{
+      margin:0;
+      font-size:47px;
+      line-height:.98;
+      letter-spacing:-2.7px;
+      font-weight:700;
+      max-width:500px;
+    }
+    .hero-copy{
+      margin:22px 0 0;
+      font-size:18px;
+      line-height:1.55;
+      color:var(--muted);
+      max-width:475px;
     }
 
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(0,0,0,.04);
-      border: 1px solid rgba(0,0,0,.08);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      color: var(--text-muted);
+    .device-stage{
+      margin:42px auto 0;
+      width:100%;
+      height:330px;
+      position:relative;
+      border-radius:32px;
+      background:
+        radial-gradient(circle at 75% 25%,rgba(170,146,125,.18),transparent 32%),
+        linear-gradient(145deg,#e7e2da,#f2efea 62%,#e6e1d9);
+      border:1px solid rgba(17,17,15,.07);
+      overflow:hidden;
     }
 
-    .hero {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 40px;
-      align-items: center;
-      padding: 40px 0 60px;
+    .laptop{
+      position:absolute;
+      width:82%;
+      left:5%;
+      bottom:30px;
+    }
+    .laptop-screen{
+      height:210px;
+      border:7px solid #181816;
+      border-bottom-width:11px;
+      border-radius:15px 15px 7px 7px;
+      background:#c7c2ba;
+      overflow:hidden;
+      box-shadow:0 18px 40px rgba(0,0,0,.16);
+    }
+    .screen-placeholder{
+      width:100%;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:18px;
+      background:
+        linear-gradient(135deg,rgba(255,255,255,.18),transparent),
+        repeating-linear-gradient(135deg,#c7c2ba 0 18px,#c2bdb5 18px 36px);
+      color:#292724;
+    }
+    .screen-placeholder small{
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      opacity:.66;
+    }
+    .screen-placeholder strong{
+      margin-top:5px;
+      font-size:20px;
+      letter-spacing:-.6px;
+    }
+    .laptop-base{
+      width:114%;
+      height:12px;
+      margin-left:-7%;
+      border-radius:0 0 18px 18px;
+      background:linear-gradient(#c8c8c6,#999995);
+      box-shadow:0 8px 13px rgba(0,0,0,.12);
+      position:relative;
+    }
+    .laptop-base:after{
+      content:"";
+      position:absolute;
+      left:42%;
+      top:0;
+      width:16%;
+      height:4px;
+      border-radius:0 0 8px 8px;
+      background:#7f7f7b;
     }
 
-    .hero-content h1 {
-      font-family: var(--font-serif);
-      font-size: 64px;
-      font-weight: 500;
-      line-height: 1.05;
-      margin-bottom: 20px;
-      letter-spacing: -1px;
+    .phone{
+      position:absolute;
+      right:5%;
+      bottom:24px;
+      width:30%;
+      height:224px;
+      border-radius:27px;
+      border:6px solid #181816;
+      background:#c9c4bc;
+      box-shadow:0 18px 36px rgba(0,0,0,.2);
+      overflow:hidden;
+      z-index:3;
+    }
+    .phone:before{
+      content:"";
+      width:38%;
+      height:10px;
+      border-radius:0 0 9px 9px;
+      background:#181816;
+      position:absolute;
+      top:0;
+      left:31%;
+      z-index:2;
+    }
+    .phone .screen-placeholder{padding:15px 11px}
+    .phone .screen-placeholder small{font-size:8px}
+    .phone .screen-placeholder strong{font-size:14px}
+
+    .stage-note{
+      position:absolute;
+      top:20px;
+      left:20px;
+      z-index:4;
+      padding:9px 12px;
+      border-radius:999px;
+      background:rgba(251,250,248,.84);
+      border:1px solid rgba(17,17,15,.08);
+      font-size:11px;
+      color:#69645e;
+      backdrop-filter:blur(8px);
     }
 
-    .hero-subtitle {
-      font-size: 18px;
-      color: var(--text-muted);
-      margin-bottom: 28px;
-      max-width: 480px;
+    .hero-points{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin:24px 0 0;
+    }
+    .hero-point{
+      min-width:0;
+      padding-top:12px;
+      border-top:1px solid var(--line);
+    }
+    .hero-point b{
+      display:block;
+      font-size:13px;
+      line-height:1.25;
+      letter-spacing:-.25px;
+    }
+    .hero-point span{
+      display:block;
+      margin-top:5px;
+      font-size:11px;
+      line-height:1.35;
+      color:var(--muted);
     }
 
-    .hero-checklist {
-      list-style: none;
-      margin-bottom: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .actions{
+      display:grid;
+      gap:10px;
+      margin-top:25px;
+    }
+    .btn{
+      min-height:58px;
+      border-radius:17px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      padding:0 20px;
+      font-weight:600;
+      font-size:15px;
+      letter-spacing:-.2px;
+      border:1px solid transparent;
+    }
+    .btn-dark{background:var(--dark);color:white}
+    .btn-light{background:transparent;border-color:#bdb7ae}
+    .btn .arrow{font-size:20px;font-weight:400;margin-left:auto}
+    .btn .telegram{
+      width:22px;height:22px;display:grid;place-items:center;flex:0 0 auto;
     }
 
-    .hero-checklist li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 15px;
-      font-weight: 500;
+    .trust-line{
+      margin:15px 2px 0;
+      font-size:12px;
+      line-height:1.5;
+      color:#77716a;
+      text-align:center;
     }
 
-    .check-icon {
-      width: 20px;
-      height: 20px;
-      background-color: #bfa181;
-      color: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      flex: 0 0 auto;
+    .divider{
+      height:1px;
+      background:rgba(17,17,15,.07);
+      margin:0 22px;
     }
 
-    .hero-buttons {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+    .benefits{
+      padding:56px 22px 62px;
+    }
+    .section-title{
+      margin:0;
+      font-size:35px;
+      line-height:1.03;
+      letter-spacing:-1.7px;
+      font-weight:700;
+    }
+    .section-copy{
+      margin:14px 0 0;
+      font-size:16px;
+      line-height:1.55;
+      color:var(--muted);
     }
 
-    .btn-primary, .btn-demo {
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      transition: .2s ease;
+    .benefit-list{
+      display:grid;
+      gap:12px;
+      margin-top:30px;
+    }
+    .benefit-card{
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:20px;
+      background:rgba(255,255,255,.24);
+      display:grid;
+      grid-template-columns:48px 1fr;
+      gap:16px;
+      align-items:start;
+    }
+    .icon{
+      width:48px;
+      height:48px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:#e9e4dc;
+      color:#342f2a;
+    }
+    .icon svg{width:23px;height:23px}
+    .benefit-card h3{
+      margin:2px 0 6px;
+      font-size:19px;
+      letter-spacing:-.5px;
+    }
+    .benefit-card p{
+      margin:0;
+      font-size:14px;
+      line-height:1.5;
+      color:var(--muted);
+    }
+    .choice-note{
+      margin-top:18px;
+      padding:18px 20px;
+      border-radius:18px;
+      background:#e8e3dc;
+      font-size:14px;
+      line-height:1.5;
+      color:#3f3b36;
+    }
+    .choice-note strong{color:var(--ink)}
+
+    .examples{
+      padding:56px 22px 64px;
+      background:#f0ede8;
+    }
+    .example-grid{
+      display:grid;
+      gap:12px;
+      margin-top:28px;
+    }
+    .example-card{
+      min-height:200px;
+      border-radius:24px;
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+      background:#cbc6be;
+      border:1px solid rgba(17,17,15,.08);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .example-card.dark{background:#23221f;color:#fff}
+    .example-card.mid{background:#bdb7ad}
+    .example-placeholder{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(17,17,15,.35);
+    }
+    .dark .example-placeholder{color:rgba(255,255,255,.28)}
+    .example-top,.example-bottom{position:relative;z-index:2}
+    .example-top small{
+      font-size:11px;
+      opacity:.72;
+      text-transform:uppercase;
+      letter-spacing:.09em;
+    }
+    .example-top h3{
+      margin:6px 0 0;
+      font-size:29px;
+      letter-spacing:-1px;
+    }
+    .example-bottom{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:16px;
+    }
+    .example-bottom span{
+      font-size:13px;
+      line-height:1.35;
+      opacity:.74;
+    }
+    .example-link{
+      min-width:106px;
+      height:42px;
+      border-radius:999px;
+      padding:0 16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(251,250,248,.88);
+      color:#181816;
+      font-size:13px;
+      font-weight:600;
+    }
+    .examples-note{
+      margin:18px 0 0;
+      font-size:13px;
+      line-height:1.5;
+      color:var(--muted);
     }
 
-    .btn-primary {
-      background-color: var(--accent-btn);
-      color: #fff;
-      padding: 14px 28px;
+    .bot{
+      padding:58px 22px 64px;
+    }
+    .bot-card{
+      margin-top:28px;
+      background:#ebe7e0;
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:18px;
+    }
+    .bot-media{
+      height:360px;
+      border-radius:20px;
+      background:
+        linear-gradient(145deg,rgba(255,255,255,.2),transparent),
+        #c9c4bc;
+      display:grid;
+      place-items:center;
+      color:#77716a;
+      text-align:center;
+      font-size:12px;
+      line-height:1.5;
+      padding:20px;
+      border:1px dashed #aaa39a;
+    }
+    .bot-media strong{
+      display:block;
+      color:#4d4842;
+      font-size:14px;
+      margin-bottom:4px;
+    }
+    .bot-steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin:18px 0 0;
+    }
+    .bot-step{
+      border-top:1px solid #cfc8be;
+      padding-top:11px;
+      font-size:11px;
+      line-height:1.4;
+      color:var(--muted);
+    }
+    .bot-step strong{
+      display:block;
+      color:var(--ink);
+      font-size:12px;
+      margin-bottom:3px;
+    }
+    .bot .btn{margin-top:18px}
+    .bot-foot{
+      text-align:center;
+      margin:13px 0 0;
+      font-size:12px;
+      color:#756f68;
+      line-height:1.45;
     }
 
-    .btn-primary:hover { background-color: var(--accent-btn-hover); }
-
-    .btn-demo {
-      color: var(--text-main);
-      padding: 13px 18px;
-      border: 1px solid var(--border-color);
-      background: rgba(255,255,255,.38);
-      gap: 8px;
+    .final{
+      padding:56px 22px 40px;
+      background:#171715;
+      color:#fff;
+    }
+    .final .eyebrow{color:#aaa39b}
+    .final h2{
+      margin:0;
+      font-size:38px;
+      line-height:1.02;
+      letter-spacing:-1.9px;
+    }
+    .final p{
+      margin:17px 0 0;
+      font-size:15px;
+      line-height:1.6;
+      color:#bdb8b1;
+    }
+    .final .btn{
+      margin-top:27px;
+      background:#f4f1eb;
+      color:#151513;
+    }
+    .final-small{
+      margin-top:13px!important;
+      font-size:11px!important;
+      color:#8f8981!important;
+      text-align:center;
     }
 
-    .btn-demo:hover {
-      background: rgba(255,255,255,.8);
-      border-color: #bdb7aa;
-      transform: translateY(-1px);
+    footer{
+      padding:24px 22px 34px;
+      background:#171715;
+      color:#88827b;
+      border-top:1px solid rgba(255,255,255,.08);
+      font-size:11px;
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+    }
+    footer a{color:#c3beb7}
+
+    @media(min-width:561px){
+      .page{box-shadow:0 0 60px rgba(0,0,0,.08)}
     }
 
-    .btn-demo::before {
-      content: '↗';
-      font-size: 14px;
-      opacity: .65;
-    }
-
-    .examples-label {
-      width: 100%;
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .btn-link {
-      color: var(--text-main);
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-left: 4px;
-    }
-
-    .mockup-wrapper { position: relative; display: flex; justify-content: center; }
-
-    .phone-frame {
-      width: 290px;
-      background: #fff;
-      border-radius: 36px;
-      box-shadow: 0 20px 50px rgba(0,0,0,.1);
-      border: 8px solid #1a1a1a;
-      overflow: hidden;
-      font-size: 12px;
-      color: #333;
-      padding: 12px;
-    }
-
-    .phone-top-bar { display: flex; justify-content: space-between; font-size: 10px; font-weight: 600; padding: 2px 8px 8px; }
-    .phone-url-bar { background: #f0ede6; border-radius: 8px; padding: 5px 8px; text-align: center; font-size: 10px; color: #666; margin-bottom: 12px; }
-    .phone-content { text-align: center; }
-    .phone-title { font-family: var(--font-serif); font-size: 22px; font-weight: 500; }
-    .phone-subtitle { font-size: 11px; color: #777; margin-bottom: 4px; }
-    .phone-rating { font-size: 11px; margin-bottom: 12px; }
-
-    .phone-img-placeholder {
-      display: block;
-      width: 100%;
-      height: 140px;
-      background-color: #dfd8cb;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      background-image: url('assets/claytone-mobile.jpg');
-      background-size: cover;
-      background-position: top center;
-      background-repeat: no-repeat;
-      cursor: pointer;
-    }
-
-    .phone-btn {
-      display: block;
-      background: #b18c74;
-      color: white;
-      width: 100%;
-      padding: 8px;
-      border-radius: 8px;
-      font-size: 11px;
-      margin-bottom: 12px;
-      text-decoration: none;
-      text-align: center;
-    }
-
-    .phone-nav { display: flex; justify-content: space-between; font-size: 9px; color: #666; border-top: 1px solid #eee; padding-top: 8px; }
-
-    .audience-section { text-align: center; padding: 40px 0; }
-    .audience-section h2 { font-family: var(--font-serif); font-size: 32px; font-weight: 500; margin-bottom: 8px; }
-    .audience-tags { font-size: 14px; color: var(--text-muted); }
-
-    .features-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 20px; padding: 30px 0 60px; }
-    .feature-card { text-align: center; }
-    .feature-icon { width: 48px; height: 48px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(0,0,0,.03); border: 1px dashed #c0bba8; }
-    .feature-title { font-weight: 600; font-size: 16px; margin-bottom: 8px; }
-    .feature-desc { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
-
-    .free-banner {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 36px 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 70px;
-    }
-
-    .free-banner-left { display: flex; gap: 24px; align-items: flex-start; }
-    .gift-icon { width: 54px; height: 54px; background: rgba(255,255,255,.5); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .free-banner-title { font-family: var(--font-serif); font-size: 28px; font-weight: 500; margin-bottom: 6px; }
-    .free-banner-desc { font-size: 14px; color: var(--text-muted); max-width: 420px; }
-    .free-banner-right { text-align: right; }
-    .banner-subtext { display: block; margin-top: 8px; font-size: 12px; color: var(--text-muted); }
-
-    .subscribe-section { text-align: center; max-width: 520px; margin: 0 auto 80px; }
-    .subscribe-section h3 { font-family: var(--font-serif); font-size: 30px; font-weight: 500; margin-bottom: 8px; }
-    .subscribe-section p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
-    .subscribe-form { display: flex; gap: 10px; margin-bottom: 14px; }
-    .subscribe-input { flex: 1; padding: 14px 18px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(255,255,255,.6); font-size: 14px; outline: none; }
-    .form-note { font-size: 12px; color: var(--text-muted); }
-
-    footer { border-top: 1px solid var(--border-color); padding: 30px 0; font-size: 13px; color: var(--text-muted); }
-    .footer-content { display: flex; justify-content: space-between; align-items: center; }
-    .footer-email a { color: var(--text-main); text-decoration: none; font-weight: 500; }
-    .social-links { display: flex; gap: 12px; margin-top: 4px; }
-    .social-icon { width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,.05); display: flex; align-items: center; justify-content: center; color: var(--text-main); text-decoration: none; }
-
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; text-align: center; }
-      .hero-subtitle, .hero-checklist { margin-left: auto; margin-right: auto; }
-      .hero-checklist { align-items: flex-start; max-width: 330px; text-align: left; }
-      .hero-buttons { justify-content: center; }
-      .examples-label { text-align: center; }
-      .features-grid { grid-template-columns: repeat(2,1fr); gap: 30px; }
-      .free-banner { flex-direction: column; gap: 24px; text-align: center; }
-      .free-banner-left { flex-direction: column; align-items: center; }
-      .free-banner-right { text-align: center; }
-      .footer-content { flex-direction: column; gap: 20px; text-align: center; }
-    }
-
-    @media (max-width: 560px) {
-      .container { padding: 0 18px; }
-      .status-badge { font-size: 11px; padding: 6px 10px; }
-      .hero { padding-top: 20px; }
-      .hero-content h1 { font-size: 47px; }
-      .hero-subtitle { font-size: 16px; }
-      .hero-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
-      .hero-buttons .btn-primary { grid-column: 1 / -1; }
-      .hero-buttons .btn-demo { width: 100%; padding-left: 12px; padding-right: 12px; font-size: 13px; }
-      .hero-buttons .btn-link { grid-column: 1 / -1; justify-content: center; margin: 2px 0 0; }
-      .examples-label { grid-column: 1 / -1; margin-top: -2px; }
-      .phone-frame { width: min(290px, 86vw); }
-      .features-grid { grid-template-columns: 1fr; }
-      .free-banner { padding: 28px 22px; }
-      .subscribe-form { flex-direction: column; }
+    @media(max-width:390px){
+      .site-header{height:78px;padding:0 18px}
+      .brand{font-size:31px}
+      .hero,.benefits,.examples,.bot,.final{padding-left:18px;padding-right:18px}
+      .hero{padding-top:44px}
+      .hero h1{font-size:42px}
+      .hero-copy{font-size:16px}
+      .device-stage{height:300px}
+      .laptop-screen{height:192px}
+      .phone{height:207px}
+      .section-title{font-size:32px}
+      .example-card{min-height:188px}
+      .bot-media{height:330px}
     }
   </style>
 </head>
 <body>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
-      (function(m,e,t,r,i,k,a){
-          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111617452', 'ym');
-      ym(111617452, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return}}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=111617452','ym');
+    ym(111617452,'init',{ssr:true,webvisor:true,clickmap:true,ecommerce:"dataLayer",referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});
   </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/111617452" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111617452" style="position:absolute;left:-9999px" alt=""></div></noscript>
 
-  <div class="container">
-    <header>
-      <a href="#" class="logo">✦ tanem</a>
-      <div class="status-badge">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Сервис в разработке
-      </div>
+  <main class="page">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Tanem">Tanem<span class="brand-dot">.</span></a>
+      <button class="menu" type="button" aria-label="Меню">
+        <span class="menu-lines"><span></span><span></span><span></span></span>
+      </button>
     </header>
 
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Цифровой офис<br>мастера</h1>
-        <p class="hero-subtitle">Ваш персональный сайт, онлайн-запись, портфолио и клиенты — в одном месте.</p>
+    <section class="hero" id="top">
+      <p class="eyebrow">Для мастеров и салонов</p>
+      <h1>Цифровой офис вашего бизнеса.</h1>
+      <p class="hero-copy">Собираем услуги, работы и контакты в одном месте, чтобы клиенту было проще понять ваш бизнес и быстрее выйти на запись.</p>
 
-        <ul class="hero-checklist">
-          <li><span class="check-icon">✓</span> Бесплатный сайт за 5 минут</li>
-          <li><span class="check-icon">✓</span> Онлайн-запись и контакты</li>
-          <li><span class="check-icon">✓</span> Без комиссий и скрытых платежей</li>
-        </ul>
+      <div class="device-stage" aria-label="Место для будущих изображений сайта на ноутбуке и телефоне">
+        <div class="stage-note">Здесь будет реальный сайт клиента</div>
 
-        <div class="hero-buttons">
-          <a href="https://t.me/made_gri" target="_blank" rel="noopener noreferrer" class="btn-primary">Получить свой сайт бесплатно</a>
-          <a href="https://nonna.tanem.ru/" target="_blank" rel="noopener noreferrer" class="btn-demo">Готовый сайт №1</a>
-          <a href="https://anastasia.tanem.ru/" target="_blank" rel="noopener noreferrer" class="btn-demo">Готовый сайт №2</a>
-          <div class="examples-label">Два уже готовых примера сайтов мастеров</div>
-          <a href="#how" class="btn-link">Как это работает →</a>
+        <div class="laptop" aria-hidden="true">
+          <div class="laptop-screen">
+            <div class="screen-placeholder">
+              <small>desktop preview</small>
+              <strong>Ваш сайт</strong>
+            </div>
+          </div>
+          <div class="laptop-base"></div>
         </div>
-      </div>
 
-      <div class="mockup-wrapper">
-        <div class="phone-frame">
-          <div class="phone-top-bar"><span>9:41</span><span>📶 🔋</span></div>
-          <div class="phone-url-bar">🔒 tanem.ru</div>
-          <div class="phone-content">
-            <div class="phone-title">Сайт мастера</div>
-            <div class="phone-subtitle">Маникюр · Москва</div>
-            <div class="phone-rating">★ 5,0 · реальные отзывы</div>
-            <a href="https://nonna.tanem.ru/" target="_blank" rel="noopener noreferrer" class="phone-img-placeholder" aria-label="Открыть готовый сайт"></a>
-            <a href="https://nonna.tanem.ru/" target="_blank" rel="noopener noreferrer" class="phone-btn">Открыть готовый сайт</a>
-            <div class="phone-nav"><span>Работы</span><span>Услуги</span><span>Отзывы</span><span>Контакты</span><span>Обо мне</span></div>
+        <div class="phone" aria-hidden="true">
+          <div class="screen-placeholder">
+            <small>mobile preview</small>
+            <strong>Ваш сайт</strong>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="audience-section">
-      <h2>Для мастеров бьюти-сферы</h2>
-      <p class="audience-tags">Маникюр · Педикюр · Брови · Ресницы · Парикмахеры · Визажисты · Косметологи и другие</p>
-    </section>
-
-    <section class="features-grid" id="how">
-      <div class="feature-card"><div class="feature-icon">🌐</div><div class="feature-title">Ваш сайт</div><div class="feature-desc">Красивый и современный сайт с вашим именем и работами.</div></div>
-      <div class="feature-card"><div class="feature-icon">📅</div><div class="feature-title">Онлайн-запись</div><div class="feature-desc">Клиенты записываются удобно через форму или ваш календарь.</div></div>
-      <div class="feature-card"><div class="feature-icon">🖼</div><div class="feature-title">Портфолио</div><div class="feature-desc">Покажите свои работы и привлекайте новых клиентов.</div></div>
-      <div class="feature-card"><div class="feature-icon">⭐</div><div class="feature-title">Отзывы</div><div class="feature-desc">Реальные отзывы и рейтинг повышают доверие к вам.</div></div>
-      <div class="feature-card"><div class="feature-icon">📞</div><div class="feature-title">Контакты</div><div class="feature-desc">Телефон, мессенджеры, карта и удобная связь с вами.</div></div>
-    </section>
-
-    <section class="free-banner">
-      <div class="free-banner-left">
-        <div class="gift-icon">🎁</div>
-        <div>
-          <div class="free-banner-title">Сайт мастера — бесплатно</div>
-          <div class="free-banner-desc">Мы дарим вам сайт навсегда. Платите только за дополнительные возможности, если они вам нужны.</div>
+      <div class="hero-points">
+        <div class="hero-point">
+          <b>Больше возможностей для записи</b>
+          <span>Путь клиента до связи становится короче.</span>
+        </div>
+        <div class="hero-point">
+          <b>Профессиональный вид</b>
+          <span>Одно аккуратное пространство о вашем деле.</span>
+        </div>
+        <div class="hero-point">
+          <b>Без обязательств</b>
+          <span>Что использовать дальше — решаете вы.</span>
         </div>
       </div>
-      <div class="free-banner-right">
-        <a href="https://t.me/made_gri" target="_blank" rel="noopener noreferrer" class="btn-primary">Получить свой сайт бесплатно</a>
-        <span class="banner-subtext">Запуск сервиса — скоро!</span>
+
+      <div class="actions">
+        <a class="btn btn-dark" href="https://t.me/tanem_ru_bot" target="_blank" rel="noopener noreferrer">
+          Создать цифровой офис <span class="arrow">→</span>
+        </a>
+        <a class="btn btn-light" href="#examples">
+          Посмотреть примеры <span class="arrow">↓</span>
+        </a>
       </div>
+      <p class="trust-line">Основа — бесплатно. Дополнительные возможности подключаются только по вашему желанию.</p>
     </section>
 
-    <section class="subscribe-section">
-      <h3>Хочу первым узнать о запуске</h3>
-      <p>Оставьте email — мы сообщим, когда сервис станет доступен.</p>
-      <form class="subscribe-form" onsubmit="event.preventDefault(); alert('Спасибо за подписку!');">
-        <input type="email" placeholder="Ваш email" class="subscribe-input" required>
-        <button type="submit" class="btn-primary">Узнать первым</button>
-      </form>
-      <div class="form-note">🔒 Мы не рассылаем спам. Только важные новости.</div>
+    <div class="divider"></div>
+
+    <section class="benefits">
+      <p class="eyebrow">Что вы получаете</p>
+      <h2 class="section-title">Понятное пространство для вас и ваших клиентов.</h2>
+      <p class="section-copy">Не набор лишних функций, а основа, которая помогает представить бизнес и упростить путь клиента до связи.</p>
+
+      <div class="benefit-list">
+        <article class="benefit-card">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M7 4v6M17 4v6M5 11h14v9H5z"/></svg>
+          </div>
+          <div>
+            <h3>Проще записаться</h3>
+            <p>Услуги, контакты и способы связи находятся в одном месте — клиенту не нужно искать их по разным страницам.</p>
+          </div>
+        </article>
+
+        <article class="benefit-card">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg>
+          </div>
+          <div>
+            <h3>Всё собрано вместе</h3>
+            <p>Услуги, фотографии, информация о вас, контакты и ссылки — в одном цифровом офисе.</p>
+          </div>
+        </article>
+
+        <article class="benefit-card">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div>
+            <h3>Никакого давления</h3>
+            <p>Вы получаете готовую основу и не обязаны подключать дополнительные услуги или что-то менять.</p>
+          </div>
+        </article>
+
+        <article class="benefit-card">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+          </div>
+          <div>
+            <h3>Право выбора остаётся у вас</h3>
+            <p>Вы сами решаете, что оставить, что изменить и какие возможности добавить позже.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="choice-note"><strong>Сначала — полезная основа.</strong> Дальше мы можем предложить дополнительные возможности, но решение всегда остаётся за вами.</div>
+    </section>
+
+    <section class="examples" id="examples">
+      <p class="eyebrow">Примеры</p>
+      <h2 class="section-title">Цифровые офисы могут выглядеть по-разному.</h2>
+      <p class="section-copy">Мы не загоняем бизнес в один визуальный шаблон. Ниже — места под реальные проекты.</p>
+
+      <div class="example-grid">
+        <article class="example-card dark">
+          <div class="example-placeholder">место для фотографии</div>
+          <div class="example-top">
+            <small>Салон красоты</small>
+            <h3>STLuxe</h3>
+          </div>
+          <div class="example-bottom">
+            <span>Сайт салона красоты</span>
+            <a class="example-link" href="https://stluxe.ru/" target="_blank" rel="noopener noreferrer">Посмотреть</a>
+          </div>
+        </article>
+
+        <article class="example-card">
+          <div class="example-placeholder">место для фотографии</div>
+          <div class="example-top">
+            <small>Мастер маникюра</small>
+            <h3>Nonna</h3>
+          </div>
+          <div class="example-bottom">
+            <span>Персональный сайт мастера</span>
+            <a class="example-link" href="https://nonna.tanem.ru/" target="_blank" rel="noopener noreferrer">Посмотреть</a>
+          </div>
+        </article>
+
+        <article class="example-card mid">
+          <div class="example-placeholder">место для фотографии</div>
+          <div class="example-top">
+            <small>Эксперт по волосам</small>
+            <h3>Julia Roleva</h3>
+          </div>
+          <div class="example-bottom">
+            <span>Сайт специалиста</span>
+            <a class="example-link" href="https://julia.tanem.ru/" target="_blank" rel="noopener noreferrer">Посмотреть</a>
+          </div>
+        </article>
+      </div>
+
+      <p class="examples-note">В карточки позже можно поставить реальные превью сайтов без изменения структуры блока.</p>
+    </section>
+
+    <section class="bot" id="bot">
+      <p class="eyebrow">Быстрый старт</p>
+      <h2 class="section-title">Создайте сайт через нашего бота.</h2>
+      <p class="section-copy">Напишите боту и передайте основную информацию о себе. Мы соберём основу цифрового офиса, а дальше вы сами решите, что делать с ним дальше.</p>
+
+      <div class="bot-card">
+        <div class="bot-media">
+          <div>
+            <strong>Место для изображения бота</strong>
+            Позже сюда можно поставить реальный скриншот Telegram-бота.
+          </div>
+        </div>
+
+        <div class="bot-steps">
+          <div class="bot-step"><strong>1. Напишите</strong>Начните диалог в Telegram.</div>
+          <div class="bot-step"><strong>2. Передайте главное</strong>Услуги, контакты и информацию.</div>
+          <div class="bot-step"><strong>3. Получите основу</strong>Мы соберём ваш цифровой офис.</div>
+        </div>
+      </div>
+
+      <a class="btn btn-dark" href="https://t.me/tanem_ru_bot" target="_blank" rel="noopener noreferrer">
+        <span class="telegram" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 3.4 18.3 20c-.2 1.2-.9 1.5-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.3L5.8 13.4 1 11.9c-1-.3-1-1 .2-1.5L20 3.2c.9-.3 1.7.2 1.6.2z"/></svg>
+        </span>
+        Открыть бота <span class="arrow">→</span>
+      </a>
+      <p class="bot-foot">Никаких обязательств. Дополнительные возможности — только если они вам действительно нужны.</p>
+    </section>
+
+    <section class="final">
+      <p class="eyebrow">Tanem</p>
+      <h2>Сайт — это основа. Возможности можно добавлять дальше.</h2>
+      <p>Получите своё пространство, посмотрите, подходит ли оно вам, и только потом решайте, что развивать дальше.</p>
+      <a class="btn" href="https://t.me/tanem_ru_bot" target="_blank" rel="noopener noreferrer">
+        Создать цифровой офис <span class="arrow">→</span>
+      </a>
+      <p class="final-small">Основа — бесплатно. Решение всегда остаётся за вами.</p>
     </section>
 
     <footer>
-      <div class="footer-content">
-        <div><a href="#" class="logo">✦ tanem</a></div>
-        <div class="footer-email"><span>Пишите нам</span><br><a href="mailto:helio@tanem.ru">helio@tanem.ru</a></div>
-        <div><span>Мы в соцсетях</span><div class="social-links"><a href="https://t.me/made_gri" target="_blank" class="social-icon">✈</a><a href="#" class="social-icon">📷</a><a href="#" class="social-icon">VK</a></div></div>
-        <div>© 2026 tanem.ru<br>Все права защищены</div>
-      </div>
+      <span>© 2026 Tanem</span>
+      <a href="mailto:helio@tanem.ru">helio@tanem.ru</a>
     </footer>
-  </div>
+  </main>
 </body>
 </html>

@@ -210,27 +210,99 @@
     }
 
     .cta-primary{
+      position:relative;
+      overflow:hidden;
       background:#090909;
       color:#fff;
       border-radius:999px;
+      gap:12px;
+    }
+
+    .cta-primary::after{
+      content:"";
+      position:absolute;
+      top:-35%;
+      bottom:-35%;
+      left:-32%;
+      width:18%;
+      background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.34),
+        transparent
+      );
+      transform:skewX(-18deg) translateX(-260%);
+      animation:primaryShimmer 5.6s ease-in-out infinite;
+      pointer-events:none;
+    }
+
+    @keyframes primaryShimmer{
+      0%,72%{transform:skewX(-18deg) translateX(-260%)}
+      88%,100%{transform:skewX(-18deg) translateX(780%)}
+    }
+
+    .cta-label{
+      flex:0 1 auto;
+      text-align:center;
+      padding-left:0;
+      position:relative;
+      z-index:1;
+    }
+
+    .cta-live-dot{
+      position:relative;
+      z-index:1;
+      flex:0 0 auto;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 0 0 rgba(170,146,129,.42);
+      animation:livePulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes livePulse{
+      0%{
+        transform:scale(1);
+        opacity:1;
+        box-shadow:0 0 0 0 rgba(170,146,129,.40);
+      }
+      55%{
+        transform:scale(1.18);
+        opacity:.95;
+        box-shadow:0 0 0 10px rgba(170,146,129,0);
+      }
+      100%{
+        transform:scale(1);
+        opacity:.92;
+        box-shadow:0 0 0 0 rgba(170,146,129,0);
+      }
     }
 
     .cta-secondary{
       height:auto;
       min-height:0;
-      padding:9px 0 3px;
+      padding:8px 0 2px;
       border-radius:0;
       background:transparent;
       color:var(--accent);
-      gap:8px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:5px;
       font-size:clamp(14px,3.55vw,18px);
       font-weight:700;
       letter-spacing:-.025em;
     }
 
+    .cta-secondary .scroll-text{
+      line-height:1.1;
+    }
+
     .cta-secondary .scroll-arrow{
-      display:inline-block;
-      font-size:1.25em;
+      display:block;
+      font-size:1.3em;
       line-height:1;
       font-weight:500;
       animation:scrollCue 1.65s cubic-bezier(.4,0,.2,1) infinite;
@@ -239,21 +311,8 @@
 
     @keyframes scrollCue{
       0%,100%{transform:translateY(0);opacity:.72}
-      45%{transform:translateY(7px);opacity:1}
-      70%{transform:translateY(2px);opacity:.9}
-    }
-
-    .cta-label{
-      flex:1;
-      text-align:center;
-      padding-left:1.35em;
-    }
-
-    .cta-arrow{
-      flex:0 0 auto;
-      font-size:1.35em;
-      font-weight:300;
-      line-height:1;
+      45%{transform:translateY(8px);opacity:1}
+      70%{transform:translateY(3px);opacity:.92}
     }
 
     .features{
@@ -432,6 +491,8 @@
         transition:none;
       }
       .cta-secondary .scroll-arrow{animation:none}
+      .cta-primary::after{animation:none}
+      .cta-live-dot{animation:none}
     }
 
     .intro-loader{
@@ -541,11 +602,11 @@
       <div class="actions">
         <a class="cta cta-primary" href="https://t.me/tanem_ru_bot" target="_blank" rel="noopener noreferrer">
           <span class="cta-label">Создать цифровой офис</span>
-          <span class="cta-arrow" aria-hidden="true">→</span>
+          <span class="cta-live-dot" aria-hidden="true"></span>
         </a>
 
         <a class="cta cta-secondary" href="#how">
-          <span>Как это работает?</span>
+          <span class="scroll-text">Листайте вниз</span>
           <span class="scroll-arrow" aria-hidden="true">↓</span>
         </a>
       </div>

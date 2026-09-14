@@ -528,11 +528,6 @@
         const holdMs = 480;
         const moveMs = 1650;
 
-        window.__tanemCarouselStopAt = performance.now() + holdMs + moveMs + 3000;
-        window.dispatchEvent(new CustomEvent('tanem:carousel-start', {
-          detail:{ stopAt:window.__tanemCarouselStopAt }
-        }));
-
         const logoAnimation = movingLogo.animate([
           { transform:'translate3d(0,0,0) scale(1)' },
           { transform:'translate3d(0,' + dy + 'px,0) scale(' + scale + ')' }
@@ -579,8 +574,9 @@
       if (!carousel || !track || slides.length < 4 || media.length < 4) return;
 
       const REAL_COUNT = 3;
-      const GAP_PX = 38;          // ≈ 1 cm between frames
-      const CYCLE_MS = 4200;      // one calm continuous loop
+      const GAP_PX = 38;                // ≈ 1 cm between frames
+      const FRAME_TRAVEL_MS = 3000;     // calm speed: roughly 3 sec per device
+      const DECEL_DISTANCE_STEPS = .9;  // begin graceful braking near frame 1
       const MANUAL_TRANSITION_MS = 720;
 
       let index = 0;
@@ -590,11 +586,17 @@
       let normalized = false;
 
       let autoRunning = false;
-      let autoFinished = false;
-      let autoStopAt = null;
-      let autoDistance = 0;
+      let autoStopped = false;
+      let stopRequested = false;
+      let totalDistance = 0;
+      let targetStopDistance = null;
       let lastFrameTime = null;
       let rafId = null;
+
+      let decelerating = false;
+      let decelStartTime = 0;
+      let decelDuration = 0;
+      let decelStartDistance = 0;
 
       let transitionLocked = false;
       let dragging = false;
@@ -620,8 +622,8 @@
 
         track.style.width = ((slides.length - 1) * stepPx + stageWidth) + 'px';
 
-        if (autoRunning && autoStopAt) {
-          syncPhaseToStopTime();
+        if (autoRunning && !autoStopped) {
+          renderAuto();
         } else {
           setTransitionEnabled(false);
           track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
@@ -738,7 +740,7 @@
           };
         });
 
-        // The first device image remains the strict visual reference.
+        // First device remains the strict visual reference.
         const reference = measurements[0];
         reference.img.style.setProperty('--media-scale','1');
         reference.img.style.setProperty('--media-x','0px');
@@ -770,50 +772,64 @@
           m.img.style.setProperty('--media-y',y.toFixed(2) + 'px');
         });
 
+        // Clone of first frame is pixel-identical to the real first frame.
         media[3].style.setProperty('--media-scale','1');
         media[3].style.setProperty('--media-x','0px');
         media[3].style.setProperty('--media-y','0px');
 
         normalized = true;
         layoutSlides();
-
-        if (window.__tanemCarouselStopAt && !autoFinished) {
-          startAuto(window.__tanemCarouselStopAt);
-        }
+        startAuto();
       }
 
       function renderAuto(){
-        if (!autoRunning || !cyclePx) return;
-        const visibleDistance = autoDistance % cyclePx;
+        if (!cyclePx) return;
+
+        const visibleDistance = ((totalDistance % cyclePx) + cyclePx) % cyclePx;
+        setTransitionEnabled(false);
         track.style.transform = 'translate3d(' + (-visibleDistance) + 'px,0,0)';
       }
 
-      function syncPhaseToStopTime(){
-        if (!autoStopAt || !cyclePx) return;
+      function chooseStopTarget(){
+        if (!cyclePx || !stepPx) return;
 
-        const now = performance.now();
-        const remainingMs = Math.max(0, autoStopAt - now);
-        const pxPerMs = cyclePx / CYCLE_MS;
-        const travelUntilStop = (remainingMs * pxPerMs) % cyclePx;
+        const currentCycle = Math.floor(totalDistance / cyclePx);
+        let target = (currentCycle + 1) * cyclePx;
+        let remaining = target - totalDistance;
 
-        autoDistance = (cyclePx - travelUntilStop) % cyclePx;
-        setTransitionEnabled(false);
-        renderAuto();
+        // If frame 1 is already too close, do not brake abruptly.
+        // Continue one more clean loop and stop on the following frame 1.
+        if (remaining < stepPx * .55) {
+          target += cyclePx;
+          remaining = target - totalDistance;
+        }
+
+        targetStopDistance = target;
       }
 
-      function stopOnFirst(){
+      function requestGracefulStop(){
+        if (autoStopped) return;
+        stopRequested = true;
+        chooseStopTarget();
+      }
+
+      function finishAuto(){
         autoRunning = false;
-        autoFinished = true;
+        autoStopped = true;
+        stopRequested = false;
+        decelerating = false;
         lastFrameTime = null;
+        targetStopDistance = null;
 
         if (rafId) {
           cancelAnimationFrame(rafId);
           rafId = null;
         }
 
-        setTransitionEnabled(false);
-        autoDistance = 0;
+        totalDistance = Math.round(totalDistance / cyclePx) * cyclePx;
         index = 0;
+
+        setTransitionEnabled(false);
         track.style.transform = 'translate3d(0,0,0)';
 
         requestAnimationFrame(() => {
@@ -821,49 +837,77 @@
         });
       }
 
-      function autoFrame(now){
-        if (!autoRunning || !autoStopAt || !cyclePx) return;
+      function startDeceleration(now, speedPxPerMs){
+        if (decelerating || targetStopDistance == null) return;
 
-        if (now >= autoStopAt) {
-          stopOnFirst();
-          return;
-        }
+        decelerating = true;
+        decelStartTime = now;
+        decelStartDistance = totalDistance;
+
+        const remaining = Math.max(1, targetStopDistance - totalDistance);
+
+        // easeOutQuad has initial derivative 2. Choosing duration this way
+        // preserves the current linear speed at the exact moment braking begins.
+        decelDuration = Math.max(650, (2 * remaining) / speedPxPerMs);
+      }
+
+      function autoFrame(now){
+        if (!autoRunning || autoStopped || !cyclePx || !stepPx) return;
+
+        const speedPxPerMs = stepPx / FRAME_TRAVEL_MS;
 
         if (lastFrameTime == null) lastFrameTime = now;
-
         const dt = Math.min(40, now - lastFrameTime);
         lastFrameTime = now;
 
-        const pxPerMs = cyclePx / CYCLE_MS;
-        autoDistance = (autoDistance + pxPerMs * dt) % cyclePx;
+        if (!decelerating) {
+          totalDistance += speedPxPerMs * dt;
+
+          if (stopRequested && targetStopDistance != null) {
+            const remaining = targetStopDistance - totalDistance;
+            const decelDistance = stepPx * DECEL_DISTANCE_STEPS;
+
+            if (remaining <= decelDistance) {
+              startDeceleration(now, speedPxPerMs);
+            }
+          }
+        } else {
+          const t = Math.min(1, (now - decelStartTime) / decelDuration);
+          const easeOutQuad = 1 - (1 - t) * (1 - t);
+
+          totalDistance =
+            decelStartDistance +
+            (targetStopDistance - decelStartDistance) * easeOutQuad;
+
+          if (t >= 1) {
+            totalDistance = targetStopDistance;
+            renderAuto();
+            finishAuto();
+            return;
+          }
+        }
 
         renderAuto();
         rafId = requestAnimationFrame(autoFrame);
       }
 
-      function startAuto(stopAt){
-        if (!normalized || autoFinished) return;
+      function startAuto(){
+        if (!normalized || autoRunning || autoStopped) return;
 
-        autoStopAt = stopAt;
         autoRunning = true;
         lastFrameTime = null;
         setTransitionEnabled(false);
-
-        // Pick the starting phase so the same constant speed lands exactly
-        // on the original first notebook at stopAt.
-        syncPhaseToStopTime();
 
         if (rafId) cancelAnimationFrame(rafId);
         rafId = requestAnimationFrame(autoFrame);
       }
 
-      window.addEventListener('tanem:carousel-start', e => {
-        const stopAt = e.detail?.stopAt || window.__tanemCarouselStopAt;
-        if (stopAt) startAuto(stopAt);
-      }, {once:true});
+      // Let the reel move from the beginning. Once the logo intro is complete,
+      // simply ask it to stop at the next comfortable arrival at frame 1.
+      window.addEventListener('tanem:intro-finished', requestGracefulStop, {once:true});
 
       function manualNext(){
-        if (!autoFinished || transitionLocked) return;
+        if (!autoStopped || transitionLocked) return;
 
         transitionLocked = true;
         index += 1;
@@ -883,7 +927,7 @@
       }
 
       carousel.addEventListener('pointerdown', e => {
-        if (!autoFinished || transitionLocked) return;
+        if (!autoStopped || transitionLocked) return;
 
         dragging = true;
         dragPointerId = e.pointerId;
@@ -931,11 +975,18 @@
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         normalizeDevices();
-        autoFinished = true;
+        autoStopped = true;
         return;
       }
 
       normalizeDevices();
+
+      // Fallback for an intro that has already finished before this listener attached.
+      window.setTimeout(() => {
+        if (!document.body.classList.contains('intro-running') && !autoStopped) {
+          requestGracefulStop();
+        }
+      }, 2600);
 
       window.addEventListener('resize', () => {
         window.clearTimeout(window.__tanemDeviceResize);

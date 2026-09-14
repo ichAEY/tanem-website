@@ -210,11 +210,6 @@
       will-change:transform;
     }
 
-    .device-track.is-settling{
-      transition-duration:.82s;
-      transition-timing-function:cubic-bezier(.2,.7,.18,1);
-    }
-
     .device-track.no-transition{
       transition:none !important;
     }
@@ -555,10 +550,6 @@
           fill:'forwards'
         });
 
-        window.setTimeout(() => {
-          window.dispatchEvent(new Event('tanem:intro-settle'));
-        }, Math.max(0, holdMs + moveMs - 820));
-
         logoAnimation.finished.then(finish).catch(finish);
       }
 
@@ -583,18 +574,16 @@
       if (!carousel || !track || slides.length < 4 || media.length < 4) return;
 
       const REAL_COUNT = 3;
-      const GAP_PX = 38;             // ≈ 1 cm between frames
-      const INTRO_INTERVAL = 650;    // quick movement while the logo intro is running
-      const NORMAL_TRANSITION = 720;
-      const SETTLE_TRANSITION = 820;
+      const GAP_PX = 38;          // ≈ 1 cm between frames
+      const TRANSITION_MS = 720;  // calm, smooth slide
+      const TOUR_STEP_MS = 1000;  // 3 moves over ~3 seconds
 
       let index = 0;
       let stageWidth = 0;
       let stepPx = 0;
-      let introTimer = null;
-      let introFinished = !document.body.classList.contains('intro-running');
       let normalized = false;
-      let settling = false;
+      let tourStarted = false;
+      let tourFinished = false;
       let transitionLocked = false;
 
       let dragging = false;
@@ -658,7 +647,6 @@
               const p = (y*w+x)*4;
               const r=data[p], g=data[p+1], b=data[p+2], a=data[p+3];
 
-              // Ignore almost-white background and very faint shadow pixels.
               const visible = useAlpha
                 ? a > 28
                 : a > 28 && (r < 240 || g < 240 || b < 240);
@@ -734,7 +722,7 @@
           };
         });
 
-        // The first device image is the strict visual reference.
+        // First device image is the strict visual reference.
         const reference = measurements[0];
         reference.img.style.setProperty('--media-scale','1');
         reference.img.style.setProperty('--media-x','0px');
@@ -744,12 +732,11 @@
           const ratioW = reference.visibleW / Math.max(1,m.visibleW);
           const ratioH = reference.visibleH / Math.max(1,m.visibleH);
 
-          // Match the first frame by visible device size, not by source canvas size.
           let scale = Math.sqrt(ratioW * ratioH);
 
-          // Never let another device become visually larger than the first one.
           const projectedW = m.visibleW * scale;
           const projectedH = m.visibleH * scale;
+
           if (projectedW > reference.visibleW * 1.005) {
             scale *= (reference.visibleW * 1.005) / projectedW;
           }
@@ -759,7 +746,6 @@
 
           scale = Math.max(.55, Math.min(1.55, scale));
 
-          // Align the visible device center to the first frame's visible center.
           const x = reference.offsetX - (m.offsetX * scale);
           const y = reference.offsetY - (m.offsetY * scale);
 
@@ -768,14 +754,17 @@
           m.img.style.setProperty('--media-y',y.toFixed(2) + 'px');
         });
 
-        // Clone of frame 1 must be exactly identical to frame 1.
+        // Clone of frame 1 is exactly identical to frame 1.
         media[3].style.setProperty('--media-scale','1');
         media[3].style.setProperty('--media-x','0px');
         media[3].style.setProperty('--media-y','0px');
 
         normalized = true;
         layoutSlides();
-        startIntroMotion();
+
+        if (!document.body.classList.contains('intro-running')) {
+          startThreeSecondTour();
+        }
       }
 
       function moveTo(targetIndex, animate=true){
@@ -784,91 +773,67 @@
         track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
       }
 
-      function moveLeft(){
-        if (!normalized || settling || transitionLocked) return;
+      function moveLeftOnce(){
+        if (!normalized || transitionLocked) return;
 
         transitionLocked = true;
-        track.classList.remove('is-settling');
         moveTo(index + 1, true);
 
         window.setTimeout(() => {
-          if (index === REAL_COUNT) {
-            // We are showing the cloned first frame. Reset invisibly to the real first.
-            setTransitionEnabled(false);
-            index = 0;
-            track.style.transform = 'translate3d(0,0,0)';
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => setTransitionEnabled(true));
-            });
-          }
           transitionLocked = false;
-        }, NORMAL_TRANSITION + 60);
+        }, TRANSITION_MS + 40);
       }
 
-      function startIntroMotion(){
-        if (!normalized || introFinished || introTimer) return;
+      function finishOnFirst(){
+        // At this point frame 3 is the clone of frame 1.
+        // Reset invisibly to the real frame 1 and stop.
+        setTransitionEnabled(false);
+        index = 0;
+        track.style.transform = 'translate3d(0,0,0)';
 
-        // Start moving almost immediately during the opening sequence.
-        window.setTimeout(() => {
-          if (!introFinished && !settling) moveLeft();
-        }, 140);
-
-        introTimer = window.setInterval(moveLeft, INTRO_INTERVAL);
-      }
-
-      function stopIntroMotion(){
-        if (introTimer) {
-          window.clearInterval(introTimer);
-          introTimer = null;
-        }
-      }
-
-      function settleOnFirst(){
-        if (!normalized) return;
-
-        stopIntroMotion();
-        settling = true;
-        transitionLocked = true;
-        track.classList.add('is-settling');
-
-        if (index === 0) {
-          settling = false;
-          transitionLocked = false;
-          track.classList.remove('is-settling');
-          return;
-        }
-
-        // Continue in the same LEFT direction until the cloned first frame.
-        index = REAL_COUNT;
-        track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
-
-        window.setTimeout(() => {
-          setTransitionEnabled(false);
-          index = 0;
-          track.style.transform = 'translate3d(0,0,0)';
+        requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              track.classList.remove('is-settling');
-              setTransitionEnabled(true);
-              settling = false;
-              transitionLocked = false;
-            });
+            setTransitionEnabled(true);
+            tourFinished = true;
+            transitionLocked = false;
           });
-        }, SETTLE_TRANSITION + 70);
+        });
       }
 
-      window.addEventListener('tanem:intro-settle', settleOnFirst, {once:true});
+      function startThreeSecondTour(){
+        if (!normalized || tourStarted || tourFinished) return;
+        tourStarted = true;
 
-      window.addEventListener('tanem:intro-finished', () => {
-        introFinished = true;
-        stopIntroMotion();
+        // Start from the original first frame.
+        setTransitionEnabled(false);
+        index = 0;
+        track.style.transform = 'translate3d(0,0,0)';
 
-        // Safety: intro should already have landed on frame 1.
-        if (!settling && index !== 0) settleOnFirst();
-      }, {once:true});
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setTransitionEnabled(true);
+
+            // First -> second
+            window.setTimeout(() => moveLeftOnce(), 180);
+
+            // Second -> third
+            window.setTimeout(() => moveLeftOnce(), 1180);
+
+            // Third -> cloned first
+            window.setTimeout(() => {
+              moveLeftOnce();
+
+              // End at the real first frame once the third transition completes.
+              window.setTimeout(finishOnFirst, TRANSITION_MS + 70);
+            }, 2180);
+          });
+        });
+      }
+
+      window.addEventListener('tanem:intro-finished', startThreeSecondTour, {once:true});
 
       function manualNext(){
-        if (!introFinished || settling || transitionLocked) return;
+        if (!tourFinished || transitionLocked) return;
 
         transitionLocked = true;
         moveTo(index + 1, true);
@@ -883,15 +848,17 @@
             });
           }
           transitionLocked = false;
-        }, NORMAL_TRANSITION + 60);
+        }, TRANSITION_MS + 60);
       }
 
       carousel.addEventListener('pointerdown', e => {
-        if (!introFinished || settling || transitionLocked) return;
+        if (!tourFinished || transitionLocked) return;
+
         dragging = true;
         dragPointerId = e.pointerId;
         dragStartX = e.clientX;
         dragDeltaX = 0;
+
         carousel.classList.add('is-dragging');
         carousel.setPointerCapture?.(e.pointerId);
         setTransitionEnabled(false);
@@ -902,8 +869,6 @@
 
         dragDeltaX = e.clientX - dragStartX;
 
-        // Left swipe follows the finger. Right movement has resistance because
-        // the automatic carousel itself is intentionally one-directional.
         const effectiveDelta = dragDeltaX > 0 ? dragDeltaX * .24 : dragDeltaX;
         track.style.transform =
           'translate3d(' + ((-index * stepPx) + effectiveDelta) + 'px,0,0)';
@@ -914,6 +879,7 @@
 
         dragging = false;
         carousel.classList.remove('is-dragging');
+
         try { carousel.releasePointerCapture?.(dragPointerId); } catch(err) {}
         dragPointerId = null;
 
@@ -934,18 +900,11 @@
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         normalizeDevices();
+        tourFinished = true;
         return;
       }
 
       normalizeDevices();
-
-      window.setTimeout(() => {
-        if (!document.body.classList.contains('intro-running')) {
-          introFinished = true;
-          stopIntroMotion();
-          if (index !== 0) settleOnFirst();
-        }
-      }, 3500);
 
       window.addEventListener('resize', () => {
         window.clearTimeout(window.__tanemDeviceResize);

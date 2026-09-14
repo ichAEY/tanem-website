@@ -144,7 +144,6 @@
       display:grid;
       place-items:center;
       overflow:visible;
-      pointer-events:none;
     }
 
     .device-wrap::before,
@@ -183,6 +182,14 @@
       width:103%;
       max-width:981px;
       overflow:hidden;
+      touch-action:pan-y;
+      user-select:none;
+      -webkit-user-select:none;
+      cursor:grab;
+    }
+
+    .device-carousel.is-dragging{
+      cursor:grabbing;
     }
 
     .device-sizer{
@@ -195,23 +202,26 @@
 
     .device-track{
       position:absolute;
-      inset:0;
-      display:flex;
-      width:100%;
+      left:0;
+      top:0;
       height:100%;
       transform:translate3d(0,0,0);
-      transition:transform 1.15s cubic-bezier(.22,.61,.24,1);
+      transition:transform .72s cubic-bezier(.25,.72,.22,1);
       will-change:transform;
     }
 
+    .device-track.is-settling{
+      transition-duration:.82s;
+      transition-timing-function:cubic-bezier(.2,.7,.18,1);
+    }
+
     .device-track.no-transition{
-      transition:none;
+      transition:none !important;
     }
 
     .device-slide{
-      position:relative;
-      flex:0 0 100%;
-      width:100%;
+      position:absolute;
+      top:0;
       height:100%;
       overflow:visible;
     }
@@ -229,6 +239,8 @@
       transform-origin:center;
       backface-visibility:hidden;
       will-change:transform;
+      pointer-events:none;
+      -webkit-user-drag:none;
     }
 
     @media (prefers-reduced-motion:reduce){
@@ -414,7 +426,7 @@
 
       <div class="device-space">
         <div class="device-wrap">
-          <div class="device-carousel">
+          <div class="device-carousel" id="deviceCarousel">
             <img class="device-sizer" src="./0C214676-D206-438C-A64E-666F74D81810.png" alt="" aria-hidden="true">
             <div class="device-track" id="deviceTrack">
               <div class="device-slide">
@@ -543,6 +555,10 @@
           fill:'forwards'
         });
 
+        window.setTimeout(() => {
+          window.dispatchEvent(new Event('tanem:intro-settle'));
+        }, Math.max(0, holdMs + moveMs - 820));
+
         logoAnimation.finished.then(finish).catch(finish);
       }
 
@@ -559,20 +575,59 @@
   </script>
   <script>
     (function runDeviceCarousel(){
+      const carousel = document.getElementById('deviceCarousel');
       const track = document.getElementById('deviceTrack');
       const slides = track ? Array.from(track.querySelectorAll('.device-slide')) : [];
       const media = track ? Array.from(track.querySelectorAll('.device-media')) : [];
-      if (!track || slides.length < 4 || media.length < 4) return;
+
+      if (!carousel || !track || slides.length < 4 || media.length < 4) return;
+
+      const REAL_COUNT = 3;
+      const GAP_PX = 38;             // ≈ 1 cm between frames
+      const INTRO_INTERVAL = 650;    // quick movement while the logo intro is running
+      const NORMAL_TRANSITION = 720;
+      const SETTLE_TRANSITION = 820;
 
       let index = 0;
-      let timer = null;
+      let stageWidth = 0;
+      let stepPx = 0;
+      let introTimer = null;
       let introFinished = !document.body.classList.contains('intro-running');
       let normalized = false;
-      const transitionMs = 1150;
-      const intervalMs = 3000;
+      let settling = false;
+      let transitionLocked = false;
+
+      let dragging = false;
+      let dragStartX = 0;
+      let dragDeltaX = 0;
+      let dragPointerId = null;
+
+      function setTransitionEnabled(enabled){
+        track.classList.toggle('no-transition', !enabled);
+      }
+
+      function layoutSlides(){
+        stageWidth = carousel.clientWidth;
+        if (!stageWidth) return;
+
+        stepPx = stageWidth + GAP_PX;
+
+        slides.forEach((slide, i) => {
+          slide.style.left = (i * stepPx) + 'px';
+          slide.style.width = stageWidth + 'px';
+        });
+
+        track.style.width = ((slides.length - 1) * stepPx + stageWidth) + 'px';
+
+        setTransitionEnabled(false);
+        track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => setTransitionEnabled(true));
+        });
+      }
 
       function getVisibleBounds(img){
-        const maxSide = 420;
+        const maxSide = 480;
         const ratio = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
         const w = Math.max(1, Math.round(img.naturalWidth * ratio));
         const h = Math.max(1, Math.round(img.naturalHeight * ratio));
@@ -593,18 +648,20 @@
           for (let i=3;i<data.length;i+=4) {
             if (data[i] < 245) transparent++;
           }
+
           const useAlpha = transparent > total * .01;
-
           let minX=w, minY=h, maxX=-1, maxY=-1;
-          const step = 2;
+          const scanStep = 2;
 
-          for (let y=0;y<h;y+=step) {
-            for (let x=0;x<w;x+=step) {
+          for (let y=0;y<h;y+=scanStep) {
+            for (let x=0;x<w;x+=scanStep) {
               const p = (y*w+x)*4;
               const r=data[p], g=data[p+1], b=data[p+2], a=data[p+3];
+
+              // Ignore almost-white background and very faint shadow pixels.
               const visible = useAlpha
-                ? a > 18
-                : a > 18 && (r < 246 || g < 246 || b < 246);
+                ? a > 28
+                : a > 28 && (r < 240 || g < 240 || b < 240);
 
               if (visible) {
                 if (x < minX) minX=x;
@@ -618,8 +675,6 @@
           if (maxX < minX || maxY < minY) return null;
 
           return {
-            x:minX/w,
-            y:minY/h,
             width:(maxX-minX+1)/w,
             height:(maxY-minY+1)/h,
             cx:((minX+maxX)/2)/w,
@@ -639,7 +694,7 @@
       }
 
       async function normalizeDevices(){
-        const realMedia = media.slice(0,3);
+        const realMedia = media.slice(0, REAL_COUNT);
 
         await Promise.all(realMedia.map(async img => {
           if (!img.complete) {
@@ -653,12 +708,13 @@
           }
         }));
 
-        const stage = track.getBoundingClientRect();
+        const stage = carousel.getBoundingClientRect();
         if (!stage.width || !stage.height) return;
 
         const measurements = realMedia.map(img => {
           const bounds = getVisibleBounds(img);
           const rendered = renderedCanvasSize(img, stage.width, stage.height);
+
           if (!bounds) {
             return {
               img,
@@ -678,76 +734,225 @@
           };
         });
 
+        // The first device image is the strict visual reference.
         const reference = measurements[0];
-        const refDiagonal = Math.hypot(reference.visibleW, reference.visibleH);
+        reference.img.style.setProperty('--media-scale','1');
+        reference.img.style.setProperty('--media-x','0px');
+        reference.img.style.setProperty('--media-y','0px');
 
-        measurements.forEach(m => {
-          const diagonal = Math.hypot(m.visibleW, m.visibleH) || refDiagonal;
-          const scale = Math.max(.72, Math.min(1.38, refDiagonal / diagonal));
-          const x = -(m.offsetX * scale);
-          const y = -(m.offsetY * scale);
+        measurements.slice(1).forEach(m => {
+          const ratioW = reference.visibleW / Math.max(1,m.visibleW);
+          const ratioH = reference.visibleH / Math.max(1,m.visibleH);
 
-          m.img.style.setProperty('--media-scale', scale.toFixed(4));
-          m.img.style.setProperty('--media-x', x.toFixed(2) + 'px');
-          m.img.style.setProperty('--media-y', y.toFixed(2) + 'px');
+          // Match the first frame by visible device size, not by source canvas size.
+          let scale = Math.sqrt(ratioW * ratioH);
+
+          // Never let another device become visually larger than the first one.
+          const projectedW = m.visibleW * scale;
+          const projectedH = m.visibleH * scale;
+          if (projectedW > reference.visibleW * 1.005) {
+            scale *= (reference.visibleW * 1.005) / projectedW;
+          }
+          if (projectedH > reference.visibleH * 1.005) {
+            scale *= (reference.visibleH * 1.005) / projectedH;
+          }
+
+          scale = Math.max(.55, Math.min(1.55, scale));
+
+          // Align the visible device center to the first frame's visible center.
+          const x = reference.offsetX - (m.offsetX * scale);
+          const y = reference.offsetY - (m.offsetY * scale);
+
+          m.img.style.setProperty('--media-scale',scale.toFixed(4));
+          m.img.style.setProperty('--media-x',x.toFixed(2) + 'px');
+          m.img.style.setProperty('--media-y',y.toFixed(2) + 'px');
         });
 
-        // The cloned first frame must be pixel-identical to the real first frame.
-        media[3].style.setProperty('--media-scale', media[0].style.getPropertyValue('--media-scale') || '1');
-        media[3].style.setProperty('--media-x', media[0].style.getPropertyValue('--media-x') || '0px');
-        media[3].style.setProperty('--media-y', media[0].style.getPropertyValue('--media-y') || '0px');
+        // Clone of frame 1 must be exactly identical to frame 1.
+        media[3].style.setProperty('--media-scale','1');
+        media[3].style.setProperty('--media-x','0px');
+        media[3].style.setProperty('--media-y','0px');
 
         normalized = true;
-        maybeStart();
+        layoutSlides();
+        startIntroMotion();
+      }
+
+      function moveTo(targetIndex, animate=true){
+        index = targetIndex;
+        setTransitionEnabled(animate);
+        track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
       }
 
       function moveLeft(){
-        index += 1;
-        track.style.transform = 'translate3d(-' + (index * 100) + '%,0,0)';
+        if (!normalized || settling || transitionLocked) return;
+
+        transitionLocked = true;
+        track.classList.remove('is-settling');
+        moveTo(index + 1, true);
+
+        window.setTimeout(() => {
+          if (index === REAL_COUNT) {
+            // We are showing the cloned first frame. Reset invisibly to the real first.
+            setTransitionEnabled(false);
+            index = 0;
+            track.style.transform = 'translate3d(0,0,0)';
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => setTransitionEnabled(true));
+            });
+          }
+          transitionLocked = false;
+        }, NORMAL_TRANSITION + 60);
       }
 
-      track.addEventListener('transitionend', () => {
-        if (index === 3) {
-          track.classList.add('no-transition');
+      function startIntroMotion(){
+        if (!normalized || introFinished || introTimer) return;
+
+        // Start moving almost immediately during the opening sequence.
+        window.setTimeout(() => {
+          if (!introFinished && !settling) moveLeft();
+        }, 140);
+
+        introTimer = window.setInterval(moveLeft, INTRO_INTERVAL);
+      }
+
+      function stopIntroMotion(){
+        if (introTimer) {
+          window.clearInterval(introTimer);
+          introTimer = null;
+        }
+      }
+
+      function settleOnFirst(){
+        if (!normalized) return;
+
+        stopIntroMotion();
+        settling = true;
+        transitionLocked = true;
+        track.classList.add('is-settling');
+
+        if (index === 0) {
+          settling = false;
+          transitionLocked = false;
+          track.classList.remove('is-settling');
+          return;
+        }
+
+        // Continue in the same LEFT direction until the cloned first frame.
+        index = REAL_COUNT;
+        track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
+
+        window.setTimeout(() => {
+          setTransitionEnabled(false);
           index = 0;
           track.style.transform = 'translate3d(0,0,0)';
           requestAnimationFrame(() => {
-            requestAnimationFrame(() => track.classList.remove('no-transition'));
+            requestAnimationFrame(() => {
+              track.classList.remove('is-settling');
+              setTransitionEnabled(true);
+              settling = false;
+              transitionLocked = false;
+            });
           });
-        }
+        }, SETTLE_TRANSITION + 70);
+      }
+
+      window.addEventListener('tanem:intro-settle', settleOnFirst, {once:true});
+
+      window.addEventListener('tanem:intro-finished', () => {
+        introFinished = true;
+        stopIntroMotion();
+
+        // Safety: intro should already have landed on frame 1.
+        if (!settling && index !== 0) settleOnFirst();
+      }, {once:true});
+
+      function manualNext(){
+        if (!introFinished || settling || transitionLocked) return;
+
+        transitionLocked = true;
+        moveTo(index + 1, true);
+
+        window.setTimeout(() => {
+          if (index === REAL_COUNT) {
+            setTransitionEnabled(false);
+            index = 0;
+            track.style.transform = 'translate3d(0,0,0)';
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => setTransitionEnabled(true));
+            });
+          }
+          transitionLocked = false;
+        }, NORMAL_TRANSITION + 60);
+      }
+
+      carousel.addEventListener('pointerdown', e => {
+        if (!introFinished || settling || transitionLocked) return;
+        dragging = true;
+        dragPointerId = e.pointerId;
+        dragStartX = e.clientX;
+        dragDeltaX = 0;
+        carousel.classList.add('is-dragging');
+        carousel.setPointerCapture?.(e.pointerId);
+        setTransitionEnabled(false);
       });
 
-      function start(){
-        if (timer || !normalized) return;
-        timer = window.setInterval(moveLeft, intervalMs);
+      carousel.addEventListener('pointermove', e => {
+        if (!dragging || e.pointerId !== dragPointerId) return;
+
+        dragDeltaX = e.clientX - dragStartX;
+
+        // Left swipe follows the finger. Right movement has resistance because
+        // the automatic carousel itself is intentionally one-directional.
+        const effectiveDelta = dragDeltaX > 0 ? dragDeltaX * .24 : dragDeltaX;
+        track.style.transform =
+          'translate3d(' + ((-index * stepPx) + effectiveDelta) + 'px,0,0)';
+      });
+
+      function endDrag(e){
+        if (!dragging || (e && e.pointerId !== dragPointerId)) return;
+
+        dragging = false;
+        carousel.classList.remove('is-dragging');
+        try { carousel.releasePointerCapture?.(dragPointerId); } catch(err) {}
+        dragPointerId = null;
+
+        setTransitionEnabled(true);
+
+        if (dragDeltaX < -42) {
+          manualNext();
+        } else {
+          track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
+        }
+
+        dragDeltaX = 0;
       }
 
-      function maybeStart(){
-        if (introFinished && normalized) start();
-      }
+      carousel.addEventListener('pointerup', endDrag);
+      carousel.addEventListener('pointercancel', endDrag);
+      carousel.addEventListener('lostpointercapture', endDrag);
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         normalizeDevices();
         return;
       }
 
-      window.addEventListener('tanem:intro-finished', () => {
-        introFinished = true;
-        maybeStart();
-      }, { once:true });
-
       normalizeDevices();
 
       window.setTimeout(() => {
         if (!document.body.classList.contains('intro-running')) {
           introFinished = true;
-          maybeStart();
+          stopIntroMotion();
+          if (index !== 0) settleOnFirst();
         }
       }, 3500);
 
       window.addEventListener('resize', () => {
         window.clearTimeout(window.__tanemDeviceResize);
-        window.__tanemDeviceResize = window.setTimeout(normalizeDevices, 180);
+        window.__tanemDeviceResize = window.setTimeout(async () => {
+          await normalizeDevices();
+          layoutSlides();
+        }, 180);
       }, {passive:true});
     })();
   </script>

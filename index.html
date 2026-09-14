@@ -193,31 +193,46 @@
       pointer-events:none;
     }
 
-    .device-slide{
+    .device-track{
       position:absolute;
       inset:0;
+      display:flex;
+      width:100%;
+      height:100%;
+      transform:translate3d(0,0,0);
+      transition:transform 1.15s cubic-bezier(.22,.61,.24,1);
+      will-change:transform;
+    }
+
+    .device-track.no-transition{
+      transition:none;
+    }
+
+    .device-slide{
+      position:relative;
+      flex:0 0 100%;
+      width:100%;
+      height:100%;
+      overflow:visible;
+    }
+
+    .device-media{
+      position:absolute;
+      left:50%;
+      top:50%;
       display:block;
       width:100%;
       height:100%;
       object-fit:contain;
-      object-position:center center;
-      opacity:1;
-      transform:translate3d(108%,0,0);
-      transition:transform .9s cubic-bezier(.22,.74,.2,1);
-      will-change:transform;
+      object-position:center;
+      transform:translate(-50%,-50%) translate(var(--media-x,0px),var(--media-y,0px)) scale(var(--media-scale,1));
+      transform-origin:center;
       backface-visibility:hidden;
-    }
-
-    .device-slide.is-active{
-      transform:translate3d(0,0,0);
-    }
-
-    .device-slide.is-exit{
-      transform:translate3d(-108%,0,0);
+      will-change:transform;
     }
 
     @media (prefers-reduced-motion:reduce){
-      .device-slide{transition:none}
+      .device-track{transition:none}
     }
 
     .actions{
@@ -401,9 +416,20 @@
         <div class="device-wrap">
           <div class="device-carousel">
             <img class="device-sizer" src="./0C214676-D206-438C-A64E-666F74D81810.png" alt="" aria-hidden="true">
-            <img class="device-slide is-active" src="./0C214676-D206-438C-A64E-666F74D81810.png" alt="Пример цифрового офиса Tanem на ноутбуке и телефоне" loading="eager" decoding="sync" fetchpriority="high">
-            <img class="device-slide" src="./111.webp" alt="" loading="eager" decoding="async">
-            <img class="device-slide" src="./112.webp" alt="" loading="eager" decoding="async">
+            <div class="device-track" id="deviceTrack">
+              <div class="device-slide">
+                <img class="device-media" src="./0C214676-D206-438C-A64E-666F74D81810.png" alt="Пример цифрового офиса Tanem на ноутбуке и телефоне" loading="eager" decoding="sync" fetchpriority="high">
+              </div>
+              <div class="device-slide">
+                <img class="device-media" src="./111.webp" alt="" loading="eager" decoding="async">
+              </div>
+              <div class="device-slide">
+                <img class="device-media" src="./112.webp" alt="" loading="eager" decoding="async">
+              </div>
+              <div class="device-slide" aria-hidden="true">
+                <img class="device-media" src="./0C214676-D206-438C-A64E-666F74D81810.png" alt="" loading="eager" decoding="async">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -533,49 +559,196 @@
   </script>
   <script>
     (function runDeviceCarousel(){
-      const slides = Array.from(document.querySelectorAll('.device-slide'));
-      if (slides.length < 2) return;
+      const track = document.getElementById('deviceTrack');
+      const slides = track ? Array.from(track.querySelectorAll('.device-slide')) : [];
+      const media = track ? Array.from(track.querySelectorAll('.device-media')) : [];
+      if (!track || slides.length < 4 || media.length < 4) return;
 
       let index = 0;
       let timer = null;
-      let moving = false;
-      const transitionMs = 900;
+      let introFinished = !document.body.classList.contains('intro-running');
+      let normalized = false;
+      const transitionMs = 1150;
+      const intervalMs = 3000;
 
-      function nextSlide(){
-        if (moving) return;
-        moving = true;
+      function getVisibleBounds(img){
+        const maxSide = 420;
+        const ratio = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+        const w = Math.max(1, Math.round(img.naturalWidth * ratio));
+        const h = Math.max(1, Math.round(img.naturalHeight * ratio));
 
-        const current = slides[index];
-        const nextIndex = (index + 1) % slides.length;
-        const next = slides[nextIndex];
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d', { willReadFrequently:true });
+        if (!ctx) return null;
 
-        next.classList.remove('is-exit');
-        next.classList.add('is-active');
+        try {
+          ctx.clearRect(0,0,w,h);
+          ctx.drawImage(img,0,0,w,h);
+          const data = ctx.getImageData(0,0,w,h).data;
 
-        requestAnimationFrame(() => {
-          current.classList.add('is-exit');
-          current.classList.remove('is-active');
+          let transparent = 0;
+          const total = w * h;
+          for (let i=3;i<data.length;i+=4) {
+            if (data[i] < 245) transparent++;
+          }
+          const useAlpha = transparent > total * .01;
+
+          let minX=w, minY=h, maxX=-1, maxY=-1;
+          const step = 2;
+
+          for (let y=0;y<h;y+=step) {
+            for (let x=0;x<w;x+=step) {
+              const p = (y*w+x)*4;
+              const r=data[p], g=data[p+1], b=data[p+2], a=data[p+3];
+              const visible = useAlpha
+                ? a > 18
+                : a > 18 && (r < 246 || g < 246 || b < 246);
+
+              if (visible) {
+                if (x < minX) minX=x;
+                if (y < minY) minY=y;
+                if (x > maxX) maxX=x;
+                if (y > maxY) maxY=y;
+              }
+            }
+          }
+
+          if (maxX < minX || maxY < minY) return null;
+
+          return {
+            x:minX/w,
+            y:minY/h,
+            width:(maxX-minX+1)/w,
+            height:(maxY-minY+1)/h,
+            cx:((minX+maxX)/2)/w,
+            cy:((minY+maxY)/2)/h
+          };
+        } catch(e) {
+          return null;
+        }
+      }
+
+      function renderedCanvasSize(img, stageW, stageH){
+        const scale = Math.min(stageW / img.naturalWidth, stageH / img.naturalHeight);
+        return {
+          width:img.naturalWidth * scale,
+          height:img.naturalHeight * scale
+        };
+      }
+
+      async function normalizeDevices(){
+        const realMedia = media.slice(0,3);
+
+        await Promise.all(realMedia.map(async img => {
+          if (!img.complete) {
+            await new Promise(resolve => {
+              img.addEventListener('load', resolve, {once:true});
+              img.addEventListener('error', resolve, {once:true});
+            });
+          }
+          if (img.decode) {
+            try { await img.decode(); } catch(e) {}
+          }
+        }));
+
+        const stage = track.getBoundingClientRect();
+        if (!stage.width || !stage.height) return;
+
+        const measurements = realMedia.map(img => {
+          const bounds = getVisibleBounds(img);
+          const rendered = renderedCanvasSize(img, stage.width, stage.height);
+          if (!bounds) {
+            return {
+              img,
+              visibleW:rendered.width,
+              visibleH:rendered.height,
+              offsetX:0,
+              offsetY:0
+            };
+          }
+
+          return {
+            img,
+            visibleW:rendered.width * bounds.width,
+            visibleH:rendered.height * bounds.height,
+            offsetX:rendered.width * (bounds.cx - .5),
+            offsetY:rendered.height * (bounds.cy - .5)
+          };
         });
 
-        window.setTimeout(() => {
-          current.classList.remove('is-exit');
-          index = nextIndex;
-          moving = false;
-        }, transitionMs + 80);
+        const reference = measurements[0];
+        const refDiagonal = Math.hypot(reference.visibleW, reference.visibleH);
+
+        measurements.forEach(m => {
+          const diagonal = Math.hypot(m.visibleW, m.visibleH) || refDiagonal;
+          const scale = Math.max(.72, Math.min(1.38, refDiagonal / diagonal));
+          const x = -(m.offsetX * scale);
+          const y = -(m.offsetY * scale);
+
+          m.img.style.setProperty('--media-scale', scale.toFixed(4));
+          m.img.style.setProperty('--media-x', x.toFixed(2) + 'px');
+          m.img.style.setProperty('--media-y', y.toFixed(2) + 'px');
+        });
+
+        // The cloned first frame must be pixel-identical to the real first frame.
+        media[3].style.setProperty('--media-scale', media[0].style.getPropertyValue('--media-scale') || '1');
+        media[3].style.setProperty('--media-x', media[0].style.getPropertyValue('--media-x') || '0px');
+        media[3].style.setProperty('--media-y', media[0].style.getPropertyValue('--media-y') || '0px');
+
+        normalized = true;
+        maybeStart();
       }
 
-      function startCarousel(){
-        if (timer) return;
-        timer = window.setInterval(nextSlide, 3000);
+      function moveLeft(){
+        index += 1;
+        track.style.transform = 'translate3d(-' + (index * 100) + '%,0,0)';
       }
 
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      track.addEventListener('transitionend', () => {
+        if (index === 3) {
+          track.classList.add('no-transition');
+          index = 0;
+          track.style.transform = 'translate3d(0,0,0)';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => track.classList.remove('no-transition'));
+          });
+        }
+      });
 
-      window.addEventListener('tanem:intro-finished', startCarousel, { once:true });
+      function start(){
+        if (timer || !normalized) return;
+        timer = window.setInterval(moveLeft, intervalMs);
+      }
+
+      function maybeStart(){
+        if (introFinished && normalized) start();
+      }
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        normalizeDevices();
+        return;
+      }
+
+      window.addEventListener('tanem:intro-finished', () => {
+        introFinished = true;
+        maybeStart();
+      }, { once:true });
+
+      normalizeDevices();
 
       window.setTimeout(() => {
-        if (!document.body.classList.contains('intro-running')) startCarousel();
+        if (!document.body.classList.contains('intro-running')) {
+          introFinished = true;
+          maybeStart();
+        }
       }, 3500);
+
+      window.addEventListener('resize', () => {
+        window.clearTimeout(window.__tanemDeviceResize);
+        window.__tanemDeviceResize = window.setTimeout(normalizeDevices, 180);
+      }, {passive:true});
     })();
   </script>
 </body>

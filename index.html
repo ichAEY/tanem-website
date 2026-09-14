@@ -212,31 +212,35 @@
     .cta-primary{
       background:#090909;
       color:#fff;
+      border-radius:999px;
     }
 
     .cta-secondary{
-      position:relative;
-      overflow:hidden;
-      background:var(--accent);
-      color:#fff;
+      height:auto;
+      min-height:0;
+      padding:9px 0 3px;
+      border-radius:0;
+      background:transparent;
+      color:var(--accent);
+      gap:8px;
+      font-size:clamp(14px,3.55vw,18px);
+      font-weight:700;
+      letter-spacing:-.025em;
     }
 
-    .cta-secondary::after{
-      content:"";
-      position:absolute;
-      top:-35%;
-      bottom:-35%;
-      left:-35%;
-      width:22%;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);
-      transform:skewX(-18deg) translateX(-220%);
-      animation:secondaryShimmer 8s ease-in-out infinite;
-      pointer-events:none;
+    .cta-secondary .scroll-arrow{
+      display:inline-block;
+      font-size:1.25em;
+      line-height:1;
+      font-weight:500;
+      animation:scrollCue 1.65s cubic-bezier(.4,0,.2,1) infinite;
+      will-change:transform,opacity;
     }
 
-    @keyframes secondaryShimmer{
-      0%,62%{transform:skewX(-18deg) translateX(-220%)}
-      90%,100%{transform:skewX(-18deg) translateX(700%)}
+    @keyframes scrollCue{
+      0%,100%{transform:translateY(0);opacity:.72}
+      45%{transform:translateY(7px);opacity:1}
+      70%{transform:translateY(2px);opacity:.9}
     }
 
     .cta-label{
@@ -427,6 +431,7 @@
         transform:none !important;
         transition:none;
       }
+      .cta-secondary .scroll-arrow{animation:none}
     }
 
     .intro-loader{
@@ -541,6 +546,7 @@
 
         <a class="cta cta-secondary" href="#how">
           <span>Как это работает?</span>
+          <span class="scroll-arrow" aria-hidden="true">↓</span>
         </a>
       </div>
 

@@ -824,6 +824,263 @@
       font-weight:300;
     }
 
+
+    .bot-section{
+      position:relative;
+      padding:clamp(52px,8vw,82px) calc(var(--side) - .3cm) clamp(28px,5vw,46px);
+      background:#fff;
+    }
+
+    .bot-title{
+      margin:0 0 14px;
+      max-width:760px;
+      font-size:clamp(40px,9.8vw,64px);
+      line-height:.96;
+      letter-spacing:-.055em;
+      font-weight:700;
+    }
+
+    .bot-title-dot{
+      display:inline-block;
+      width:.16em;
+      height:.16em;
+      margin-left:.055em;
+      border-radius:50%;
+      background:var(--accent);
+      vertical-align:.09em;
+      transform:translateY(.08em);
+    }
+
+    .bot-intro{
+      margin:0;
+      max-width:700px;
+      color:#5a5a5f;
+      font-size:clamp(16px,4vw,22px);
+      line-height:1.38;
+      letter-spacing:-.025em;
+    }
+
+    .bot-phone{
+      width:min(78%,560px);
+      margin:clamp(22px,4vw,34px) auto 0;
+      position:relative;
+      z-index:1;
+    }
+
+    .bot-phone img{
+      display:block;
+      width:100%;
+      height:auto;
+      object-fit:contain;
+    }
+
+    .bot-open{
+      position:relative;
+      z-index:2;
+      width:calc(100% - .2cm);
+      min-height:clamp(58px,13vw,68px);
+      margin:clamp(-10px,-1vw,-4px) .1cm 0;
+      padding:0 clamp(18px,4vw,30px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      overflow:hidden;
+      border-radius:12px;
+      background:#0b0b0b;
+      color:#fff;
+      font-size:clamp(18px,4.4vw,24px);
+      line-height:1;
+      letter-spacing:-.03em;
+      font-weight:600;
+    }
+
+    .bot-open::after{
+      content:"";
+      position:absolute;
+      top:-35%;
+      bottom:-35%;
+      left:-32%;
+      width:18%;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.26),transparent);
+      transform:skewX(-18deg) translateX(-260%);
+      animation:botButtonShimmer 5.8s ease-in-out infinite;
+      pointer-events:none;
+    }
+
+    @keyframes botButtonShimmer{
+      0%,72%{transform:skewX(-18deg) translateX(-260%)}
+      88%,100%{transform:skewX(-18deg) translateX(780%)}
+    }
+
+    .bot-open > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .bot-open-label{
+      flex:1;
+      text-align:center;
+    }
+
+    .bot-open-arrow{
+      flex:0 0 auto;
+      font-size:1.45em;
+      font-weight:300;
+      line-height:1;
+    }
+
+    .bot-telegram{
+      flex:0 0 auto;
+      width:28px;
+      height:28px;
+      display:block;
+    }
+
+    .bot-help{
+      width:calc(100% - .2cm);
+      margin:18px .1cm 0;
+      padding:clamp(20px,4.5vw,30px);
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:14px;
+      background:#fff;
+    }
+
+    .bot-help h3{
+      margin:0 0 7px;
+      font-size:clamp(27px,6.8vw,40px);
+      line-height:1;
+      letter-spacing:-.05em;
+      font-weight:700;
+    }
+
+    .bot-help p{
+      margin:0 0 18px;
+      color:#626267;
+      font-size:clamp(15px,3.75vw,20px);
+      line-height:1.36;
+      letter-spacing:-.022em;
+    }
+
+    .bot-help-link{
+      min-height:54px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border:1.5px solid #111;
+      border-radius:10px;
+      color:#111;
+      font-size:clamp(16px,4vw,20px);
+      font-weight:600;
+      letter-spacing:-.025em;
+    }
+
+    .bot-help-link svg{
+      width:23px;
+      height:23px;
+      display:block;
+      flex:0 0 auto;
+    }
+
+    .site-footer{
+      padding:0 calc(var(--side) - .3cm) max(26px,env(safe-area-inset-bottom));
+      background:#fff;
+    }
+
+    .site-footer-inner{
+      width:calc(100% - .2cm);
+      margin:0 .1cm;
+      padding-top:22px;
+      border-top:1px solid rgba(0,0,0,.12);
+      display:grid;
+      grid-template-columns:1.25fr .9fr .9fr;
+      gap:20px;
+      align-items:start;
+    }
+
+    .footer-brand{
+      min-width:0;
+    }
+
+    .footer-brand strong{
+      display:block;
+      margin-bottom:5px;
+      font-size:clamp(25px,6vw,36px);
+      line-height:1;
+      letter-spacing:-.055em;
+      font-weight:700;
+    }
+
+    .footer-brand p,
+    .footer-links a,
+    .footer-contact a,
+    .footer-copy{
+      color:#66666b;
+      font-size:clamp(12px,3vw,15px);
+      line-height:1.42;
+      letter-spacing:-.015em;
+    }
+
+    .footer-brand p{
+      margin:0;
+      max-width:220px;
+    }
+
+    .footer-links{
+      display:grid;
+      gap:5px;
+      padding-top:3px;
+    }
+
+    .footer-contact{
+      display:grid;
+      gap:7px;
+      padding-top:3px;
+    }
+
+    .footer-contact-main{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:#111 !important;
+      font-weight:600;
+    }
+
+    .footer-contact-main svg{
+      width:20px;
+      height:20px;
+      flex:0 0 auto;
+    }
+
+    .footer-copy{
+      grid-column:1/-1;
+      margin:2px 0 0;
+      padding-top:14px;
+      border-top:1px solid rgba(0,0,0,.08);
+    }
+
+    @media (max-width:560px){
+      .bot-phone{
+        width:min(86%,520px);
+      }
+
+      .site-footer-inner{
+        grid-template-columns:1.2fr 1fr;
+      }
+
+      .footer-contact{
+        grid-column:1/-1;
+        grid-template-columns:auto auto;
+        justify-content:start;
+        column-gap:18px;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .bot-open::after{animation:none}
+    }
+
     .examples-sheet{
       position:fixed;
       inset:0;
@@ -1216,6 +1473,61 @@
         <span class="examples-more-arrow" aria-hidden="true">→</span>
       </button>
     </section>
+
+
+    <section class="bot-section" id="bot" aria-labelledby="botTitle">
+      <h2 class="bot-title" id="botTitle">Создайте сайт<br>через нашего бота<span class="bot-title-dot" aria-hidden="true"></span></h2>
+      <p class="bot-intro">Просто напишите в Telegram-бота, и мы поможем вам на каждом этапе.</p>
+
+      <div class="bot-phone">
+        <img src="./F208D3A1-17B0-4173-AD5D-194B2B9562BD.png" alt="Telegram-бот Tanem на телефоне" loading="lazy" decoding="async">
+      </div>
+
+      <a class="bot-open" href="https://t.me/tanem_ru_bot" target="_blank" rel="noopener noreferrer">
+        <svg class="bot-telegram" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21.7 3.4 18.5 19c-.24 1.1-.88 1.37-1.78.85l-4.88-3.6-2.35 2.26c-.26.26-.48.48-.98.48l.35-4.97 9.04-8.17c.39-.35-.09-.55-.61-.2L6.1 12.7l-4.82-1.5c-1.05-.33-1.07-1.05.22-1.56L20.35 2.4c.87-.32 1.63.2 1.35 1z"/>
+        </svg>
+        <span class="bot-open-label">Открыть бота</span>
+        <span class="bot-open-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <div class="bot-help">
+        <h3>Остались вопросы?</h3>
+        <p>Мы всегда на связи и с радостью поможем.</p>
+        <a class="bot-help-link" href="https://t.me/tanem_ru_bot" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a4 4 0 0 1-4 4H9l-5 3 1.5-4A7 7 0 1 1 21 15Z"/>
+          </svg>
+          <span>Задать вопрос</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <div class="footer-brand">
+          <strong>Tanem<span class="period period-accent" aria-hidden="true"></span></strong>
+          <p>Цифровые офисы для мастеров и салонов.</p>
+        </div>
+
+        <nav class="footer-links" aria-label="Навигация">
+          <a href="#examples">Примеры</a>
+          <a href="#how">Как это работает</a>
+          <a href="#bot">Бот</a>
+        </nav>
+
+        <div class="footer-contact">
+          <a class="footer-contact-main" href="https://t.me/tanem_ru_bot" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M21.7 3.4 18.5 19c-.24 1.1-.88 1.37-1.78.85l-4.88-3.6-2.35 2.26c-.26.26-.48.48-.98.48l.35-4.97 9.04-8.17c.39-.35-.09-.55-.61-.2L6.1 12.7l-4.82-1.5c-1.05-.33-1.07-1.05.22-1.56L20.35 2.4c.87-.32 1.63.2 1.35 1z"/>
+            </svg>
+            <span>Telegram</span>
+          </a>
+        </div>
+
+        <p class="footer-copy">© 2026 Tanem. Все права защищены.</p>
+      </div>
+    </footer>
 
     <div class="examples-sheet" id="examplesSheet" aria-hidden="true">
       <div class="examples-sheet-backdrop" id="examplesSheetBackdrop"></div>

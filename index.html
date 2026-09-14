@@ -392,7 +392,7 @@
 
     .how-section{
       position:relative;
-      padding:clamp(42px,6.4vw,62px) var(--side) clamp(44px,7vw,66px);
+      padding:clamp(42px,6.4vw,62px) calc(var(--side) - .3cm) clamp(44px,7vw,66px);
       background:#eeeeeb;
     }
     .how-section::before{
@@ -441,7 +441,12 @@
       vertical-align:.09em;
       transform:translateY(.08em);
     }
-    .how-steps{border-top:none}
+    .how-steps{
+      border-top:none;
+      width:calc(100% - .2cm);
+      margin-left:.1cm;
+      margin-right:.1cm;
+    }
     .how-step{
       display:grid;
       grid-template-columns:minmax(72px,21%) 1fr;
@@ -489,7 +494,8 @@
       letter-spacing:-.02em;
     }
     .how-note{
-      margin-top:clamp(18px,3.8vw,26px);
+      width:calc(100% - .2cm);
+      margin:clamp(18px,3.8vw,26px) .1cm 0;
       padding:clamp(17px,3.8vw,24px);
       border-radius:clamp(9px,1.8vw,13px);
       background:#111;
@@ -528,7 +534,7 @@
 
     .examples-section{
       position:relative;
-      padding:clamp(48px,7vw,72px) var(--side) clamp(56px,8vw,82px);
+      padding:clamp(48px,7vw,72px) calc(var(--side) - .3cm) clamp(56px,8vw,82px);
       background:#fff;
     }
 
@@ -597,8 +603,8 @@
       display:grid;
       grid-template-columns:repeat(4,minmax(0,1fr));
       gap:7px;
-      width:96%;
-      margin:0 auto 14px;
+      width:calc(100% - .2cm);
+      margin:0 .1cm 14px;
     }
 
     .examples-tab{
@@ -626,8 +632,8 @@
     .examples-list{
       display:grid;
       gap:9px;
-      width:96%;
-      margin:0 auto;
+      width:calc(100% - .2cm);
+      margin:0 .1cm;
     }
 
     .example-card{
@@ -787,9 +793,9 @@
     .examples-more{
       position:relative;
       overflow:hidden;
-      width:96%;
+      width:calc(100% - .2cm);
       min-height:clamp(50px,11vw,58px);
-      margin:13px auto 0;
+      margin:13px .1cm 0;
       padding:0 clamp(18px,4vw,28px);
       display:flex;
       align-items:center;

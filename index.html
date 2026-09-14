@@ -305,10 +305,13 @@
       background:
         linear-gradient(
           180deg,
-          #ffffff 0,
-          #fbfaf9 34px,
-          #f7f5f3 88px,
-          #f4f1ee 150px,
+          #ffffff 0%,
+          #fffefe 8%,
+          #fdfcfb 18%,
+          #fbf9f8 32%,
+          #f8f6f4 48%,
+          #f6f3f1 66%,
+          #f4f1ee 84%,
           #f4f1ee 100%
         );
     }
@@ -328,7 +331,16 @@
       letter-spacing:-.055em;
       font-weight:700;
     }
-    .how-title-dot{color:var(--accent)}
+    .how-title-dot{
+      display:inline-block;
+      width:.16em;
+      height:.16em;
+      margin-left:.055em;
+      border-radius:50%;
+      background:var(--accent);
+      vertical-align:.09em;
+      transform:translateY(.08em);
+    }
     .how-steps{border-top:none}
     .how-step{
       display:grid;
@@ -345,6 +357,17 @@
       line-height:.88;
       letter-spacing:-.06em;
       font-weight:700;
+      opacity:0;
+      will-change:transform,opacity;
+      transition:
+        transform .72s cubic-bezier(.22,.72,.22,1),
+        opacity .5s ease;
+    }
+    .how-step:nth-child(odd) .how-number{transform:translate3d(-34px,0,0)}
+    .how-step:nth-child(even) .how-number{transform:translate3d(34px,0,0)}
+    .how-step.is-visible .how-number{
+      opacity:1;
+      transform:translate3d(0,0,0);
     }
     .how-copy{padding-top:1px}
     .how-copy h3{
@@ -387,6 +410,13 @@
     @media (max-width:520px){
       .how-step{grid-template-columns:70px 1fr;gap:14px}
       .how-number{padding-right:12px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .how-number{
+        opacity:1;
+        transform:none !important;
+        transition:none;
+      }
     }
 
     .intro-loader{
@@ -508,7 +538,7 @@
 
     <section class="how-section" id="how" aria-labelledby="howTitle">
       <p class="how-eyebrow">Как это работает</p>
-      <h2 class="how-title" id="howTitle">Три простых шага<span class="how-title-dot">.</span></h2>
+      <h2 class="how-title" id="howTitle">Три простых шага<span class="how-title-dot" aria-hidden="true"></span></h2>
 
       <div class="how-steps">
         <article class="how-step">
@@ -616,6 +646,35 @@
       }
 
       setTimeout(finish, 3200);
+    })();
+  </script>
+  <script>
+    (function animateHowNumbers(){
+      const steps = Array.from(document.querySelectorAll('.how-step'));
+      if (!steps.length) return;
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        steps.forEach(step => step.classList.add('is-visible'));
+        return;
+      }
+
+      if (!('IntersectionObserver' in window)) {
+        steps.forEach(step => step.classList.add('is-visible'));
+        return;
+      }
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, {
+        threshold:.28,
+        rootMargin:'0px 0px -8% 0px'
+      });
+
+      steps.forEach(step => observer.observe(step));
     })();
   </script>
 </body>

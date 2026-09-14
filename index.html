@@ -525,6 +525,453 @@
       .cta-live-dot{animation:none}
     }
 
+
+    .examples-section{
+      position:relative;
+      padding:clamp(48px,7vw,72px) var(--side) clamp(56px,8vw,82px);
+      background:#fff;
+    }
+
+    .examples-section::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:-96px;
+      height:96px;
+      background:linear-gradient(
+        180deg,
+        rgba(238,238,235,0) 0%,
+        rgba(242,242,239,.24) 24%,
+        rgba(247,247,245,.58) 58%,
+        rgba(252,252,251,.88) 82%,
+        #fff 100%
+      );
+      pointer-events:none;
+    }
+
+    .examples-section > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .examples-eyebrow{
+      margin:0 0 10px;
+      color:var(--accent);
+      font-size:clamp(10px,2.45vw,13px);
+      line-height:1.2;
+      font-weight:700;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+    }
+
+    .examples-title{
+      margin:0 0 14px;
+      font-size:clamp(38px,9.5vw,60px);
+      line-height:.96;
+      letter-spacing:-.055em;
+      font-weight:700;
+    }
+
+    .examples-title-dot{
+      display:inline-block;
+      width:.16em;
+      height:.16em;
+      margin-left:.055em;
+      border-radius:50%;
+      background:var(--accent);
+      vertical-align:.09em;
+      transform:translateY(.08em);
+    }
+
+    .examples-intro{
+      margin:0 0 clamp(24px,4.6vw,34px);
+      max-width:650px;
+      color:var(--text);
+      font-size:clamp(15px,3.75vw,20px);
+      line-height:1.42;
+      letter-spacing:-.022em;
+    }
+
+    .examples-tabs{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:10px;
+      margin-bottom:18px;
+    }
+
+    .examples-tab{
+      min-width:0;
+      height:clamp(48px,11vw,58px);
+      padding:0 8px;
+      border:1px solid rgba(0,0,0,.18);
+      border-radius:10px;
+      background:#fff;
+      color:#151515;
+      font:inherit;
+      font-size:clamp(13px,3.3vw,17px);
+      font-weight:500;
+      letter-spacing:-.025em;
+      cursor:pointer;
+      transition:background .24s ease,color .24s ease,border-color .24s ease;
+    }
+
+    .examples-tab.is-active{
+      background:#101010;
+      border-color:#101010;
+      color:#fff;
+    }
+
+    .examples-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .example-card{
+      display:grid;
+      grid-template-columns:minmax(145px,44%) 1fr;
+      min-height:clamp(128px,30vw,166px);
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:12px;
+      background:#fff;
+      color:var(--ink);
+    }
+
+    .example-card[hidden]{display:none}
+
+    .example-copy{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      min-width:0;
+      padding:clamp(16px,4vw,24px);
+    }
+
+    .example-name{
+      margin:0 0 5px;
+      font-size:clamp(24px,6vw,38px);
+      line-height:1;
+      letter-spacing:-.05em;
+      font-weight:700;
+    }
+
+    .example-role{
+      margin:0;
+      color:#555;
+      font-size:clamp(14px,3.5vw,19px);
+      line-height:1.25;
+      letter-spacing:-.025em;
+    }
+
+    .example-visual{
+      position:relative;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      background:#ece8e4;
+    }
+
+    .example-visual::before,
+    .example-visual::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      filter:blur(2px);
+      opacity:.9;
+    }
+
+    .example-visual::before{
+      width:66%;
+      aspect-ratio:1;
+      right:-12%;
+      top:-20%;
+      background:rgba(255,255,255,.44);
+    }
+
+    .example-visual::after{
+      width:54%;
+      aspect-ratio:1;
+      left:-12%;
+      bottom:-34%;
+      background:rgba(125,103,88,.14);
+    }
+
+    .example-visual--stluxe{
+      background:linear-gradient(135deg,#ddd4cc 0%,#b9a89c 45%,#806c60 100%);
+    }
+
+    .example-visual--nonna{
+      background:linear-gradient(135deg,#efe5df 0%,#d6c2b6 48%,#a88e7e 100%);
+    }
+
+    .example-visual--julia{
+      background:linear-gradient(135deg,#e3d6cd 0%,#bca596 44%,#745f54 100%);
+    }
+
+    .example-preview{
+      position:relative;
+      z-index:1;
+      width:70%;
+      padding:12px 10px;
+      border-radius:10px;
+      background:rgba(255,255,255,.88);
+      box-shadow:0 12px 26px rgba(0,0,0,.12);
+      transform:rotate(-2deg);
+    }
+
+    .example-preview-bar{
+      display:flex;
+      gap:4px;
+      margin-bottom:9px;
+    }
+
+    .example-preview-bar i{
+      width:4px;
+      height:4px;
+      border-radius:50%;
+      background:#aaa;
+    }
+
+    .example-preview-name{
+      margin:0 0 8px;
+      font-size:clamp(10px,2.5vw,14px);
+      line-height:1;
+      font-weight:800;
+      letter-spacing:-.04em;
+    }
+
+    .example-preview-line{
+      height:4px;
+      margin-bottom:5px;
+      border-radius:999px;
+      background:rgba(0,0,0,.14);
+    }
+
+    .example-preview-line:nth-of-type(2){width:78%}
+    .example-preview-line:nth-of-type(3){width:58%}
+
+    .example-open{
+      position:absolute;
+      z-index:2;
+      top:12px;
+      right:12px;
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border-radius:9px;
+      background:rgba(255,255,255,.92);
+      box-shadow:0 8px 18px rgba(0,0,0,.08);
+    }
+
+    .example-open svg{
+      width:18px;
+      height:18px;
+      display:block;
+    }
+
+    .examples-empty{
+      display:none;
+      padding:24px 0 10px;
+      color:#777;
+      font-size:14px;
+      text-align:center;
+    }
+
+    .examples-empty.is-visible{display:block}
+
+    .examples-more{
+      position:relative;
+      overflow:hidden;
+      width:100%;
+      min-height:clamp(58px,13vw,68px);
+      margin-top:16px;
+      padding:0 clamp(22px,5vw,34px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:0;
+      border-radius:11px;
+      background:#0b0b0b;
+      color:#fff;
+      font:inherit;
+      font-size:clamp(16px,3.8vw,20px);
+      font-weight:500;
+      letter-spacing:-.025em;
+      cursor:pointer;
+    }
+
+    .examples-more-label{
+      flex:1;
+      text-align:center;
+      padding-left:1.45em;
+    }
+
+    .examples-more-arrow{
+      flex:0 0 auto;
+      font-size:1.35em;
+      line-height:1;
+      font-weight:300;
+    }
+
+    .examples-sheet{
+      position:fixed;
+      inset:0;
+      z-index:10000;
+      pointer-events:none;
+    }
+
+    .examples-sheet.is-open{
+      pointer-events:auto;
+    }
+
+    .examples-sheet-backdrop{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.32);
+      opacity:0;
+      transition:opacity .38s ease;
+      backdrop-filter:blur(2px);
+      -webkit-backdrop-filter:blur(2px);
+    }
+
+    .examples-sheet-panel{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      width:min(100%,900px);
+      max-height:min(76svh,680px);
+      margin:0 auto;
+      overflow:auto;
+      padding:12px var(--side) max(24px,env(safe-area-inset-bottom));
+      border-radius:24px 24px 0 0;
+      background:#fff;
+      box-shadow:0 -24px 60px rgba(0,0,0,.16);
+      transform:translate3d(0,105%,0);
+      transition:transform .58s cubic-bezier(.22,.61,.36,1);
+      will-change:transform;
+    }
+
+    .examples-sheet.is-open .examples-sheet-backdrop{
+      opacity:1;
+    }
+
+    .examples-sheet.is-open .examples-sheet-panel{
+      transform:translate3d(0,0,0);
+    }
+
+    .examples-sheet-handle{
+      width:42px;
+      height:5px;
+      margin:0 auto 14px;
+      border-radius:999px;
+      background:#d7d7d7;
+    }
+
+    .examples-sheet-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:14px;
+    }
+
+    .examples-sheet-title{
+      margin:0;
+      font-size:clamp(24px,6vw,34px);
+      line-height:1.04;
+      letter-spacing:-.045em;
+      font-weight:700;
+    }
+
+    .examples-sheet-close{
+      flex:0 0 auto;
+      width:40px;
+      height:40px;
+      display:grid;
+      place-items:center;
+      border:0;
+      border-radius:50%;
+      background:#f1f1ef;
+      color:#111;
+      font:inherit;
+      font-size:22px;
+      line-height:1;
+      cursor:pointer;
+    }
+
+    .examples-sheet-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .examples-sheet-link{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      min-height:66px;
+      padding:13px 15px;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:14px;
+      background:#f8f8f6;
+      color:#111;
+    }
+
+    .examples-sheet-link strong{
+      display:block;
+      margin-bottom:3px;
+      font-size:clamp(16px,4vw,19px);
+      line-height:1.15;
+      letter-spacing:-.025em;
+    }
+
+    .examples-sheet-link small{
+      display:block;
+      color:#737373;
+      font-size:13px;
+      line-height:1.25;
+    }
+
+    .examples-sheet-link svg{
+      flex:0 0 auto;
+      width:19px;
+      height:19px;
+    }
+
+    body.examples-sheet-open{
+      overflow:hidden;
+    }
+
+    @media (max-width:560px){
+      .examples-tabs{
+        grid-template-columns:repeat(4,minmax(0,1fr));
+        gap:7px;
+      }
+
+      .examples-tab{
+        padding:0 4px;
+        font-size:clamp(11px,3vw,14px);
+      }
+
+      .example-card{
+        grid-template-columns:44% 56%;
+      }
+
+      .example-preview{
+        width:74%;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .examples-sheet-backdrop,
+      .examples-sheet-panel{
+        transition:none;
+      }
+    }
+
     .intro-loader{
       position:fixed;
       inset:0;
@@ -678,6 +1125,129 @@
         <p>Вы сами решаете, как использовать сайт дальше. Никаких обязательств и абонентской платы.</p>
       </div>
     </section>
+
+    <section class="examples-section" id="examples" aria-labelledby="examplesTitle">
+      <p class="examples-eyebrow">Примеры цифровых офисов</p>
+      <h2 class="examples-title" id="examplesTitle">Готовые<br>цифровые офисы<span class="examples-title-dot" aria-hidden="true"></span></h2>
+      <p class="examples-intro">Каждый сайт создаётся для мастера или салона и помогает клиенту быстрее понять ваш бизнес.</p>
+
+      <div class="examples-tabs" role="tablist" aria-label="Категории примеров">
+        <button class="examples-tab is-active" type="button" data-filter="all" aria-selected="true">Все</button>
+        <button class="examples-tab" type="button" data-filter="salon" aria-selected="false">Салоны</button>
+        <button class="examples-tab" type="button" data-filter="master" aria-selected="false">Мастера</button>
+        <button class="examples-tab" type="button" data-filter="other" aria-selected="false">Другое</button>
+      </div>
+
+      <div class="examples-list" id="examplesList">
+        <a class="example-card" data-category="salon" href="https://stluxe.ru/" target="_blank" rel="noopener noreferrer">
+          <div class="example-copy">
+            <h3 class="example-name">STLuxe</h3>
+            <p class="example-role">Салон красоты</p>
+          </div>
+          <div class="example-visual example-visual--stluxe" aria-hidden="true">
+            <div class="example-preview">
+              <div class="example-preview-bar"><i></i><i></i><i></i></div>
+              <div class="example-preview-name">STLuxe</div>
+              <div class="example-preview-line"></div>
+              <div class="example-preview-line"></div>
+            </div>
+            <span class="example-open">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 5h5v5"/><path d="M10 14 19 5"/><path d="M19 13v6H5V5h6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a class="example-card" data-category="master" href="https://nonna.tanem.ru/" target="_blank" rel="noopener noreferrer">
+          <div class="example-copy">
+            <h3 class="example-name">Nonna</h3>
+            <p class="example-role">Мастер маникюра</p>
+          </div>
+          <div class="example-visual example-visual--nonna" aria-hidden="true">
+            <div class="example-preview">
+              <div class="example-preview-bar"><i></i><i></i><i></i></div>
+              <div class="example-preview-name">Nonna</div>
+              <div class="example-preview-line"></div>
+              <div class="example-preview-line"></div>
+            </div>
+            <span class="example-open">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 5h5v5"/><path d="M10 14 19 5"/><path d="M19 13v6H5V5h6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a class="example-card" data-category="master" href="https://julia.tanem.ru/" target="_blank" rel="noopener noreferrer">
+          <div class="example-copy">
+            <h3 class="example-name">Julia Roleva</h3>
+            <p class="example-role">Эксперт по волосам</p>
+          </div>
+          <div class="example-visual example-visual--julia" aria-hidden="true">
+            <div class="example-preview">
+              <div class="example-preview-bar"><i></i><i></i><i></i></div>
+              <div class="example-preview-name">Julia Roleva</div>
+              <div class="example-preview-line"></div>
+              <div class="example-preview-line"></div>
+            </div>
+            <span class="example-open">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 5h5v5"/><path d="M10 14 19 5"/><path d="M19 13v6H5V5h6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <p class="examples-empty" id="examplesEmpty">В этой категории пока нет примеров.</p>
+
+      <button class="examples-more" id="openExamplesSheet" type="button">
+        <span class="examples-more-label">Посмотреть все примеры</span>
+        <span class="examples-more-arrow" aria-hidden="true">→</span>
+      </button>
+    </section>
+
+    <div class="examples-sheet" id="examplesSheet" aria-hidden="true">
+      <div class="examples-sheet-backdrop" id="examplesSheetBackdrop"></div>
+      <div class="examples-sheet-panel" role="dialog" aria-modal="true" aria-labelledby="examplesSheetTitle">
+        <div class="examples-sheet-handle" aria-hidden="true"></div>
+        <div class="examples-sheet-head">
+          <h3 class="examples-sheet-title" id="examplesSheetTitle">Все цифровые офисы</h3>
+          <button class="examples-sheet-close" id="closeExamplesSheet" type="button" aria-label="Закрыть">×</button>
+        </div>
+
+        <div class="examples-sheet-list">
+          <a class="examples-sheet-link" href="https://stluxe.ru/" target="_blank" rel="noopener noreferrer">
+            <div><strong>STLuxe</strong><small>Цифровой офис</small></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 5h5v5"/><path d="M10 14 19 5"/><path d="M19 13v6H5V5h6"/>
+            </svg>
+          </a>
+
+          <a class="examples-sheet-link" href="https://nonna.tanem.ru/" target="_blank" rel="noopener noreferrer">
+            <div><strong>Nonna</strong><small>Цифровой офис</small></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 5h5v5"/><path d="M10 14 19 5"/><path d="M19 13v6H5V5h6"/>
+            </svg>
+          </a>
+
+          <a class="examples-sheet-link" href="https://julia.tanem.ru/" target="_blank" rel="noopener noreferrer">
+            <div><strong>Julia Roleva</strong><small>Цифровой офис</small></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 5h5v5"/><path d="M10 14 19 5"/><path d="M19 13v6H5V5h6"/>
+            </svg>
+          </a>
+
+          <a class="examples-sheet-link" href="https://ichaey.github.io/Tahmina-tanem/" target="_blank" rel="noopener noreferrer">
+            <div><strong>Tahmina</strong><small>Цифровой офис</small></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 5h5v5"/><path d="M10 14 19 5"/><path d="M19 13v6H5V5h6"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
   </main>
   <script>
     (function runTanemIntro(){
@@ -794,5 +1364,61 @@
       requestAnimationFrame(revealVisibleSteps);
     })();
   </script>
+  <script>
+    (function examplesBlock(){
+      const tabs = Array.from(document.querySelectorAll('.examples-tab'));
+      const cards = Array.from(document.querySelectorAll('.example-card'));
+      const empty = document.getElementById('examplesEmpty');
+      const sheet = document.getElementById('examplesSheet');
+      const openBtn = document.getElementById('openExamplesSheet');
+      const closeBtn = document.getElementById('closeExamplesSheet');
+      const backdrop = document.getElementById('examplesSheetBackdrop');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const filter = tab.dataset.filter;
+          tabs.forEach(item => {
+            const active = item === tab;
+            item.classList.toggle('is-active', active);
+            item.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+
+          let visible = 0;
+          cards.forEach(card => {
+            const show = filter === 'all' || card.dataset.category === filter;
+            card.hidden = !show;
+            if (show) visible += 1;
+          });
+
+          if (empty) empty.classList.toggle('is-visible', visible === 0);
+        });
+      });
+
+      if (!sheet || !openBtn || !closeBtn || !backdrop) return;
+
+      function openSheet(){
+        sheet.classList.add('is-open');
+        sheet.setAttribute('aria-hidden','false');
+        document.body.classList.add('examples-sheet-open');
+        requestAnimationFrame(() => closeBtn.focus({preventScroll:true}));
+      }
+
+      function closeSheet(){
+        sheet.classList.remove('is-open');
+        sheet.setAttribute('aria-hidden','true');
+        document.body.classList.remove('examples-sheet-open');
+        openBtn.focus({preventScroll:true});
+      }
+
+      openBtn.addEventListener('click', openSheet);
+      closeBtn.addEventListener('click', closeSheet);
+      backdrop.addEventListener('click', closeSheet);
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && sheet.classList.contains('is-open')) closeSheet();
+      });
+    })();
+  </script>
+
 </body>
 </html>

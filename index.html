@@ -528,6 +528,11 @@
         const holdMs = 480;
         const moveMs = 1650;
 
+        window.__tanemCarouselStopAt = performance.now() + holdMs + moveMs + 3000;
+        window.dispatchEvent(new CustomEvent('tanem:carousel-start', {
+          detail:{ stopAt:window.__tanemCarouselStopAt }
+        }));
+
         const logoAnimation = movingLogo.animate([
           { transform:'translate3d(0,0,0) scale(1)' },
           { transform:'translate3d(0,' + dy + 'px,0) scale(' + scale + ')' }
@@ -575,17 +580,23 @@
 
       const REAL_COUNT = 3;
       const GAP_PX = 38;          // ≈ 1 cm between frames
-      const TRANSITION_MS = 720;  // calm, smooth slide
-      const TOUR_STEP_MS = 1000;  // 3 moves over ~3 seconds
+      const CYCLE_MS = 4200;      // one calm continuous loop
+      const MANUAL_TRANSITION_MS = 720;
 
       let index = 0;
       let stageWidth = 0;
       let stepPx = 0;
+      let cyclePx = 0;
       let normalized = false;
-      let tourStarted = false;
-      let tourFinished = false;
-      let transitionLocked = false;
 
+      let autoRunning = false;
+      let autoFinished = false;
+      let autoStopAt = null;
+      let autoDistance = 0;
+      let lastFrameTime = null;
+      let rafId = null;
+
+      let transitionLocked = false;
       let dragging = false;
       let dragStartX = 0;
       let dragDeltaX = 0;
@@ -600,6 +611,7 @@
         if (!stageWidth) return;
 
         stepPx = stageWidth + GAP_PX;
+        cyclePx = REAL_COUNT * stepPx;
 
         slides.forEach((slide, i) => {
           slide.style.left = (i * stepPx) + 'px';
@@ -608,11 +620,15 @@
 
         track.style.width = ((slides.length - 1) * stepPx + stageWidth) + 'px';
 
-        setTransitionEnabled(false);
-        track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => setTransitionEnabled(true));
-        });
+        if (autoRunning && autoStopAt) {
+          syncPhaseToStopTime();
+        } else {
+          setTransitionEnabled(false);
+          track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => setTransitionEnabled(true));
+          });
+        }
       }
 
       function getVisibleBounds(img){
@@ -722,7 +738,7 @@
           };
         });
 
-        // First device image is the strict visual reference.
+        // The first device image remains the strict visual reference.
         const reference = measurements[0];
         reference.img.style.setProperty('--media-scale','1');
         reference.img.style.setProperty('--media-x','0px');
@@ -754,7 +770,6 @@
           m.img.style.setProperty('--media-y',y.toFixed(2) + 'px');
         });
 
-        // Clone of frame 1 is exactly identical to frame 1.
         media[3].style.setProperty('--media-scale','1');
         media[3].style.setProperty('--media-x','0px');
         media[3].style.setProperty('--media-y','0px');
@@ -762,81 +777,97 @@
         normalized = true;
         layoutSlides();
 
-        if (!document.body.classList.contains('intro-running')) {
-          startThreeSecondTour();
+        if (window.__tanemCarouselStopAt && !autoFinished) {
+          startAuto(window.__tanemCarouselStopAt);
         }
       }
 
-      function moveTo(targetIndex, animate=true){
-        index = targetIndex;
-        setTransitionEnabled(animate);
-        track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
+      function renderAuto(){
+        if (!autoRunning || !cyclePx) return;
+        const visibleDistance = autoDistance % cyclePx;
+        track.style.transform = 'translate3d(' + (-visibleDistance) + 'px,0,0)';
       }
 
-      function moveLeftOnce(){
-        if (!normalized || transitionLocked) return;
+      function syncPhaseToStopTime(){
+        if (!autoStopAt || !cyclePx) return;
 
-        transitionLocked = true;
-        moveTo(index + 1, true);
+        const now = performance.now();
+        const remainingMs = Math.max(0, autoStopAt - now);
+        const pxPerMs = cyclePx / CYCLE_MS;
+        const travelUntilStop = (remainingMs * pxPerMs) % cyclePx;
 
-        window.setTimeout(() => {
-          transitionLocked = false;
-        }, TRANSITION_MS + 40);
-      }
-
-      function finishOnFirst(){
-        // At this point frame 3 is the clone of frame 1.
-        // Reset invisibly to the real frame 1 and stop.
+        autoDistance = (cyclePx - travelUntilStop) % cyclePx;
         setTransitionEnabled(false);
+        renderAuto();
+      }
+
+      function stopOnFirst(){
+        autoRunning = false;
+        autoFinished = true;
+        lastFrameTime = null;
+
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+
+        setTransitionEnabled(false);
+        autoDistance = 0;
         index = 0;
         track.style.transform = 'translate3d(0,0,0)';
 
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setTransitionEnabled(true);
-            tourFinished = true;
-            transitionLocked = false;
-          });
+          requestAnimationFrame(() => setTransitionEnabled(true));
         });
       }
 
-      function startThreeSecondTour(){
-        if (!normalized || tourStarted || tourFinished) return;
-        tourStarted = true;
+      function autoFrame(now){
+        if (!autoRunning || !autoStopAt || !cyclePx) return;
 
-        // Start from the original first frame.
+        if (now >= autoStopAt) {
+          stopOnFirst();
+          return;
+        }
+
+        if (lastFrameTime == null) lastFrameTime = now;
+
+        const dt = Math.min(40, now - lastFrameTime);
+        lastFrameTime = now;
+
+        const pxPerMs = cyclePx / CYCLE_MS;
+        autoDistance = (autoDistance + pxPerMs * dt) % cyclePx;
+
+        renderAuto();
+        rafId = requestAnimationFrame(autoFrame);
+      }
+
+      function startAuto(stopAt){
+        if (!normalized || autoFinished) return;
+
+        autoStopAt = stopAt;
+        autoRunning = true;
+        lastFrameTime = null;
         setTransitionEnabled(false);
-        index = 0;
-        track.style.transform = 'translate3d(0,0,0)';
 
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setTransitionEnabled(true);
+        // Pick the starting phase so the same constant speed lands exactly
+        // on the original first notebook at stopAt.
+        syncPhaseToStopTime();
 
-            // First -> second
-            window.setTimeout(() => moveLeftOnce(), 180);
-
-            // Second -> third
-            window.setTimeout(() => moveLeftOnce(), 1180);
-
-            // Third -> cloned first
-            window.setTimeout(() => {
-              moveLeftOnce();
-
-              // End at the real first frame once the third transition completes.
-              window.setTimeout(finishOnFirst, TRANSITION_MS + 70);
-            }, 2180);
-          });
-        });
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(autoFrame);
       }
 
-      window.addEventListener('tanem:intro-finished', startThreeSecondTour, {once:true});
+      window.addEventListener('tanem:carousel-start', e => {
+        const stopAt = e.detail?.stopAt || window.__tanemCarouselStopAt;
+        if (stopAt) startAuto(stopAt);
+      }, {once:true});
 
       function manualNext(){
-        if (!tourFinished || transitionLocked) return;
+        if (!autoFinished || transitionLocked) return;
 
         transitionLocked = true;
-        moveTo(index + 1, true);
+        index += 1;
+        track.style.transform = 'translate3d(' + (-index * stepPx) + 'px,0,0)';
 
         window.setTimeout(() => {
           if (index === REAL_COUNT) {
@@ -848,11 +879,11 @@
             });
           }
           transitionLocked = false;
-        }, TRANSITION_MS + 60);
+        }, MANUAL_TRANSITION_MS + 60);
       }
 
       carousel.addEventListener('pointerdown', e => {
-        if (!tourFinished || transitionLocked) return;
+        if (!autoFinished || transitionLocked) return;
 
         dragging = true;
         dragPointerId = e.pointerId;
@@ -868,8 +899,8 @@
         if (!dragging || e.pointerId !== dragPointerId) return;
 
         dragDeltaX = e.clientX - dragStartX;
-
         const effectiveDelta = dragDeltaX > 0 ? dragDeltaX * .24 : dragDeltaX;
+
         track.style.transform =
           'translate3d(' + ((-index * stepPx) + effectiveDelta) + 'px,0,0)';
       });
@@ -900,7 +931,7 @@
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         normalizeDevices();
-        tourFinished = true;
+        autoFinished = true;
         return;
       }
 

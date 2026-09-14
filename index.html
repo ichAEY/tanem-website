@@ -299,6 +299,22 @@
       font-weight:650;
     }
 
+
+    .how-section{padding:clamp(64px,10vw,110px) var(--side) clamp(72px,11vw,120px);background:#fff;border-top:1px solid #f1efed}
+    .how-eyebrow{margin:0 0 14px;color:var(--accent);font-size:clamp(11px,2.8vw,15px);line-height:1.2;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+    .how-title{margin:0 0 clamp(34px,6vw,54px);font-size:clamp(42px,10.5vw,68px);line-height:.98;letter-spacing:-.055em;font-weight:700}
+    .how-title-dot{color:var(--accent)}
+    .how-steps{border-top:1px solid var(--line)}
+    .how-step{display:grid;grid-template-columns:minmax(88px,25%) 1fr;gap:clamp(20px,5vw,46px);padding:clamp(28px,5vw,44px) 0;border-bottom:1px solid var(--line);align-items:start}
+    .how-number{padding-right:clamp(16px,4vw,34px);border-right:1px solid #bdb8b3;font-size:clamp(54px,13vw,88px);line-height:.9;letter-spacing:-.06em;font-weight:600}
+    .how-copy{padding-top:2px}
+    .how-copy h3{margin:0 0 8px;font-size:clamp(22px,5.4vw,34px);line-height:1.06;letter-spacing:-.045em;font-weight:700}
+    .how-copy p{margin:0;max-width:560px;color:var(--text);font-size:clamp(15px,3.8vw,21px);line-height:1.42;letter-spacing:-.025em}
+    .how-note{margin-top:clamp(34px,6vw,52px);padding:clamp(24px,5vw,38px);border-radius:clamp(10px,2vw,16px);background:#101010;color:#fff}
+    .how-note strong{display:block;margin-bottom:8px;font-size:clamp(25px,6vw,38px);line-height:1.08;letter-spacing:-.045em;font-weight:700}
+    .how-note p{margin:0;color:rgba(255,255,255,.82);font-size:clamp(16px,4vw,22px);line-height:1.42;letter-spacing:-.025em}
+    @media (max-width:520px){.how-step{grid-template-columns:88px 1fr;gap:20px}.how-number{padding-right:18px}}
+
     .intro-loader{
       position:fixed;
       inset:0;
@@ -409,12 +425,48 @@
           <span class="cta-arrow" aria-hidden="true">→</span>
         </a>
 
-        <a class="cta cta-secondary" href="https://stluxe.ru/" target="_blank" rel="noopener noreferrer">
+        <a class="cta cta-secondary" href="#how">
           <span>Как это работает?</span>
         </a>
       </div>
 
     </div>
+
+    <section class="how-section" id="how" aria-labelledby="howTitle">
+      <p class="how-eyebrow">Как это работает</p>
+      <h2 class="how-title" id="howTitle">Три простых шага<span class="how-title-dot">.</span></h2>
+
+      <div class="how-steps">
+        <article class="how-step">
+          <div class="how-number" aria-hidden="true">01</div>
+          <div class="how-copy">
+            <h3>Напишите нашему боту</h3>
+            <p>Расскажите о себе и пришлите фотографии, список услуг и контакты.</p>
+          </div>
+        </article>
+
+        <article class="how-step">
+          <div class="how-number" aria-hidden="true">02</div>
+          <div class="how-copy">
+            <h3>Мы создаём сайт</h3>
+            <p>Собираем для вас понятный и аккуратный цифровой офис со всей нужной информацией.</p>
+          </div>
+        </article>
+
+        <article class="how-step">
+          <div class="how-number" aria-hidden="true">03</div>
+          <div class="how-copy">
+            <h3>Получаете свой цифровой офис</h3>
+            <p>Готовый сайт помогает клиенту быстрее понять ваш бизнес, найти нужную информацию и выйти на запись.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="how-note">
+        <strong>От вас ничего не требуется.</strong>
+        <p>Вы сами решаете, как использовать сайт дальше. Никаких обязательств и абонентской платы.</p>
+      </div>
+    </section>
   </main>
   <script>
     (function runTanemIntro(){

@@ -301,19 +301,29 @@
 
 
     .how-section{
-      padding:clamp(38px,6vw,58px) var(--side) clamp(44px,7vw,66px);
-      background:
-        linear-gradient(
-          180deg,
-          #ffffff 0%,
-          #fffefe 8%,
-          #fdfcfb 18%,
-          #fbf9f8 32%,
-          #f8f6f4 48%,
-          #f6f3f1 66%,
-          #f4f1ee 84%,
-          #f4f1ee 100%
-        );
+      position:relative;
+      padding:clamp(42px,6.4vw,62px) var(--side) clamp(44px,7vw,66px);
+      background:#f1f1ee;
+    }
+    .how-section::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:-88px;
+      height:88px;
+      background:linear-gradient(
+        180deg,
+        rgba(255,255,255,0) 0%,
+        rgba(248,248,246,.28) 30%,
+        rgba(244,244,241,.66) 64%,
+        #f1f1ee 100%
+      );
+      pointer-events:none;
+    }
+    .how-section > *{
+      position:relative;
+      z-index:1;
     }
     .how-eyebrow{
       margin:0 0 9px;
@@ -349,6 +359,17 @@
       padding:clamp(16px,3.2vw,22px) 0;
       border-bottom:1px solid rgba(170,146,129,.22);
       align-items:start;
+      opacity:0;
+      will-change:transform,opacity;
+      transition:
+        transform .82s cubic-bezier(.22,.72,.22,1),
+        opacity .58s ease;
+    }
+    .how-step:nth-child(odd){transform:translate3d(-42px,0,0)}
+    .how-step:nth-child(even){transform:translate3d(42px,0,0)}
+    .how-step.is-visible{
+      opacity:1;
+      transform:translate3d(0,0,0);
     }
     .how-number{
       padding-right:clamp(11px,2.8vw,18px);
@@ -357,17 +378,6 @@
       line-height:.88;
       letter-spacing:-.06em;
       font-weight:700;
-      opacity:0;
-      will-change:transform,opacity;
-      transition:
-        transform .72s cubic-bezier(.22,.72,.22,1),
-        opacity .5s ease;
-    }
-    .how-step:nth-child(odd) .how-number{transform:translate3d(-34px,0,0)}
-    .how-step:nth-child(even) .how-number{transform:translate3d(34px,0,0)}
-    .how-step.is-visible .how-number{
-      opacity:1;
-      transform:translate3d(0,0,0);
     }
     .how-copy{padding-top:1px}
     .how-copy h3{
@@ -412,7 +422,7 @@
       .how-number{padding-right:12px}
     }
     @media (prefers-reduced-motion:reduce){
-      .how-number{
+      .how-step{
         opacity:1;
         transform:none !important;
         transition:none;
